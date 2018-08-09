@@ -1,0 +1,8 @@
+/Library
+/obj
+/Temp
+/WebGL
+/Windows
+/Android
+
+*.a
