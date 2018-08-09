@@ -4,7 +4,7 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 15
-  productGUID: 00000000000000000000000000000000
+  productGUID: eb771b5d6981bfb4c9b065fd789647a4
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -644,12 +644,12 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
-    Build: 1
+    Build: 0
     UNet: 1
   facebookSdkVersion: 7.9.1
   apiCompatibilityLevel: 2
   cloudProjectId: 9552ed0d-ca21-45dc-8d2b-f16f64884ae0
-  projectName: Platformer3DClient
+  projectName: Gold Venus
   organizationId: dave-leeper
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0
