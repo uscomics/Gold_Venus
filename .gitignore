@@ -9,6 +9,7 @@
 /Gizmos
 Assets/Gizmos/
 Assets/huehue/
+Assets/AllStarCharacterLibrary/
 
 *.a
 Assembly-CSharp-Editor.csproj
@@ -23,5 +24,6 @@ PackageManagerCheck.csproj
 SimpleSFXRuntime.csproj
 Skybox3DRuntime.csproj
 WorldBuildingRuntime.csproj
-
+Assets/AllStarCharacterLibrary.meta
+	
 

@@ -1,7 +1,9 @@
 == 3rd Party Products Used
 * 3D Game Kit
-* Simple Vector Icons (UI_Icon_Aim in icons folder)
-* Virtual Joystick Texture Vol1 (Joystick_04A in icons folder)
+* AllStarCharacterLibrary Superhero Construction Kit
+* PARTIAL Simple Vector Icons (UI_Icon_Aim in icons folder)
+* PARTIAL Virtual Joystick Texture Vol1 (Joystick_04A in icons folder)
+* PARTIAL UIPlatformer (Climbing animations in animations folder)
 
 == MovementPad
 * Requires an Event System in the project.
