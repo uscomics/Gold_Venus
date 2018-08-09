@@ -5,6 +5,23 @@ TagManager:
   serializedVersion: 2
   tags:
   - FlythroughCam
+  - CurrentMovementType
+  - MovementTypeList
+  - MovementPadIndicator
+  - MovementPad
+  - SneakingMovementTypeButton
+  - CurrentMovementTypeButton
+  - MessageCanvas
+  - PlayerCharacter
+  - HealthGameObject
+  - Life4
+  - Life1
+  - Life5
+  - Life3
+  - HealthBar
+  - Life6
+  - Life2
+  - Climbable
   layers:
   - Default
   - TransparentFX

@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("NO BANG!");
-
+        Keyboard.forceStop = true;
     }
 
     bool PlayerShouldStop(Direction direction) { return ((movementToggledOn) && (Direction.Stop == direction)); }
