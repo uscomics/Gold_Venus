@@ -1,12 +1,54 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "Assembly-CSharp.csproj", "{27C0F20A-A332-3745-E720-224A0781A9EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "WorldBuildingRuntime.csproj", "{BDB447B3-5070-D657-8A6F-9B56D1C6B328}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "NavMeshComponents.csproj", "{672FAAE8-63B4-DB8E-E36B-0D237503D9A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "SimpleSFXRuntime.csproj", "{D904E96A-FF59-EF66-390C-A952DE88EA97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "Skybox3DRuntime.csproj", "{74362991-DA89-F659-B7AF-D270261EFCFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "Assembly-CSharp-Editor.csproj", "{AD3D5E7B-BEC1-06D2-145E-639DB2AB32F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gold Venus", "PackageManagerCheck.csproj", "{CAEE7F2E-4DE2-D950-9F8F-194C0E38FC04}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{27C0F20A-A332-3745-E720-224A0781A9EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C0F20A-A332-3745-E720-224A0781A9EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C0F20A-A332-3745-E720-224A0781A9EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C0F20A-A332-3745-E720-224A0781A9EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDB447B3-5070-D657-8A6F-9B56D1C6B328}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDB447B3-5070-D657-8A6F-9B56D1C6B328}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDB447B3-5070-D657-8A6F-9B56D1C6B328}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDB447B3-5070-D657-8A6F-9B56D1C6B328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{672FAAE8-63B4-DB8E-E36B-0D237503D9A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{672FAAE8-63B4-DB8E-E36B-0D237503D9A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{672FAAE8-63B4-DB8E-E36B-0D237503D9A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{672FAAE8-63B4-DB8E-E36B-0D237503D9A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D904E96A-FF59-EF66-390C-A952DE88EA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D904E96A-FF59-EF66-390C-A952DE88EA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D904E96A-FF59-EF66-390C-A952DE88EA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D904E96A-FF59-EF66-390C-A952DE88EA97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74362991-DA89-F659-B7AF-D270261EFCFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74362991-DA89-F659-B7AF-D270261EFCFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74362991-DA89-F659-B7AF-D270261EFCFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74362991-DA89-F659-B7AF-D270261EFCFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD3D5E7B-BEC1-06D2-145E-639DB2AB32F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD3D5E7B-BEC1-06D2-145E-639DB2AB32F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD3D5E7B-BEC1-06D2-145E-639DB2AB32F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD3D5E7B-BEC1-06D2-145E-639DB2AB32F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAEE7F2E-4DE2-D950-9F8F-194C0E38FC04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAEE7F2E-4DE2-D950-9F8F-194C0E38FC04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAEE7F2E-4DE2-D950-9F8F-194C0E38FC04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAEE7F2E-4DE2-D950-9F8F-194C0E38FC04}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

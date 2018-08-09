@@ -1,8 +1,27 @@
+.vs/
 /Library
 /obj
 /Temp
 /WebGL
 /Windows
 /Android
+/Assets/3DGamekit
+/Gizmos
+Assets/Gizmos/
+Assets/huehue/
 
 *.a
+Assembly-CSharp-Editor.csproj
+Assembly-CSharp.csproj
+/Assets/3DGamekit.meta
+/Assets/3DGameKit_Third-PartyNotice.txt
+/Assets/3DGameKit_Third-PartyNotice.txt.meta
+Assets/Gizmos.meta
+Assets/huehue.meta
+NavMeshComponents.csproj
+PackageManagerCheck.csproj
+SimpleSFXRuntime.csproj
+Skybox3DRuntime.csproj
+WorldBuildingRuntime.csproj
+
+
