@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour {
         } else {
             speed = MovementSpeed.GetSpeed(MovementTypeMenu.currentMovementType);
         }
-        Debug.Log("speed = " + speed);
 
         Direction direction = Keyboard.GetDirection();
         if (Direction.None == direction) { direction = MovementPad.GetDirection(); }
@@ -82,7 +81,14 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
+        Debug.Log("BANG!");
         Keyboard.forceStop = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("NO BANG!");
+
     }
 
     bool PlayerShouldStop(Direction direction) { return ((movementToggledOn) && (Direction.Stop == direction)); }
