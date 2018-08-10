@@ -318,6 +318,57 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &800863991
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 800863995}
+  - component: {fileID: 800863994}
+  - component: {fileID: 800863992}
+  m_Layer: 22
+  m_Name: Stairs
+  m_TagString: Stairs
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!64 &800863992
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 800863991}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!33 &800863994
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 800863991}
+  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &800863995
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 800863991}
+  m_LocalRotation: {x: 0, y: 0, z: 0.17364816, w: 0.9848078}
+  m_LocalPosition: {x: 0.28, y: -0.06, z: -0.87}
+  m_LocalScale: {x: 0.4, y: 1, z: 0.4}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
 --- !u!1001 &912939250
 Prefab:
   m_ObjectHideFlags: 0
@@ -829,7 +880,7 @@ Prefab:
     - target: {fileID: 54939382728044646, guid: c7e4c6e7babaea546982e472f0476b50,
         type: 2}
       propertyPath: m_Constraints
-      value: 0
+      value: 112
       objectReference: {fileID: 0}
     - target: {fileID: 54939382728044646, guid: c7e4c6e7babaea546982e472f0476b50,
         type: 2}
@@ -956,8 +1007,8 @@ GameObject:
   - component: {fileID: 1093763710}
   - component: {fileID: 1093763709}
   - component: {fileID: 1093763708}
-  m_Layer: 31
-  m_Name: Plane
+  m_Layer: 22
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1047,7 +1098,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.55, y: 1.72, z: 0.37}
+  m_Size: {x: 0.66, y: 1.72, z: 0.66}
   m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &1816375017
 GameObject:
@@ -1061,7 +1112,7 @@ GameObject:
   - component: {fileID: 1816375019}
   - component: {fileID: 1816375018}
   m_Layer: 31
-  m_Name: Cube
+  m_Name: Pillar
   m_TagString: Climbable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using USComics_User_Input;
+using USComics_Vision;
 
 public class PlayerController : MonoBehaviour {
     public Direction direction = Direction.None;
@@ -81,14 +82,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log("BANG!");
-        Keyboard.forceStop = true;
+        Debug.Log("BANG! tag = " + collision.gameObject.tag + ", layer = " + collision.gameObject.layer + ", TERRAIN = " + LayerValues.TERRAIN);
+        if (LayerValues.TERRAIN != collision.gameObject.layer) Keyboard.forceStop = true;
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionStay(Collision collision)
     {
-        Debug.Log("NO BANG!");
-        Keyboard.forceStop = true;
+        Debug.Log("STILL BANG! tag = " + collision.gameObject.tag);
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
     }
 
     bool PlayerShouldStop(Direction direction) { return ((movementToggledOn) && (Direction.Stop == direction)); }
@@ -128,4 +131,5 @@ public class PlayerController : MonoBehaviour {
         if (Direction.SE == inDirection) return new Vector3(initialHelthPanelLocalPosition.x, initialHelthPanelLocalPosition.y, -initialHelthPanelLocalPosition.z);
         return initialHelthPanelLocalPosition;
     }
+
 }

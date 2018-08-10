@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 namespace USComics_User_Input
 {
-
     [System.Serializable]
     public enum MovementType
     {
