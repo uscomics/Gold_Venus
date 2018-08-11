@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using USComics_User_Input;
-using USComics_Layers;
 using USComics_Vision;
+using USComics_User_Input;
+using USComics_Environment;
+using USComics_Message_Manager;
 
 public class PlayerController : MonoBehaviour {
     public Direction direction = Direction.None;
@@ -19,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject healthPanel;
     private Vector3 initialHelthPanelLocalPosition;
     private Quaternion initialHelthPanelRotation;
+    private MessageManager messageManager;
 
     private Vector3 previousVector = Vector3.zero;
     private float speed = 1.0f;
@@ -32,6 +34,7 @@ public class PlayerController : MonoBehaviour {
         if (null != currentMovementTypePanel) movementTypeMenuScript = currentMovementTypePanel.GetComponent<MovementTypeMenu>();
         messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
         healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+        messageManager = GetComponent<MessageManager>();
 
         if (null == playerCharacter) { Debug.LogError("PlayerController.Start: playerCharacter is null."); }
         if (null == anim) { Debug.LogError("PlayerController.Start: anim is null."); }
@@ -39,7 +42,8 @@ public class PlayerController : MonoBehaviour {
         if (null == currentMovementTypePanel) { Debug.LogError("PlayerController.Start: currentMovementTypePanel is null."); }
         if (null == movementTypeMenuScript) { Debug.LogError("PlayerController.Start: movementTypeMenuScript is null."); }
         if (null == messageCanvas) { Debug.LogError("PlayerController.Start: messageCanvas is null."); }
-        healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+        if (null == healthPanel) { Debug.LogError("PlayerController.Start: healthPanel is null."); }
+        if (null == messageManager) { Debug.LogError("PlayerController.Start: messageManager is null."); }
 
         if (null == playerCharacter) { return; }
         if (null == anim) { return; }
@@ -48,6 +52,7 @@ public class PlayerController : MonoBehaviour {
         if (null == movementTypeMenuScript) { return; }
         if (null == messageCanvas) { return; }
         if (null == healthPanel) { return; }
+        if (null == messageManager) { return; }
 
         movementPadIndicatorOriginalPosition = movementPadIndicator.transform.position;
         initialHelthPanelLocalPosition = healthPanel.transform.localPosition;
@@ -56,6 +61,11 @@ public class PlayerController : MonoBehaviour {
 
     void Update () {
         MovementType movementType = Keyboard.GetMovementType();
+        if ((MovementType.Climbing == movementType) && (!PlayerCanClimb())) {
+            messageManager.ShowMessage(Messages.MSG_NOTHING_TO_CLIMB);
+            movementType = MovementType.None;
+        }
+
         if (MovementType.None != movementType)  {
             speed = movementTypeMenuScript.SetMovementType(movementType);
         } else {
@@ -64,6 +74,7 @@ public class PlayerController : MonoBehaviour {
 
         Direction direction = Keyboard.GetDirection();
         if (Direction.None == direction) { direction = MovementPad.GetDirection(); }
+        if (Direction.None != direction) { movementTypeMenuScript.HideMovementTypeList(); }
 
         if (PlayerShouldStop(direction)) {
             movementToggledOn = false;
@@ -80,13 +91,15 @@ public class PlayerController : MonoBehaviour {
             movementPadIndicator.transform.position = MovementPad.GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
             if (Direction.None != direction && Direction.Stop != direction) healthPanel.transform.localPosition = GetHealthPosition(direction);
         }
-        Collider[]  colliders = Vision.GetObjectsInRadius(playerCharacter.transform.position, 100.0f, "Climbable");
-        Debug.Log("Vision: " + colliders.Length);
+        //Collider[] colliders = Vision.GetObjectsInRadius(playerCharacter.transform.position, 100.0f, "Climbable");
+         Collider[] colliders = Environment.GetClimbables(playerCharacter.transform);
+        Debug.Log("Climbables: " + colliders.Length);
         for (int loop = 0; loop < colliders.Length; loop++)
         {
             //            Debug.Log("Vision: " + colliders[loop]);
-            //            Debug.Log("Distance: " + colliders[loop].name + ": " + Vision.GetDistance(playerCharacter.transform, colliders[loop].gameObject.transform));
-            Debug.Log("Direction: " + colliders[loop].name + ": " + Vision.GetDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
+            // Debug.Log("Distance: " + colliders[loop].name + ": " + Vision.GetDistance(playerCharacter.transform, colliders[loop].gameObject.transform));
+            Debug.Log("Parallel: " + colliders[loop].name + ": " + Vision.AreParallel(playerCharacter.transform.forward, colliders[loop].gameObject.transform.forward, 10.0f));
+            //Debug.Log("Direction: " + colliders[loop].name + ": " + Vision.GetDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
             //            Debug.Log("Direction (Vector): " + colliders[loop].name + ": " + Vision.GetVectorDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
             //Debug.Log("Angle: " + colliders[loop].name + ": " + Vision.GetAngle(playerCharacter.transform, colliders[loop].gameObject.transform));
             //Debug.Log("Forward/Behind: " + colliders[loop].name + ": " + Vision.GetForwardOrBehind(playerCharacter.transform, colliders[loop].gameObject.transform));
@@ -111,6 +124,10 @@ public class PlayerController : MonoBehaviour {
         // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
     }
 
+    public bool PlayerCanClimb() {
+        Collider[] colliders = Environment.GetClimbables(playerCharacter.transform);
+        return (0 < colliders.Length);
+    }
     bool PlayerShouldStop(Direction direction) { return ((movementToggledOn) && (Direction.Stop == direction)); }
 
     bool PlayerShouldGo(Direction direction) {

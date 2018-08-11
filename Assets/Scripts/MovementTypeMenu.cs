@@ -38,24 +38,38 @@ namespace USComics_User_Input
         public Image walkingIcon;
         public Image runningIcon;
         public Image climbingIcon;
+        public Button climbingButton;
         public static MovementType currentMovementType;
 
         private GameObject movementTypeList;
+        private GameObject playerCharacter;
+        private PlayerController playerControllerScript;
 
         void Start()
         {
             currentMovementType = MovementType.Walking;
             movementTypeList = GameObject.FindWithTag("MovementTypeList") as GameObject;
+            playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            if (null != playerCharacter) playerControllerScript = playerCharacter.GetComponent<PlayerController>();
+
             if (null == movementTypeList) { Debug.LogError("MovementTypeController.Start: movementTypeList is null."); }
+            if (null == playerCharacter) { Debug.LogError("MovementTypeController.Start: playerCharacter is null."); }
+            if (null == playerControllerScript) { Debug.LogError("MovementTypeController.Start: playerControllerScript is null."); }
 
             if (null == movementTypeList) { return; }
             if (null == currentMovementTypeButton) { return; }
+            if (null == playerCharacter) { return; }
+            if (null == playerControllerScript) { return; }
 
             ToggleMovementTypeList();
         }
         void Update() { }
-        public void ToggleMovementTypeList() { movementTypeList.SetActive(!movementTypeList.activeSelf); }
-        public void ShowMovementTypeList() { movementTypeList.SetActive(true); }
+        public void ToggleMovementTypeList() {
+            bool isActive = movementTypeList.activeSelf;
+            movementTypeList.SetActive(!movementTypeList.activeSelf);
+            SetClimbingIcon(!isActive);
+        }
+        public void ShowMovementTypeList() { movementTypeList.SetActive(true); SetClimbingIcon(true); }
         public void HideMovementTypeList() { movementTypeList.SetActive(false); }
         public void Sneaking()
         {
@@ -77,6 +91,7 @@ namespace USComics_User_Input
         }
         public void Climbing()
         {
+            Debug.Log("Climbing");
             MovementTypeMenu.currentMovementType = MovementType.Climbing;
             currentMovementTypeButton.image.sprite = climbingIcon.sprite;
             HideMovementTypeList();
@@ -86,8 +101,21 @@ namespace USComics_User_Input
             if (MovementType.Sneaking == movementType) Sneaking();
             else if (MovementType.Walking == movementType) Walking();
             else if (MovementType.Running == movementType) Running();
-            else if (MovementType.Sneaking == movementType) Climbing();
+            else if (MovementType.Climbing == movementType) Climbing();
             return MovementSpeed.GetSpeed(movementType);
+        }
+        private void SetClimbingIcon(bool active)
+        {
+            if (active && playerControllerScript.PlayerCanClimb())
+            {
+                //climbingButton.gameObject.SetActive(true);
+                climbingButton.interactable = true;
+            }
+            else
+            {
+                //climbingButton.gameObject.SetActive(false);
+                climbingButton.interactable = false;
+            }
         }
     }
 }
