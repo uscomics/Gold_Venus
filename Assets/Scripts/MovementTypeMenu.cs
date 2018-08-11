@@ -108,12 +108,10 @@ namespace USComics_User_Input
         {
             if (active && playerControllerScript.PlayerCanClimb())
             {
-                //climbingButton.gameObject.SetActive(true);
                 climbingButton.interactable = true;
             }
             else
             {
-                //climbingButton.gameObject.SetActive(false);
                 climbingButton.interactable = false;
             }
         }

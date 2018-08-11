@@ -18,8 +18,7 @@ public class PlayerController : MonoBehaviour {
     private MovementTypeMenu movementTypeMenuScript;
     private Vector2 movementPadIndicatorOriginalPosition;
     private GameObject healthPanel;
-    private Vector3 initialHelthPanelLocalPosition;
-    private Quaternion initialHelthPanelRotation;
+    private Vector3 initialHelthPanelRotation;
     private MessageManager messageManager;
 
     private Vector3 previousVector = Vector3.zero;
@@ -55,8 +54,7 @@ public class PlayerController : MonoBehaviour {
         if (null == messageManager) { return; }
 
         movementPadIndicatorOriginalPosition = movementPadIndicator.transform.position;
-        initialHelthPanelLocalPosition = healthPanel.transform.localPosition;
-        initialHelthPanelRotation = healthPanel.transform.rotation;
+        initialHelthPanelRotation = healthPanel.transform.eulerAngles;
     }
 
     void Update () {
@@ -89,7 +87,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (Direction.None != direction) {
             movementPadIndicator.transform.position = MovementPad.GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
-            if (Direction.None != direction && Direction.Stop != direction) healthPanel.transform.localPosition = GetHealthPosition(direction);
+            if (Direction.None != direction && Direction.Stop != direction) SetHealthPosition(direction);
         }
         //Collider[] colliders = Vision.GetObjectsInRadius(playerCharacter.transform.position, 100.0f, "Climbable");
          Collider[] colliders = Environment.GetClimbables(playerCharacter.transform);
@@ -158,12 +156,16 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    Vector3 GetHealthPosition(Direction inDirection)
+    void SetHealthPosition(Direction inDirection)
     {
-        if (Direction.South == inDirection) return new Vector3(initialHelthPanelLocalPosition.x, initialHelthPanelLocalPosition.y, -initialHelthPanelLocalPosition.z);
-        if (Direction.SW == inDirection) return new Vector3(initialHelthPanelLocalPosition.x, initialHelthPanelLocalPosition.y, -initialHelthPanelLocalPosition.z);
-        if (Direction.SE == inDirection) return new Vector3(initialHelthPanelLocalPosition.x, initialHelthPanelLocalPosition.y, -initialHelthPanelLocalPosition.z);
-        return initialHelthPanelLocalPosition;
+        healthPanel.transform.localRotation = Quaternion.identity;
+        if (Direction.South == inDirection) { healthPanel.transform.Rotate(Vector3.up, 180); }
+        else if (Direction.East == inDirection) { healthPanel.transform.Rotate(Vector3.up, 270); }
+        else if (Direction.West == inDirection) { healthPanel.transform.Rotate(Vector3.up, 90); }
+        else if (Direction.NW == inDirection) { healthPanel.transform.Rotate(Vector3.up, 45); }
+        else if (Direction.NE == inDirection) { healthPanel.transform.Rotate(Vector3.up, 315); }
+        else if (Direction.SW == inDirection) { healthPanel.transform.Rotate(Vector3.up, 135); }
+        else if (Direction.SE == inDirection) { healthPanel.transform.Rotate(Vector3.up, 225); }
     }
 
 }
