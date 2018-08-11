@@ -91,7 +91,6 @@ namespace USComics_User_Input
         }
         public void Climbing()
         {
-            Debug.Log("Climbing");
             MovementTypeMenu.currentMovementType = MovementType.Climbing;
             currentMovementTypeButton.image.sprite = climbingIcon.sprite;
             HideMovementTypeList();
@@ -106,14 +105,8 @@ namespace USComics_User_Input
         }
         private void SetClimbingIcon(bool active)
         {
-            if (active && playerControllerScript.PlayerCanClimb())
-            {
-                climbingButton.interactable = true;
-            }
-            else
-            {
-                climbingButton.interactable = false;
-            }
+            if (active && playerControllerScript.PlayerCanClimb()) climbingButton.interactable = true;
+            else climbingButton.interactable = false;
         }
     }
 }

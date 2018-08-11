@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
     public bool movementToggledOn = false;
 
     private GameObject playerCharacter;
+    private Rigidbody playerCharacterRigidbody;
     private Animator anim;
     private GameObject movementPadIndicator;
     private GameObject currentMovementTypePanel;
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour {
 
     void Start () {
         playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+        if (null != playerCharacter) playerCharacterRigidbody = playerCharacter.GetComponent<Rigidbody>();
         if (null != playerCharacter) anim = playerCharacter.GetComponent<Animator>();
         movementPadIndicator = GameObject.FindWithTag("MovementPadIndicator") as GameObject;
         currentMovementTypePanel = GameObject.FindWithTag("CurrentMovementType") as GameObject;
@@ -36,6 +38,7 @@ public class PlayerController : MonoBehaviour {
         messageManager = GetComponent<MessageManager>();
 
         if (null == playerCharacter) { Debug.LogError("PlayerController.Start: playerCharacter is null."); }
+        if (null == playerCharacterRigidbody) { Debug.LogError("PlayerController.Start: v is null."); }
         if (null == anim) { Debug.LogError("PlayerController.Start: anim is null."); }
         if (null == movementPadIndicator) { Debug.LogError("PlayerController.Start: movementPadIndicator is null."); }
         if (null == currentMovementTypePanel) { Debug.LogError("PlayerController.Start: currentMovementTypePanel is null."); }
@@ -45,6 +48,7 @@ public class PlayerController : MonoBehaviour {
         if (null == messageManager) { Debug.LogError("PlayerController.Start: messageManager is null."); }
 
         if (null == playerCharacter) { return; }
+        if (null == playerCharacterRigidbody) { return; }
         if (null == anim) { return; }
         if (null == movementPadIndicator) { return; }
         if (null == currentMovementTypePanel) { return; }
@@ -79,10 +83,12 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("Speed", 0.0f);
         } else if (PlayerShouldGo(direction)) {
             setMovementTypeValues();
-            previousVector = Vision.ConvertDirectionToVector(direction, previousVector);
+            previousVector = ConvertForClimbing(MovementTypeMenu.currentMovementType, Vision.ConvertDirectionToVector(direction, previousVector));
             movementToggledOn = true;
 
-            playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(previousVector), 0.15F);
+            if (MovementType.Climbing != MovementTypeMenu.currentMovementType) {
+                playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(previousVector), 0.15F);
+            }
             playerCharacter.transform.Translate (previousVector * speed * Time.deltaTime, Space.World);
         }
         if (Direction.None != direction) {
@@ -139,21 +145,46 @@ public class PlayerController : MonoBehaviour {
         {
             case MovementType.Sneaking:
                 anim.SetBool("Sneak", true);
+                anim.SetBool("Climb", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Sneaking));
                 break;
             case MovementType.Walking:
                 anim.SetBool("Sneak", false);
+                anim.SetBool("Climb", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Walking));
                 break;
             case MovementType.Running:
                 anim.SetBool("Sneak", false);
+                anim.SetBool("Climb", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Running));
                 break;
             case MovementType.Climbing:
                 anim.SetBool("Sneak", false);
+                anim.SetBool("Climb", true);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Climbing));
                 break;
         }
+    }
+
+    Vector3 ConvertForClimbing(MovementType type, Vector3 movement)
+    {
+        Debug.Log("ConvertForClimbing! type " + type);
+        if (MovementType.Climbing != type) {
+            playerCharacterRigidbody.useGravity = true;
+            return movement;
+        }
+        playerCharacterRigidbody.useGravity = false;
+        if (Vector3.forward == movement)
+        {
+            Debug.Log("UP!");
+            return Vector3.up;
+        }
+        if (-Vector3.forward == movement)
+        {
+            Debug.Log("DOWN!");
+            return -Vector3.up;
+        }
+        return movement;
     }
 
     void SetHealthPosition(Direction inDirection)
