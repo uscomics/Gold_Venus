@@ -1,13 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USComics_Vision;
 
 namespace USComics_User_Input
 {
-
-    [System.Serializable]
-    public enum Direction { None, North, East, South, West, NW, NE, SW, SE, Stop };
-
     public class MovementPad
     {
         // private static Rect padRect = new Rect(501.0f, 272.0f, 256.0f, 256.0f);
@@ -60,21 +57,5 @@ namespace USComics_User_Input
             else if (Direction.SW == inDirection) { position.x -= 90; position.y -= 90; }
             return new Vector3(position.x, position.y, 0);
         }
-
-        public static Vector3 ConvertDirectionToVector(Direction direction, Vector3 previousVector)
-        {
-            if (Direction.Stop == direction) return Vector3.zero;
-            if (Direction.North == direction) return Vector3.forward;
-            if (Direction.South == direction) return -Vector3.forward;
-            if (Direction.East == direction) return -Vector3.left;
-            if (Direction.West == direction) return Vector3.left;
-            if (Direction.NW == direction) return new Vector3(-0.66f, 0.0f, 0.66f);
-            if (Direction.NE == direction) return new Vector3(0.66f, 0.0f, 0.66f);
-            if (Direction.SW == direction) return new Vector3(-0.66f, 0.0f, -0.66f);
-            if (Direction.SE == direction) return new Vector3(0.66f, 0.0f, -0.66f);
-            if (Direction.None == direction) return previousVector;
-            return Vector3.zero;
-        }
-
     }
 }

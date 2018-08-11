@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USComics_Vision;
 
 namespace USComics_User_Input
 {

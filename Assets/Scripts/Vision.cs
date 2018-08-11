@@ -1,74 +1,108 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USComics_Layers;
 
 namespace USComics_Vision
 {
-    public class LayerMaskValues {
-        public static int MASK_ALL = -1;
-        public static int MASK_DEFAULT = LayerMask.GetMask(LayerMask.LayerToName(0));
-        public static int MASK_TRANSPARENT_FX = LayerMask.GetMask(LayerMask.LayerToName(1));
-        public static int MASK_IGNORE_RAYCAST = LayerMask.GetMask(LayerMask.LayerToName(2));
-        public static int MASK_WATER = LayerMask.GetMask(LayerMask.LayerToName(4));
-        public static int MASK_UI = LayerMask.GetMask(LayerMask.LayerToName(5));
-        public static int MASK_SKYBOX = LayerMask.GetMask(LayerMask.LayerToName(8));
-        public static int MASK_PLAYER = LayerMask.GetMask(LayerMask.LayerToName(9));
-        public static int MASK_POSTPROCESSING = LayerMask.GetMask(LayerMask.LayerToName(10));
-        public static int MASK_SET_DRESSING = LayerMask.GetMask(LayerMask.LayerToName(11));
-        public static int MASK_VEHICLES = LayerMask.GetMask(LayerMask.LayerToName(14));
-        public static int MASK_NAVMESH = LayerMask.GetMask(LayerMask.LayerToName(15));
-        public static int MASK_ENVIRONMENT = LayerMask.GetMask(LayerMask.LayerToName(16));
-        public static int MASK_CHARACTERS = LayerMask.GetMask(LayerMask.LayerToName(17));
-        public static int MASK_VEGETATION = LayerMask.GetMask(LayerMask.LayerToName(18));
-        public static int MASK_EFFECTS = LayerMask.GetMask(LayerMask.LayerToName(19));
-        public static int MASK_RAGDOLL = LayerMask.GetMask(LayerMask.LayerToName(20));
-        public static int MASK_WATER_GEOMETRY = LayerMask.GetMask(LayerMask.LayerToName(21));
-        public static int MASK_TERRAIN = LayerMask.GetMask(LayerMask.LayerToName(22));
-        public static int MASK_ENEMIES = LayerMask.GetMask(LayerMask.LayerToName(23));
-        public static int MASK_CAMERAS = LayerMask.GetMask(LayerMask.LayerToName(24));
-        public static int MASK_PROPS = LayerMask.GetMask(LayerMask.LayerToName(25));
-        public static int MASK_AVOID = LayerMask.GetMask(LayerMask.LayerToName(26));
-        public static int MASK_CAMERA_COLLIDER = LayerMask.GetMask(LayerMask.LayerToName(27));
-        public static int MASK_COLLIDER = LayerMask.GetMask(LayerMask.LayerToName(28));
-        public static int MASK_CHECKPOINT = LayerMask.GetMask(LayerMask.LayerToName(29));
-        public static int MASK_DO_NOT_DRAW = LayerMask.GetMask(LayerMask.LayerToName(30));
-        public static int MASK_LEVEL = LayerMask.GetMask(LayerMask.LayerToName(31));
-    }
-
-    public class LayerValues
-    {
-        public static int DEFAULT = 0;
-        public static int TRANSPARENT_FX = 1;
-        public static int IGNORE_RAYCAST = 2;
-        public static int WATER = 4;
-        public static int UI = 5;
-        public static int SKYBOX = 8;
-        public static int PLAYER = 9;
-        public static int POSTPROCESSING = 10;
-        public static int SET_DRESSING = 11;
-        public static int VEHICLES = 14;
-        public static int NAVMESH = 15;
-        public static int ENVIRONMENT = 16;
-        public static int CHARACTERS = 17;
-        public static int VEGETATION = 18;
-        public static int EFFECTS = 19;
-        public static int RAGDOLL = 20;
-        public static int WATER_GEOMETRY = 21;
-        public static int TERRAIN = 22;
-        public static int ENEMIES = 23;
-        public static int CAMERAS = 24;
-        public static int PROPS = 25;
-        public static int AVOID = 26;
-        public static int CAMERA_COLLIDER = 27;
-        public static int COLLIDER = 28;
-        public static int CHECKPOINT = 29;
-        public static int DO_NOT_DRAW = 30;
-        public static int LEVEL = 31;
-    }
+    [System.Serializable]
+    public enum Direction { None, North, East, South, West, NW, NE, SW, SE, Stop };
 
     public class Vision {
-        public static Collider[] GetAllObjectsWithinRadius(Vector3 center, float radius, int layerMask = -1, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
+        public static GameObject GetGameObject(Collider collider) {
+            return collider.gameObject;
+        }
+
+        public static Collider[] GetObjectsInRadius(Vector3 center, float radius, int layerMask = LayerMaskValues.ALL, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
             return Physics.OverlapSphere(center, radius, layerMask, queryTriggerInteraction);
+        }
+
+        public static Collider[] GetObjectsInRadius(Vector3 center, float radius, string tag, int layerMask = LayerMaskValues.ALL, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
+            Collider[] colliders = GetObjectsInRadius(center, radius, layerMask, queryTriggerInteraction);
+            List<Collider> results = new List<Collider>();
+            for (int loop = 0; loop < colliders.Length; loop++) {
+                Collider collider = colliders[loop];
+                if (collider.tag == tag) results.Add(collider);
+            }
+            return results.ToArray();
+        }
+
+        public static bool IsFacingObject(Transform transform1, Transform transform2) {
+            Vector3 forward = transform1.transform.forward;
+            Vector3 toObject2 = (transform2.transform.position - transform1.transform.position).normalized;
+
+            if (Vector3.Dot(forward, toObject2) < 0.7f)  return false;
+            return true;
+        }
+
+        // https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html
+        public static float GetDistance(Transform transform1, Transform transform2) {
+            return (transform2.position - transform1.position).magnitude;
+        }
+
+        // https://docs.unity3d.com/Manual/DirectionDistanceFromOneObjectToAnother.html
+        public static Vector3 GetVectorDirection(Transform transform1, Transform transform2) {
+            Vector3 heading = transform2.position - transform1.position;
+            return heading / heading.magnitude;
+        }
+
+        public static Direction GetDirection(Transform transform1, Transform transform2)
+        {
+            float angle = GetAngle(transform1, transform2);
+            float leftOrRight = GetLeftOrRight(transform1, transform2);
+
+            if (0 < leftOrRight) { // Left
+                if (23 > angle) return Direction.North;
+                if (68 > angle) return Direction.NE;
+                if (113 > angle) return Direction.East;
+                if (158 > angle) return Direction.SE;
+                return Direction.South;
+            }   
+            else if (0 > leftOrRight){ // right
+                if (23 > angle) return Direction.North;
+                if (68 > angle) return Direction.NW;
+                if (113 > angle) return Direction.West;
+                if (158 > angle) return Direction.SW;
+                return Direction.South;
+            }
+            else { // even
+                float forwardOrBehind = GetForwardOrBehind(transform1, transform2);
+                if (0 < forwardOrBehind) return Direction.North;
+                return Direction.South;
+            }
+        }
+
+        //  Returns a value between 0 and 180
+        public static float GetAngle(Transform transform1, Transform transform2)
+        {
+            return Vector3.Angle(transform1.forward, transform2.position);
+        }
+
+        // Positive if forward, negitive if behind, zero if exactly even
+        public static float GetForwardOrBehind(Transform transform1, Transform transform2)
+        {
+            return Vector3.Dot(transform1.forward, transform2.position);
+        }
+
+        // Positive if left, negitive if right, zero if exactly even
+        public static float GetLeftOrRight(Transform transform1, Transform transform2)
+        {
+            return Vector3.Dot(transform1.right, transform2.position);
+        }
+
+        public static Vector3 ConvertDirectionToVector(Direction direction, Vector3 previousVector)
+        {
+            if (Direction.Stop == direction) return Vector3.zero;
+            if (Direction.North == direction) return Vector3.forward;
+            if (Direction.South == direction) return -Vector3.forward;
+            if (Direction.East == direction) return Vector3.right;
+            if (Direction.West == direction) return -Vector3.right;
+            if (Direction.NW == direction) return new Vector3(-0.66f, 0.0f, 0.66f);
+            if (Direction.NE == direction) return new Vector3(0.66f, 0.0f, 0.66f);
+            if (Direction.SW == direction) return new Vector3(-0.66f, 0.0f, -0.66f);
+            if (Direction.SE == direction) return new Vector3(0.66f, 0.0f, -0.66f);
+            if (Direction.None == direction) return previousVector;
+            return Vector3.zero;
         }
     }
 }

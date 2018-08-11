@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using USComics_User_Input;
+using USComics_Layers;
 using USComics_Vision;
 
 public class PlayerController : MonoBehaviour {
@@ -69,7 +70,7 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("Speed", 0.0f);
         } else if (PlayerShouldGo(direction)) {
             setMovementTypeValues();
-            previousVector = MovementPad.ConvertDirectionToVector(direction, previousVector);
+            previousVector = Vision.ConvertDirectionToVector(direction, previousVector);
             movementToggledOn = true;
 
             playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(previousVector), 0.15F);
@@ -79,19 +80,35 @@ public class PlayerController : MonoBehaviour {
             movementPadIndicator.transform.position = MovementPad.GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
             if (Direction.None != direction && Direction.Stop != direction) healthPanel.transform.localPosition = GetHealthPosition(direction);
         }
+        Collider[]  colliders = Vision.GetObjectsInRadius(playerCharacter.transform.position, 100.0f, "Climbable");
+        Debug.Log("Vision: " + colliders.Length);
+        for (int loop = 0; loop < colliders.Length; loop++)
+        {
+            //            Debug.Log("Vision: " + colliders[loop]);
+            //            Debug.Log("Distance: " + colliders[loop].name + ": " + Vision.GetDistance(playerCharacter.transform, colliders[loop].gameObject.transform));
+            Debug.Log("Direction: " + colliders[loop].name + ": " + Vision.GetDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
+            //            Debug.Log("Direction (Vector): " + colliders[loop].name + ": " + Vision.GetVectorDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
+            //Debug.Log("Angle: " + colliders[loop].name + ": " + Vision.GetAngle(playerCharacter.transform, colliders[loop].gameObject.transform));
+            //Debug.Log("Forward/Behind: " + colliders[loop].name + ": " + Vision.GetForwardOrBehind(playerCharacter.transform, colliders[loop].gameObject.transform));
+            //Debug.Log("Left/Right: " + colliders[loop].name + ": " + Vision.GetLeftOrRight(playerCharacter.transform, colliders[loop].gameObject.transform));
+            //            Debug.Log("Facing " + colliders[loop].name + ": " + Vision.IsFacingObject(playerCharacter.transform, colliders[loop].gameObject.transform));
+            //Vector3 dir = Vision.GetVectorDirection(playerCharacter.transform, colliders[loop].gameObject.transform);
+            //float ratio = dir.x / dir.z;
+            //Debug.Log("Ratio: " + colliders[loop].name + ": " + ratio);
+        }
     }
 
     private void OnCollisionEnter(Collision collision) {
-        Debug.Log("BANG! tag = " + collision.gameObject.tag + ", layer = " + collision.gameObject.layer + ", TERRAIN = " + LayerValues.TERRAIN);
-        if (LayerValues.TERRAIN != collision.gameObject.layer) Keyboard.forceStop = true;
+        // Debug.Log("BANG! tag = " + collision.gameObject.tag + ", layer = " + collision.gameObject.layer + ", TERRAIN = " + LayerValues.TERRAIN);
+        if ((int)LayerValues.TERRAIN != collision.gameObject.layer) Keyboard.forceStop = true;
     }
     private void OnCollisionStay(Collision collision)
     {
-        Debug.Log("STILL BANG! tag = " + collision.gameObject.tag);
+        // Debug.Log("STILL BANG! tag = " + collision.gameObject.tag);
     }
     private void OnCollisionExit(Collision collision)
     {
-        Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
+        // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
     }
 
     bool PlayerShouldStop(Direction direction) { return ((movementToggledOn) && (Direction.Stop == direction)); }
