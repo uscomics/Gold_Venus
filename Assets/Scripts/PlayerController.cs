@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject healthPanel;
     private Vector3 initialHelthPanelRotation;
     private MessageManager messageManager;
-
+    private bool climbableInRange = false;
     private Vector3 previousVector = Vector3.zero;
     private float speed = 1.0f;
     private GameObject messageCanvas;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("Speed", 0.0f);
         } else if (PlayerShouldGo(direction)) {
             setMovementTypeValues();
-            previousVector = ConvertForClimbing(MovementTypeMenu.currentMovementType, Vision.ConvertDirectionToVector(direction, previousVector));
+            previousVector = ConvertForClimbing(MovementTypeMenu.currentMovementType, direction);
             movementToggledOn = true;
 
             if (MovementType.Climbing != MovementTypeMenu.currentMovementType) {
@@ -91,10 +91,22 @@ public class PlayerController : MonoBehaviour {
     }
     private void OnCollisionStay(Collision collision)
     {
+        if (climbableInRange)
+        {
+            Collider[] climbables = Environment.GetClimbables(playerCharacter.transform);
+            if (0 != climbables.Length)
+            {
+                Debug.Log("YADA");
+                movementTypeMenuScript.SetMovementType(MovementType.Climbing);
+            }
+        }
+        if ("Climbable" == collision.gameObject.tag) climbableInRange = true;
+
         // Debug.Log("STILL BANG! tag = " + collision.gameObject.tag);
     }
     private void OnCollisionExit(Collision collision)
     {
+        if ("Climbable" == collision.gameObject.tag) climbableInRange = false;
         // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
     }
 
@@ -109,7 +121,7 @@ public class PlayerController : MonoBehaviour {
         {
             messageManager.ShowMessage(Messages.MSG_NOTHING_TO_CLIMB);
             movementType = MovementType.None;
-        }
+        } 
         return movementType;
     }
     Direction GetDirection()
@@ -168,8 +180,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    Vector3 ConvertForClimbing(MovementType type, Vector3 movement)
+    Vector3 ConvertForClimbing(MovementType type, Direction direction)
     {
+        Vector3 movement = Vision.ConvertDirectionToVector(direction, previousVector);
         if (MovementType.Climbing != type) {
             playerCharacterRigidbody.useGravity = true;
             return movement;

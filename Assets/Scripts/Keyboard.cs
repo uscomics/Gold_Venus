@@ -42,7 +42,6 @@ namespace USComics_User_Input
             if (0 < Input.GetAxis("Submit")) return MovementType.Running;
             if (Input.GetKeyDown(KeyCode.RightShift)) return MovementType.Sneaking;
             if (Input.GetKeyDown(KeyCode.LeftShift)) return MovementType.Sneaking;
-            if (Input.GetKeyDown(KeyCode.C)) return MovementType.Climbing;
             return MovementType.None;
         }
     }

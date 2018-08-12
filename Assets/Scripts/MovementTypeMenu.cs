@@ -38,7 +38,6 @@ namespace USComics_User_Input
         public Image walkingIcon;
         public Image runningIcon;
         public Image climbingIcon;
-        public Button climbingButton;
         public static MovementType currentMovementType;
 
         private GameObject movementTypeList;
@@ -67,9 +66,8 @@ namespace USComics_User_Input
         public void ToggleMovementTypeList() {
             bool isActive = movementTypeList.activeSelf;
             movementTypeList.SetActive(!movementTypeList.activeSelf);
-            SetClimbingIcon(!isActive);
         }
-        public void ShowMovementTypeList() { movementTypeList.SetActive(true); SetClimbingIcon(true); }
+        public void ShowMovementTypeList() { movementTypeList.SetActive(true); }
         public void HideMovementTypeList() { movementTypeList.SetActive(false); }
         public void Sneaking()
         {
@@ -102,11 +100,6 @@ namespace USComics_User_Input
             else if (MovementType.Running == movementType) Running();
             else if (MovementType.Climbing == movementType) Climbing();
             return MovementSpeed.GetSpeed(movementType);
-        }
-        private void SetClimbingIcon(bool active)
-        {
-            if (active && playerControllerScript.PlayerCanClimb()) climbingButton.interactable = true;
-            else climbingButton.interactable = false;
         }
     }
 }
