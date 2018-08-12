@@ -95,29 +95,12 @@ public class PlayerController : MonoBehaviour {
             movementPadIndicator.transform.position = MovementPad.GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
             if (Direction.None != direction && Direction.Stop != direction) SetHealthPosition(direction);
         }
-        //Collider[] colliders = Vision.GetObjectsInRadius(playerCharacter.transform.position, 100.0f, "Climbable");
-         Collider[] colliders = Environment.GetClimbables(playerCharacter.transform);
-        Debug.Log("Climbables: " + colliders.Length);
-        for (int loop = 0; loop < colliders.Length; loop++)
-        {
-            //            Debug.Log("Vision: " + colliders[loop]);
-            // Debug.Log("Distance: " + colliders[loop].name + ": " + Vision.GetDistance(playerCharacter.transform, colliders[loop].gameObject.transform));
-            Debug.Log("Parallel: " + colliders[loop].name + ": " + Vision.AreParallel(playerCharacter.transform.forward, colliders[loop].gameObject.transform.forward, 10.0f));
-            //Debug.Log("Direction: " + colliders[loop].name + ": " + Vision.GetDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
-            //            Debug.Log("Direction (Vector): " + colliders[loop].name + ": " + Vision.GetVectorDirection(playerCharacter.transform, colliders[loop].gameObject.transform));
-            //Debug.Log("Angle: " + colliders[loop].name + ": " + Vision.GetAngle(playerCharacter.transform, colliders[loop].gameObject.transform));
-            //Debug.Log("Forward/Behind: " + colliders[loop].name + ": " + Vision.GetForwardOrBehind(playerCharacter.transform, colliders[loop].gameObject.transform));
-            //Debug.Log("Left/Right: " + colliders[loop].name + ": " + Vision.GetLeftOrRight(playerCharacter.transform, colliders[loop].gameObject.transform));
-            //            Debug.Log("Facing " + colliders[loop].name + ": " + Vision.IsFacingObject(playerCharacter.transform, colliders[loop].gameObject.transform));
-            //Vector3 dir = Vision.GetVectorDirection(playerCharacter.transform, colliders[loop].gameObject.transform);
-            //float ratio = dir.x / dir.z;
-            //Debug.Log("Ratio: " + colliders[loop].name + ": " + ratio);
-        }
     }
 
     private void OnCollisionEnter(Collision collision) {
         // Debug.Log("BANG! tag = " + collision.gameObject.tag + ", layer = " + collision.gameObject.layer + ", TERRAIN = " + LayerValues.TERRAIN);
         if ((int)LayerValues.TERRAIN != collision.gameObject.layer) Keyboard.forceStop = true;
+        if (((int)LayerValues.TERRAIN == collision.gameObject.layer)&& (MovementType.Climbing == MovementTypeMenu.currentMovementType)) Keyboard.forceStop = true;
     }
     private void OnCollisionStay(Collision collision)
     {
