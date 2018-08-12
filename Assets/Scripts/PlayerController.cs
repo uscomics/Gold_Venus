@@ -62,22 +62,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update () {
-        MovementType movementType = Keyboard.GetMovementType();
-        if ((MovementType.Climbing == movementType) && (!PlayerCanClimb())) {
-            messageManager.ShowMessage(Messages.MSG_NOTHING_TO_CLIMB);
-            movementType = MovementType.None;
-        }
-
-        if (MovementType.None != movementType)  {
-            speed = movementTypeMenuScript.SetMovementType(movementType);
-        } else {
-            speed = MovementSpeed.GetSpeed(MovementTypeMenu.currentMovementType);
-        }
-
-        Direction direction = Keyboard.GetDirection();
-        if (Direction.None == direction) { direction = MovementPad.GetDirection(); }
-        if (Direction.None != direction) { movementTypeMenuScript.HideMovementTypeList(); }
-
+        MovementType movementType = GetMovementType();
+        Direction direction = GetDirection();
+        SetSpeed(movementType);
         if (PlayerShouldStop(direction)) {
             movementToggledOn = false;
             anim.SetFloat("Speed", 0.0f);
@@ -115,6 +102,38 @@ public class PlayerController : MonoBehaviour {
         Collider[] colliders = Environment.GetClimbables(playerCharacter.transform);
         return (0 < colliders.Length);
     }
+    MovementType GetMovementType()
+    {
+        MovementType movementType = Keyboard.GetMovementType();
+        if ((MovementType.Climbing == movementType) && (!PlayerCanClimb()))
+        {
+            messageManager.ShowMessage(Messages.MSG_NOTHING_TO_CLIMB);
+            movementType = MovementType.None;
+        }
+        return movementType;
+    }
+    Direction GetDirection()
+    {
+        Direction direction = Keyboard.GetDirection();
+        if (Direction.None == direction) { direction = MovementPad.GetDirection(); }
+        if (Direction.None != direction) { movementTypeMenuScript.HideMovementTypeList(); }
+        if ((MovementType.Climbing == MovementTypeMenu.currentMovementType)
+        && (Direction.North != direction)
+        && (Direction.South != direction)
+        && (Direction.Stop != direction)) {
+            direction = Direction.None;
+        }
+        return direction;
+    }
+    void SetSpeed(MovementType movementType) {
+        if (MovementType.None != movementType) {
+            speed = movementTypeMenuScript.SetMovementType(movementType);
+            setMovementTypeValues();
+            if (MovementType.Climbing == movementType) anim.SetFloat("Speed", 0.0f);
+        } else {
+            speed = MovementSpeed.GetSpeed(MovementTypeMenu.currentMovementType);
+        }
+    }
     bool PlayerShouldStop(Direction direction) { return ((movementToggledOn) && (Direction.Stop == direction)); }
 
     bool PlayerShouldGo(Direction direction) {
@@ -151,7 +170,6 @@ public class PlayerController : MonoBehaviour {
 
     Vector3 ConvertForClimbing(MovementType type, Vector3 movement)
     {
-        Debug.Log("ConvertForClimbing! type " + type);
         if (MovementType.Climbing != type) {
             playerCharacterRigidbody.useGravity = true;
             return movement;
@@ -159,12 +177,10 @@ public class PlayerController : MonoBehaviour {
         playerCharacterRigidbody.useGravity = false;
         if (Vector3.forward == movement)
         {
-            Debug.Log("UP!");
             return Vector3.up;
         }
         if (-Vector3.forward == movement)
         {
-            Debug.Log("DOWN!");
             return -Vector3.up;
         }
         return movement;
