@@ -12,6 +12,8 @@ namespace USComics_User_Input
         Walking,
         Running,
         Climbing,
+        Climbing_Mount,
+        Climbing_Dismount,
         Falling,
         Standing,
         None
@@ -23,6 +25,8 @@ namespace USComics_User_Input
         public const float WALK_SPEED = 5.0f;
         public const float RUN_SPEED = 10.0f;
         public const float CLIMBING_SPEED = 1.0f;
+        public const float CLIMBING_MOUNT_SPEED = 0.0f;
+        public const float CLIMBING_DISMOUNT_SPEED = 0.0f;
         public const float FALLING_SPEED = 0.0f;
         public const float STANDING_SPEED = 0.0f;
         public static float GetSpeed(MovementType movementType)
@@ -31,6 +35,8 @@ namespace USComics_User_Input
             if (MovementType.Walking == movementType) return MovementSpeed.WALK_SPEED;
             if (MovementType.Running == movementType) return MovementSpeed.RUN_SPEED;
             if (MovementType.Climbing == movementType) return MovementSpeed.CLIMBING_SPEED;
+            if (MovementType.Climbing_Mount == movementType) return MovementSpeed.CLIMBING_MOUNT_SPEED;
+            if (MovementType.Climbing_Dismount == movementType) return MovementSpeed.CLIMBING_DISMOUNT_SPEED;
             if (MovementType.Falling == movementType) return MovementSpeed.FALLING_SPEED;
             if (MovementType.Standing == movementType) return MovementSpeed.STANDING_SPEED;
             return 0.0f;
@@ -51,6 +57,10 @@ namespace USComics_User_Input
         private GameObject movementTypeList;
         private GameObject playerCharacter;
         private PlayerController playerControllerScript;
+
+        public static bool IsClimbing(MovementType movementType) {
+            return (movementType == MovementType.Climbing || movementType == MovementType.Climbing_Dismount || movementType == MovementType.Climbing_Mount);
+        }
 
         void Start()
         {
@@ -101,6 +111,18 @@ namespace USComics_User_Input
             currentMovementTypeButton.image.sprite = climbingIcon.sprite;
             HideMovementTypeList();
         }
+        public void ClimbingMount()
+        {
+            MovementTypeMenu.currentMovementType = MovementType.Climbing_Mount;
+            currentMovementTypeButton.image.sprite = climbingIcon.sprite;
+            HideMovementTypeList();
+        }
+        public void ClimbingDismount()
+        {
+            MovementTypeMenu.currentMovementType = MovementType.Climbing_Dismount;
+            currentMovementTypeButton.image.sprite = climbingIcon.sprite;
+            HideMovementTypeList();
+        }
         public void Falling()
         {
             MovementTypeMenu.currentMovementType = MovementType.Falling;
@@ -119,6 +141,8 @@ namespace USComics_User_Input
             else if (MovementType.Walking == movementType) Walking();
             else if (MovementType.Running == movementType) Running();
             else if (MovementType.Climbing == movementType) Climbing();
+            else if (MovementType.Climbing_Mount == movementType) ClimbingMount();
+            else if (MovementType.Climbing_Dismount == movementType) ClimbingDismount();
             else if (MovementType.Falling == movementType) Falling();
             else if (MovementType.Standing == movementType) Standing();
             return MovementSpeed.GetSpeed(movementType);

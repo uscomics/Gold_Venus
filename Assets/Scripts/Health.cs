@@ -13,7 +13,8 @@ namespace USComics_Player
         public int lives;
 
         private GameObject healthBar;
-        private float initialHealthBarScale = 0.25f;
+        // private float initialHealthBarScale = 0.25f;
+        private float initialHealthBarScale = 0.5f;
         private GameObject life1;
         private GameObject life2;
         private GameObject life3;

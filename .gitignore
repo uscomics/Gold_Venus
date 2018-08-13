@@ -10,6 +10,9 @@
 Assets/Gizmos/
 Assets/huehue/
 Assets/AllStarCharacterLibrary/
+Assets/Fighter Pack Bundle/
+Assets/MORPH3D/
+Assets/StreamingAssets/
 
 *.a
 Assembly-CSharp-Editor.csproj
@@ -25,5 +28,8 @@ SimpleSFXRuntime.csproj
 Skybox3DRuntime.csproj
 WorldBuildingRuntime.csproj
 Assets/AllStarCharacterLibrary.meta
+Assets/Fighter Pack Bundle.meta
+Assets/StreamingAssets.meta
+Assets/MORPH3D.meta
 	
 

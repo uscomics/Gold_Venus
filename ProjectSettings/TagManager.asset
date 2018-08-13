@@ -22,7 +22,7 @@ TagManager:
   - Life6
   - Life2
   - Climbable
-  - Stairs
+  - DebugConsole
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,7 @@ using USComics_Vision;
 using USComics_User_Input;
 using USComics_Environment;
 using USComics_Message_Manager;
+using USComics_Debug;
 
 public class PlayerController : MonoBehaviour {
     public Direction direction = Direction.None;
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour {
     private Vector3 previousVector = Vector3.zero;
     private float speed = 1.0f;
     private GameObject messageCanvas;
+    private DebugConsole debugConsoleScript;
 
     void Start () {
         playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
@@ -36,6 +38,8 @@ public class PlayerController : MonoBehaviour {
         messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
         healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
         messageManager = GetComponent<MessageManager>();
+        GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
+        if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
         if (null == playerCharacter) { Debug.LogError("PlayerController.Start: playerCharacter is null."); }
         if (null == playerCharacterRigidbody) { Debug.LogError("PlayerController.Start: v is null."); }
@@ -46,6 +50,7 @@ public class PlayerController : MonoBehaviour {
         if (null == messageCanvas) { Debug.LogError("PlayerController.Start: messageCanvas is null."); }
         if (null == healthPanel) { Debug.LogError("PlayerController.Start: healthPanel is null."); }
         if (null == messageManager) { Debug.LogError("PlayerController.Start: messageManager is null."); }
+        if (null == debugConsoleScript) { Debug.LogError("PlayerController.Start: debugConsoleScript is null."); }
 
         if (null == playerCharacter) { return; }
         if (null == playerCharacterRigidbody) { return; }
@@ -56,6 +61,7 @@ public class PlayerController : MonoBehaviour {
         if (null == messageCanvas) { return; }
         if (null == healthPanel) { return; }
         if (null == messageManager) { return; }
+        if (null == debugConsoleScript) { return; }
 
         movementPadIndicatorOriginalPosition = movementPadIndicator.transform.position;
         initialHelthPanelRotation = healthPanel.transform.eulerAngles;
@@ -82,12 +88,15 @@ public class PlayerController : MonoBehaviour {
             movementPadIndicator.transform.position = MovementPad.GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
             if (Direction.None != direction && Direction.Stop != direction) SetHealthPosition(direction);
         }
+        debugConsoleScript.SetCurrentMovementType(MovementTypeMenu.currentMovementType);
+        debugConsoleScript.SetMovementType(movementType);
+        debugConsoleScript.SetDirection(direction);
+        debugConsoleScript.SetSpeed(speed);
     }
 
     private void OnCollisionEnter(Collision collision) {
         if ((int)LayerValues.TERRAIN != collision.gameObject.layer) Keyboard.forceStop = true;
         if ((int)LayerValues.TERRAIN == collision.gameObject.layer) {
-            Debug.Log("BANG! tag = " + collision.gameObject.tag + ", layer = " + collision.gameObject.layer + "MovementType = " + MovementTypeMenu.currentMovementType);
             if (MovementType.Climbing == MovementTypeMenu.currentMovementType) Keyboard.forceStop = true;
             if ((MovementType.Falling == MovementTypeMenu.currentMovementType)
             || (MovementType.Climbing == MovementTypeMenu.currentMovementType)) {
@@ -95,21 +104,26 @@ public class PlayerController : MonoBehaviour {
                 setMovementTypeValues();
             }
         }
-    }
-    private void OnCollisionStay(Collision collision)
-    {
+        if ("Climbable" == collision.gameObject.tag) climbableInRange = true;
+        debugConsoleScript.SetOther1("climbableInRange: " + climbableInRange);
         if (climbableInRange)
         {
             Collider[] climbables = Environment.GetClimbables(playerCharacter.transform);
-            if (0 != climbables.Length) movementTypeMenuScript.SetMovementType(MovementType.Climbing);
+            debugConsoleScript.SetOther2("climbables.Length: " + climbables.Length);
+            if (0 != climbables.Length) {
+                movementTypeMenuScript.SetMovementType(MovementType.Climbing_Mount);
+                setMovementTypeValues();
+            }
         }
-        if ("Climbable" == collision.gameObject.tag) climbableInRange = true;
-
+    }
+    private void OnCollisionStay(Collision collision)
+    {
         // Debug.Log("STILL BANG! tag = " + collision.gameObject.tag);
     }
     private void OnCollisionExit(Collision collision)
     {
         if ("Climbable" == collision.gameObject.tag) climbableInRange = false;
+        debugConsoleScript.SetOther1("climbableInRange: " + climbableInRange);
         // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
     }
 
@@ -169,12 +183,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     void setMovementTypeValues() {
+        debugConsoleScript.SetOther3("Set MovementTypeValues for " + MovementTypeMenu.currentMovementType);
         playerCharacterRigidbody.useGravity = true;
         switch (MovementTypeMenu.currentMovementType)
         {
             case MovementType.Sneaking:
                 anim.SetBool("Sneak", true);
                 anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", false);
                 anim.SetBool("Fall", false);
                 anim.SetBool("Stand", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Sneaking));
@@ -182,6 +199,8 @@ public class PlayerController : MonoBehaviour {
             case MovementType.Walking:
                 anim.SetBool("Sneak", false);
                 anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", false);
                 anim.SetBool("Fall", false);
                 anim.SetBool("Stand", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Walking));
@@ -189,6 +208,8 @@ public class PlayerController : MonoBehaviour {
             case MovementType.Running:
                 anim.SetBool("Sneak", false);
                 anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", false);
                 anim.SetBool("Fall", false);
                 anim.SetBool("Stand", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Running));
@@ -197,13 +218,35 @@ public class PlayerController : MonoBehaviour {
                 playerCharacterRigidbody.useGravity = false;
                 anim.SetBool("Sneak", false);
                 anim.SetBool("Climb", true);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Climbing));
+                anim.SetBool("Fall", false);
+                anim.SetBool("Stand", false);
+                break;
+            case MovementType.Climbing_Mount:
+                anim.SetBool("Sneak", false);
+                anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", true);
+                anim.SetBool("ClimbDismount", false);
+                anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Climbing_Mount));
+                anim.SetBool("Fall", false);
+                anim.SetBool("Stand", false);
+                break;
+            case MovementType.Climbing_Dismount:
+                anim.SetBool("Sneak", false);
+                anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", true);
+                anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Climbing_Dismount));
                 anim.SetBool("Fall", false);
                 anim.SetBool("Stand", false);
                 break;
             case MovementType.Falling:
                 anim.SetBool("Sneak", false);
                 anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", false);
                 anim.SetBool("Fall", true);
                 anim.SetBool("Stand", false);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Falling));
@@ -211,6 +254,8 @@ public class PlayerController : MonoBehaviour {
             case MovementType.Standing:
                 anim.SetBool("Sneak", false);
                 anim.SetBool("Climb", false);
+                anim.SetBool("ClimbMount", false);
+                anim.SetBool("ClimbDismount", false);
                 anim.SetBool("Fall", false);
                 anim.SetBool("Stand", true);
                 anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Standing));
