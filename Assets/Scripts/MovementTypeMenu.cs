@@ -12,6 +12,8 @@ namespace USComics_User_Input
         Walking,
         Running,
         Climbing,
+        Falling,
+        Standing,
         None
     }
 
@@ -21,12 +23,16 @@ namespace USComics_User_Input
         public const float WALK_SPEED = 5.0f;
         public const float RUN_SPEED = 10.0f;
         public const float CLIMBING_SPEED = 1.0f;
+        public const float FALLING_SPEED = 0.0f;
+        public const float STANDING_SPEED = 0.0f;
         public static float GetSpeed(MovementType movementType)
         {
             if (MovementType.Sneaking == movementType) return MovementSpeed.SNEAK_SPEED;
             if (MovementType.Walking == movementType) return MovementSpeed.WALK_SPEED;
             if (MovementType.Running == movementType) return MovementSpeed.RUN_SPEED;
             if (MovementType.Climbing == movementType) return MovementSpeed.CLIMBING_SPEED;
+            if (MovementType.Falling == movementType) return MovementSpeed.FALLING_SPEED;
+            if (MovementType.Standing == movementType) return MovementSpeed.STANDING_SPEED;
             return 0.0f;
         }
     }
@@ -38,6 +44,8 @@ namespace USComics_User_Input
         public Image walkingIcon;
         public Image runningIcon;
         public Image climbingIcon;
+        public Image fallingIcon;
+        public Image standingIcon;
         public static MovementType currentMovementType;
 
         private GameObject movementTypeList;
@@ -93,12 +101,26 @@ namespace USComics_User_Input
             currentMovementTypeButton.image.sprite = climbingIcon.sprite;
             HideMovementTypeList();
         }
+        public void Falling()
+        {
+            MovementTypeMenu.currentMovementType = MovementType.Falling;
+            currentMovementTypeButton.image.sprite = fallingIcon.sprite;
+            HideMovementTypeList();
+        }
+        public void Standing()
+        {
+            MovementTypeMenu.currentMovementType = MovementType.Standing;
+            currentMovementTypeButton.image.sprite = standingIcon.sprite;
+            HideMovementTypeList();
+        }
         public float SetMovementType(MovementType movementType)
         {
             if (MovementType.Sneaking == movementType) Sneaking();
             else if (MovementType.Walking == movementType) Walking();
             else if (MovementType.Running == movementType) Running();
             else if (MovementType.Climbing == movementType) Climbing();
+            else if (MovementType.Falling == movementType) Falling();
+            else if (MovementType.Standing == movementType) Standing();
             return MovementSpeed.GetSpeed(movementType);
         }
     }
