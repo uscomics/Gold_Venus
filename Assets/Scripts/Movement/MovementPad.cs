@@ -21,7 +21,7 @@ namespace USComics_Movement
 
         private GameObject movementPadIndicator;
         private Vector2 movementPadIndicatorOriginalPosition;
-        private KeyboardManager KeyboardScript;
+        private Keyboard KeyboardScript;
 
         // Use this for initialization
         void Start()
@@ -30,7 +30,7 @@ namespace USComics_Movement
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<KeyboardManager>();
+            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
 
             if (null == movementPadIndicator) { Debug.LogError("MovementPad.Start: movementPadIndicator is null."); }
             if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
@@ -81,7 +81,6 @@ namespace USComics_Movement
             DirectionType direction = GetDirection();
             if (DirectionType.None != direction) {
                 Vector3 indicatiorPosition = GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
-                debugConsoleScript.SetOther1("direction: " + direction);
                 CurrentDirection = direction;
                 movementPadIndicator.transform.position = indicatiorPosition;
             }

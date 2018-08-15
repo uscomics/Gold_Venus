@@ -18,7 +18,7 @@ namespace USComics_Movement
         public Image speedBarFill;
 
         private float maxSpeed = MovementSpeed.RUN_SPEED;
-        private KeyboardManager KeyboardScript;
+        private Keyboard KeyboardScript;
         private Animator Anim;
 
         // Use this for initialization
@@ -27,7 +27,7 @@ namespace USComics_Movement
             GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
             if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<KeyboardManager>();
+            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
 
             if (null == speedBar) { Debug.LogError("SpeedBar.Start: speedBar is null."); }
             if (null == Anim) { Debug.LogError("SpeedBar.Start: Anim is null."); }

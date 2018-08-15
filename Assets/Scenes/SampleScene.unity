@@ -6516,7 +6516,9 @@ GameObject:
   - component: {fileID: 1686292636}
   - component: {fileID: 1686292633}
   - component: {fileID: 1686292630}
+  - component: {fileID: 1686292639}
   - component: {fileID: 1686292637}
+  - component: {fileID: 1686292638}
   m_Layer: 9
   m_Name: Gold Venus Classic
   m_TagString: PlayerCharacter
@@ -6567,7 +6569,12 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed by
+    Humanoid clips.\n\tTransform 'Head'\n\tTransform 'L Foot'\n\tTransform 'L Finger12'\n\tTransform
+    'R Toe0'\n\tTransform 'L Forearm'\n\tTransform 'R Finger21'\n\tTransform 'L Hand'\n\tTransform
+    'L Finger11'\n\tTransform 'L UpperArm'\n\tTransform 'Spine'\n\tand more ...\n\tFrom
+    animation clip 'SimpleStop'\n\tFrom animation clip 'SimpleStart'"
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -6639,6 +6646,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 416bc761c10ea84439ca78ecb73f4db8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1686292638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686292629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932c4827c7c7692469028372f2d9a4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1686292639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686292629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e7aa7bc6082c7244b26a8e39daf8889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1701173763

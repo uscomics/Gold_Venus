@@ -5,52 +5,7 @@ using USComics_Debug;
 
 namespace USComics_Movement
 {
-    [System.Serializable]
-    public enum MovementType
-    {
-        Sneaking,
-        Walking,
-        Running,
-        Standing,
-        None
-    }
-
-    [System.Serializable]
-    public class MovementSpeed
-    {
-        public const float SNEAK_SPEED = 1.0f;
-        public const float WALK_SPEED = 5.0f;
-        public const float RUN_SPEED = 10.0f;
-        public const float STANDING_SPEED = 0.0f;
-        public static float GetSpeed(MovementType movementType)
-        {
-            if (MovementType.Sneaking == movementType) return MovementSpeed.SNEAK_SPEED;
-            if (MovementType.Walking == movementType) return MovementSpeed.WALK_SPEED;
-            if (MovementType.Running == movementType) return MovementSpeed.RUN_SPEED;
-            if (MovementType.Standing == movementType) return MovementSpeed.STANDING_SPEED;
-            return 0.0f;
-        }
-        public static MovementType GetMovementType(float speed)
-        {
-            if (MovementSpeed.SNEAK_SPEED > speed) return MovementType.Standing;
-            if (MovementSpeed.WALK_SPEED > speed) return MovementType.Sneaking;
-            if (MovementSpeed.RUN_SPEED > speed) return MovementType.Walking;
-            return MovementType.Running;
-        }
-    }
-
-    [System.Serializable]
-    public class Move
-    {
-        public Move(DirectionType directionType, float speed) {
-            Direction = directionType;
-            Speed = speed;
-        }
-        public DirectionType Direction { get; set; }
-        public float Speed { get; set; }
-    }
-
-    public class MovementManager : MonoBehaviour
+    public class SimpleMovementModule : AbstractMovementModule
     {
         public Move CurrentMove { get; set; }
         public Move PreviousMove { get; set; }
@@ -58,30 +13,35 @@ namespace USComics_Movement
         public Vector3 PreviousVector { get; set; }
 
         private Animator Anim;
+        private MovementTransitionManager MovementTransitionManagerScript;
         private SpeedBar SpeedBarScript;
         private MovementPad MovementPadScript;
-        private KeyboardManager KeyboardScript;
+        private Keyboard KeyboardScript;
         private DebugConsole debugConsoleScript;
+        private bool moduleActive;
 
         // Use this for initialization
         void Start() {
             GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
             if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
+            if (null != playerCharacter) MovementTransitionManagerScript = playerCharacter.GetComponent<MovementTransitionManager>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) MovementPadScript = movementPad.GetComponent<MovementPad>();
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<KeyboardManager>();
+            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
             GameObject speedBarKnob = GameObject.FindWithTag("SpeedBar") as GameObject;
             if (null != speedBarKnob) SpeedBarScript = speedBarKnob.GetComponent<SpeedBar>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
             if (null == Anim) { Debug.LogError("MovementManager.Start: Anim is null."); }
+            if (null == MovementTransitionManagerScript) { Debug.LogError("MovementManager.Start: MovementTransitionManagerScript is null."); }
             if (null == MovementPadScript) { Debug.LogError("MovementManager.Start: MovementPadScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("MovementManager.Start: KeyboardScript is null."); }
             if (null == SpeedBarScript) { Debug.LogError("MovementManager.Start: SpeedBarScript is null."); }
             if (null == debugConsoleScript) { Debug.LogError("MovementManager.Start: debugConsoleScript is null."); }
 
             if (null == Anim) { return; }
+            if (null == MovementTransitionManagerScript) { return; }
             if (null == MovementPadScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == SpeedBarScript) { return; }
@@ -92,13 +52,15 @@ namespace USComics_Movement
             CurrentVector = DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
             PreviousMove = new Move(DirectionType.None, (float)MovementType.Standing);
             PreviousVector = DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
+            moduleActive = false;
+            MovementTransitionManagerScript.Register(this);
         }
 
         // Update is called once per frame
         void Update()
         {
+            if (!moduleActive) return;
             DirectionType direction = GetDirection();
-            if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
             float speed = SpeedBarScript.GetSpeed();
             if ((DirectionType.Stop != direction)
             && (DirectionType.None != direction)
@@ -109,16 +71,37 @@ namespace USComics_Movement
             SetMove(direction, speed);
         }
 
-        DirectionType GetDirection()
+        public override ModuleTypes ModuleType() { return ModuleTypes.Simple; }
+        public override string StartAnimationVariable() { return "SimpleStart"; }
+        public override string StopAnimationVariable() { return "SimpleStop"; }
+
+        public override void StartModule()
         {
-            DirectionType direction = MovementPadScript.CurrentDirection;
-            return direction;
+            moduleActive = true;
+        }
+
+        public override bool IsRunning()
+        {
+            return moduleActive;
+        }
+
+        public override void StopModule()
+        {
+            //SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
+            //moduleActive = false;
+            Anim.SetBool("SimpleStop", true);
         }
 
         public void ForceStop()
         {
             BufferedDirection stop = new BufferedDirection(DirectionType.Stop);
             KeyboardScript.directionBuffer.queue.Enqueue(stop);
+        }
+
+        private DirectionType GetDirection()
+        {
+            DirectionType direction = MovementPadScript.CurrentDirection;
+            return direction;
         }
 
         private void SetMove(DirectionType direction, float speed)
@@ -183,5 +166,50 @@ namespace USComics_Movement
             Anim.SetBool("Stand", false);
             Anim.SetFloat("Speed", speed);
         }
+    }
+    [System.Serializable]
+    public enum MovementType
+    {
+        Sneaking,
+        Walking,
+        Running,
+        Standing,
+        None
+    }
+
+    [System.Serializable]
+    public class MovementSpeed
+    {
+        public const float SNEAK_SPEED = 1.0f;
+        public const float WALK_SPEED = 5.0f;
+        public const float RUN_SPEED = 10.0f;
+        public const float STANDING_SPEED = 0.0f;
+        public static float GetSpeed(MovementType movementType)
+        {
+            if (MovementType.Sneaking == movementType) return MovementSpeed.SNEAK_SPEED;
+            if (MovementType.Walking == movementType) return MovementSpeed.WALK_SPEED;
+            if (MovementType.Running == movementType) return MovementSpeed.RUN_SPEED;
+            if (MovementType.Standing == movementType) return MovementSpeed.STANDING_SPEED;
+            return 0.0f;
+        }
+        public static MovementType GetMovementType(float speed)
+        {
+            if (MovementSpeed.SNEAK_SPEED > speed) return MovementType.Standing;
+            if (MovementSpeed.WALK_SPEED > speed) return MovementType.Sneaking;
+            if (MovementSpeed.RUN_SPEED > speed) return MovementType.Walking;
+            return MovementType.Running;
+        }
+    }
+
+    [System.Serializable]
+    public class Move
+    {
+        public Move(DirectionType directionType, float speed)
+        {
+            Direction = directionType;
+            Speed = speed;
+        }
+        public DirectionType Direction { get; set; }
+        public float Speed { get; set; }
     }
 }

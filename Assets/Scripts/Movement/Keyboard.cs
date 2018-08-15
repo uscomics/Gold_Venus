@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace USComics_Movement
 {
-    public class KeyboardManager : MonoBehaviour {
+    public class Keyboard : MonoBehaviour {
         public DirectionQueue directionBuffer = new DirectionQueue();
         public MovementQueue movementBuffer = new MovementQueue();
 
