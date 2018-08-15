@@ -100,6 +100,12 @@ namespace USComics_Movement
             DirectionType direction = GetDirection();
             if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
             float speed = SpeedBarScript.GetSpeed();
+            if ((DirectionType.Stop != direction)
+            && (DirectionType.None != direction)
+            && (0 == speed)) {
+                SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Walking));
+                speed = SpeedBarScript.GetSpeed();
+            }
             SetMove(direction, speed);
         }
 

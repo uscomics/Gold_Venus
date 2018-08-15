@@ -5913,7 +5913,7 @@ GameObject:
   - component: {fileID: 1601782953}
   m_Layer: 5
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: SpeedBarBackground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7895,6 +7895,7 @@ MonoBehaviour:
     type: 2}
   speedBar: {fileID: 1680644594}
   knob: {fileID: 1919065304}
+  speedBarFill: {fileID: 853279845}
 --- !u!1 &1920364942
 GameObject:
   m_ObjectHideFlags: 0

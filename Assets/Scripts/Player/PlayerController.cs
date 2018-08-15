@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 currentVector = movementManagerScript.CurrentVector;
         if (Vector3.zero != currentVector) playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
         playerCharacter.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
+        SetHealthPosition(currentMove.Direction);
         debugConsoleScript.SetOther4("4 current speed=" + currentMove.Speed + ", current direction=" + currentMove.Direction);
     }
 

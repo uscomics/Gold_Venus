@@ -15,6 +15,7 @@ namespace USComics_Movement
         public Image standingIcon;
         public Slider speedBar;
         public Image knob;
+        public Image speedBarFill;
 
         private float maxSpeed = MovementSpeed.RUN_SPEED;
         private KeyboardManager KeyboardScript;
@@ -36,7 +37,7 @@ namespace USComics_Movement
             if (null == Anim) { return; }
             if (null == KeyboardScript) { return; }
 
-            SetKnobImage(standingIcon);
+            SetKnobImage(standingIcon, Color.white);
             speedBar.value = 0.0f;
         }
 
@@ -44,10 +45,10 @@ namespace USComics_Movement
         void Update()
         {
             float speed = GetSpeed();
-            if (MovementSpeed.SNEAK_SPEED > speed) SetKnobImage(standingIcon);
-            else if (MovementSpeed.WALK_SPEED > speed) SetKnobImage(sneakingIcon);
-            else if (MovementSpeed.RUN_SPEED > speed) SetKnobImage(walkingIcon);
-            else SetKnobImage(runningIcon);
+            if (MovementSpeed.SNEAK_SPEED > speed) SetKnobImage(standingIcon, Color.white);
+            else if (MovementSpeed.WALK_SPEED > speed) SetKnobImage(sneakingIcon, Color.yellow);
+            else if (MovementSpeed.RUN_SPEED > speed) SetKnobImage(walkingIcon, Color.green);
+            else SetKnobImage(runningIcon, Color.red);
         }
 
         public float GetSpeed()
@@ -61,9 +62,10 @@ namespace USComics_Movement
             speedBar.value = speed / maxSpeed;
         }
 
-        public void SetKnobImage(Image image)
+        public void SetKnobImage(Image image, Color color)
         {
             knob.sprite = image.sprite;
+            speedBarFill.color = color;
         }
     }
 }
