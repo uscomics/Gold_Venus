@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour {
     void Update () {
         Move currentMove = movementManagerScript.CurrentMove;
         Vector3 currentVector = movementManagerScript.CurrentVector;
-        playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
+        if (Vector3.zero != currentVector) playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
         playerCharacter.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
         debugConsoleScript.SetOther4("4 current speed=" + currentMove.Speed + ", current direction=" + currentMove.Direction);
     }

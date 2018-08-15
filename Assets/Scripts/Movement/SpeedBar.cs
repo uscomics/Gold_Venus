@@ -17,6 +17,7 @@ namespace USComics_Movement
         public Image knob;
 
         private float maxSpeed = MovementSpeed.RUN_SPEED;
+        private KeyboardManager KeyboardScript;
         private Animator Anim;
 
         // Use this for initialization
@@ -24,12 +25,16 @@ namespace USComics_Movement
         {
             GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
             if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
+            GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
+            if (null != movementPad) KeyboardScript = movementPad.GetComponent<KeyboardManager>();
 
             if (null == speedBar) { Debug.LogError("SpeedBar.Start: speedBar is null."); }
             if (null == Anim) { Debug.LogError("SpeedBar.Start: Anim is null."); }
+            if (null == KeyboardScript) { Debug.LogError("SpeedBar.Start: KeyboardScript is null."); }
 
             if (null == speedBar) { return; }
             if (null == Anim) { return; }
+            if (null == KeyboardScript) { return; }
 
             SetKnobImage(standingIcon);
             speedBar.value = 0.0f;
@@ -47,6 +52,8 @@ namespace USComics_Movement
 
         public float GetSpeed()
         {
+            MovementType movement = KeyboardScript.GetMovementType();
+            if (MovementType.None != movement) SetSpeed(MovementSpeed.GetSpeed(movement));
             return speedBar.value * maxSpeed;
         }
         public void SetSpeed(float speed)

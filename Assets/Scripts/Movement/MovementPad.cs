@@ -21,6 +21,7 @@ namespace USComics_Movement
 
         private GameObject movementPadIndicator;
         private Vector2 movementPadIndicatorOriginalPosition;
+        private KeyboardManager KeyboardScript;
 
         // Use this for initialization
         void Start()
@@ -28,12 +29,16 @@ namespace USComics_Movement
             movementPadIndicator = GameObject.FindWithTag("MovementPadIndicator") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
+            GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
+            if (null != movementPad) KeyboardScript = movementPad.GetComponent<KeyboardManager>();
 
             if (null == movementPadIndicator) { Debug.LogError("MovementPad.Start: movementPadIndicator is null."); }
             if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
+            if (null == KeyboardScript) { Debug.LogError("MovementPad.Start: KeyboardScript is null."); }
 
             if (null == movementPadIndicator) { return; }
             if (null == debugConsoleScript) { return; }
+            if (null == KeyboardScript) { return; }
 
             movementPadIndicatorOriginalPosition = movementPadIndicator.transform.position;
             CurrentDirection = DirectionType.None;
@@ -90,10 +95,12 @@ namespace USComics_Movement
 
         private DirectionType GetDirection()
         {
+            DirectionType direction = KeyboardScript.GetDirection();
+            if (DirectionType.None != direction) return direction;
             if (!Input.GetMouseButtonDown(0)) { return DirectionType.None; }
             Vector2 mousePosition = Input.mousePosition;
             if (!padRect.Contains(mousePosition)) return DirectionType.None;
-            DirectionType direction = DirectionType.None;
+            direction = DirectionType.None;
             if (centerRect.Contains(mousePosition)) { direction = DirectionType.Stop; }
             else if (northRect.Contains(mousePosition)) { direction = DirectionType.North; }
             else if (southRect.Contains(mousePosition)) { direction = DirectionType.South; }

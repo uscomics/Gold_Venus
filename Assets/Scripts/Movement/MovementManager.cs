@@ -98,14 +98,14 @@ namespace USComics_Movement
         void Update()
         {
             DirectionType direction = GetDirection();
+            if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
             float speed = SpeedBarScript.GetSpeed();
             SetMove(direction, speed);
         }
 
         DirectionType GetDirection()
         {
-            DirectionType direction = KeyboardScript.GetDirection();
-            if (DirectionType.None == direction) { direction = MovementPadScript.CurrentDirection; }
+            DirectionType direction = MovementPadScript.CurrentDirection;
             return direction;
         }
 
@@ -127,19 +127,17 @@ namespace USComics_Movement
             UpdateAnimation(speed);
             debugConsoleScript.SetCurrentMove(CurrentMove);
             debugConsoleScript.SetPreviousMove(PreviousMove);
-            debugConsoleScript.SetOther5("5 CurrentVector=" + CurrentVector.ToString() + "PreviousVector=" + PreviousVector.ToString());
-            debugConsoleScript.SetOther6("6 CurrentDirection=" + MovementPadScript.CurrentDirection);
         }
 
         private void UpdateAnimation(float speed)
         {
             MovementType movementType = MovementSpeed.GetMovementType(speed);
-            if (MovementType.Standing == movementType) Standing();
-            else if (MovementType.Sneaking == movementType) Sneaking();
-            else if (MovementType.Walking == movementType) Walking();
-            else if (MovementType.Running == movementType) Running();
+            if (MovementType.Standing == movementType) Standing(speed);
+            else if (MovementType.Sneaking == movementType) Sneaking(speed);
+            else if (MovementType.Walking == movementType) Walking(speed);
+            else if (MovementType.Running == movementType) Running(speed);
         }
-        private void Standing()
+        private void Standing(float speed)
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", false);
@@ -147,9 +145,9 @@ namespace USComics_Movement
             Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", true);
-            Anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Standing));
+            Anim.SetFloat("Speed", speed);
         }
-        private void Sneaking()
+        private void Sneaking(float speed)
         {
             Anim.SetBool("Sneak", true);
             Anim.SetBool("Climb", false);
@@ -157,9 +155,9 @@ namespace USComics_Movement
             Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Sneaking));
+            Anim.SetFloat("Speed", speed);
         }
-        private void Walking()
+        private void Walking(float speed)
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", false);
@@ -167,9 +165,9 @@ namespace USComics_Movement
             Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Walking));
+            Anim.SetFloat("Speed", speed);
         }
-        private void Running()
+        private void Running(float speed)
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", false);
@@ -177,7 +175,7 @@ namespace USComics_Movement
             Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", MovementSpeed.GetSpeed(MovementType.Running));
+            Anim.SetFloat("Speed", speed);
         }
     }
 }

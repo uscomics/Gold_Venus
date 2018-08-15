@@ -22,13 +22,14 @@ namespace USComics_Movement
         {
             if (0 < directionBuffer.queue.Count)
             {
-                //BufferedDirection bufferedDirection = directionBuffer.queue.Peek() as BufferedDirection;
-                //if (Time.realtimeSinceStartup <= directionBuffer.lastEventTime + bufferedDirection.delay)
-                //{
-                //    directionBuffer.queue.Dequeue();
-                //    directionBuffer.lastEventTime = Time.realtimeSinceStartup;
-                //    return bufferedDirection.direction;
-                //}
+                BufferedDirection bufferedDirection = directionBuffer.queue.Peek() as BufferedDirection;
+                if ((Time.realtimeSinceStartup >= directionBuffer.lastEventTime + bufferedDirection.delay)
+                || (0 == bufferedDirection.delay))
+                {
+                    directionBuffer.queue.Dequeue();
+                    directionBuffer.lastEventTime = Time.realtimeSinceStartup;
+                    return bufferedDirection.direction;
+                }
             }
             // W v: +, h: 0 (UP)
             // A v: 0, h: - (LEFT)
@@ -51,13 +52,14 @@ namespace USComics_Movement
         {
             if (0 < movementBuffer.queue.Count)
             {
-                //BufferedMovement bufferedMovement = movementBuffer.queue.Peek() as BufferedMovement;
-                //if (Time.realtimeSinceStartup <= directionBuffer.lastEventTime + bufferedMovement.delay)
-                //{
-                //    directionBuffer.queue.Dequeue();
-                //    directionBuffer.lastEventTime = Time.realtimeSinceStartup;
-                //    return bufferedMovement.movement;
-                //}
+                BufferedMovement bufferedMovement = movementBuffer.queue.Peek() as BufferedMovement;
+                if ((Time.realtimeSinceStartup >= directionBuffer.lastEventTime + bufferedMovement.delay)
+                || (0 == bufferedMovement.delay))
+                {
+                    directionBuffer.queue.Dequeue();
+                    directionBuffer.lastEventTime = Time.realtimeSinceStartup;
+                    return bufferedMovement.movement;
+                }
             }
             // ESC = Cancel (WALKING)
             // ENTER/RETURN = Submit (RUNNING)
@@ -66,6 +68,8 @@ namespace USComics_Movement
             if (0 < Input.GetAxis("Submit")) return MovementType.Running;
             if (Input.GetKeyDown(KeyCode.RightShift)) return MovementType.Sneaking;
             if (Input.GetKeyDown(KeyCode.LeftShift)) return MovementType.Sneaking;
+            if (Input.GetKeyDown(KeyCode.RightAlt)) return MovementType.Standing;
+            if (Input.GetKeyDown(KeyCode.LeftAlt)) return MovementType.Standing;
             return MovementType.None;
         }
     }
