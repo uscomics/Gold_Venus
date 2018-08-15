@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using USComics_User_Input;
+using USComics_Movement;
 using USComics_Environment;
 
-namespace USComics_Vision
+namespace USComics_Movement
 {
     [System.Serializable]
-    public enum Direction { None, North, East, South, West, NW, NE, SW, SE, Stop };
+    public enum DirectionType { None, North, East, South, West, NW, NE, SW, SE, Stop };
 
-    public class Vision {
+    public class DirectionUtilities {
         public static GameObject GetGameObject(Collider collider) {
             return collider.gameObject;
         }
@@ -67,44 +67,44 @@ namespace USComics_Vision
         }
 
         // The direction from transform1 to transform2
-        public static Direction GetDirection(Transform transform1, Transform transform2)
+        public static DirectionType GetDirection(Transform transform1, Transform transform2)
         {
             float angle = GetAngle(transform1, transform2);
             float leftOrRight = GetLeftOrRight(transform1, transform2);
 
             if (0 < leftOrRight) {
-                if (23 > angle) return Direction.North;
-                if (68 > angle) return Direction.NE;
-                if (113 > angle) return Direction.East;
-                if (158 > angle) return Direction.SE;
-                return Direction.South;
+                if (23 > angle) return DirectionType.North;
+                if (68 > angle) return DirectionType.NE;
+                if (113 > angle) return DirectionType.East;
+                if (158 > angle) return DirectionType.SE;
+                return DirectionType.South;
             }   
             else if (0 > leftOrRight){
-                if (23 > angle) return Direction.North;
-                if (68 > angle) return Direction.NW;
-                if (113 > angle) return Direction.West;
-                if (158 > angle) return Direction.SW;
-                return Direction.South;
+                if (23 > angle) return DirectionType.North;
+                if (68 > angle) return DirectionType.NW;
+                if (113 > angle) return DirectionType.West;
+                if (158 > angle) return DirectionType.SW;
+                return DirectionType.South;
             }
             else {
                 float forwardOrBehind = GetForwardOrBehind(transform1, transform2);
-                if (0 < forwardOrBehind) return Direction.North;
-                return Direction.South;
+                if (0 < forwardOrBehind) return DirectionType.North;
+                return DirectionType.South;
             }
         }
 
-        public static Vector3 ConvertDirectionToVector(Direction direction, Vector3 previousVector)
+        public static Vector3 ConvertDirectionToVector(DirectionType direction, Vector3 previousVector)
         {
-            if (Direction.Stop == direction) return Vector3.zero;
-            if (Direction.North == direction) return Vector3.forward;
-            if (Direction.South == direction) return -Vector3.forward;
-            if (Direction.East == direction) return Vector3.right;
-            if (Direction.West == direction) return -Vector3.right;
-            if (Direction.NW == direction) return new Vector3(-0.66f, 0.0f, 0.66f);
-            if (Direction.NE == direction) return new Vector3(0.66f, 0.0f, 0.66f);
-            if (Direction.SW == direction) return new Vector3(-0.66f, 0.0f, -0.66f);
-            if (Direction.SE == direction) return new Vector3(0.66f, 0.0f, -0.66f);
-            if (Direction.None == direction) return previousVector;
+            if (DirectionType.Stop == direction) return Vector3.zero;
+            if (DirectionType.North == direction) return Vector3.forward;
+            if (DirectionType.South == direction) return -Vector3.forward;
+            if (DirectionType.East == direction) return Vector3.right;
+            if (DirectionType.West == direction) return -Vector3.right;
+            if (DirectionType.NW == direction) return new Vector3(-0.66f, 0.0f, 0.66f);
+            if (DirectionType.NE == direction) return new Vector3(0.66f, 0.0f, 0.66f);
+            if (DirectionType.SW == direction) return new Vector3(-0.66f, 0.0f, -0.66f);
+            if (DirectionType.SE == direction) return new Vector3(0.66f, 0.0f, -0.66f);
+            if (DirectionType.None == direction) return previousVector;
             return Vector3.zero;
         }
     }

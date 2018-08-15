@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using USComics_Vision;
+using USComics_Movement;
 
 namespace USComics_Environment
 {
@@ -75,13 +75,13 @@ namespace USComics_Environment
 
         public static Collider[] GetClimbables(Transform transform)
         {
-            Collider[] colliders = Vision.GetObjectsInRadius(transform.position, 1.0f, "Climbable", LayerMaskValues.LEVEL);
+            Collider[] colliders = DirectionUtilities.GetObjectsInRadius(transform.position, 1.0f, "Climbable", LayerMaskValues.LEVEL);
             List<Collider> results = new List<Collider>();
             for (int loop = 0; loop < colliders.Length; loop++)
             {
-                GameObject candidate = Vision.GetGameObject(colliders[loop]);
-                if ((0 < Vision.GetForwardOrBehind(transform, candidate.transform))
-                && (Vision.AreParallel(transform.forward, candidate.transform.forward, 5.0f))) {
+                GameObject candidate = DirectionUtilities.GetGameObject(colliders[loop]);
+                if ((0 < DirectionUtilities.GetForwardOrBehind(transform, candidate.transform))
+                && (DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 5.0f))) {
                     results.Add(colliders[loop]);
                 }
             }

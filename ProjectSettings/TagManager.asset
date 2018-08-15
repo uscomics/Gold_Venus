@@ -23,6 +23,7 @@ TagManager:
   - Life2
   - Climbable
   - DebugConsole
+  - SpeedBar
   layers:
   - Default
   - TransparentFX

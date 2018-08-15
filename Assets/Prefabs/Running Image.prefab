@@ -9,31 +9,31 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1393544498130052}
+  m_RootGameObject: {fileID: 1222355356148016}
   m_IsPrefabAsset: 1
---- !u!1 &1393544498130052
+--- !u!1 &1222355356148016
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 224782544293607364}
-  - component: {fileID: 222017592366370312}
-  - component: {fileID: 114807263530179270}
+  - component: {fileID: 224497306488015588}
+  - component: {fileID: 222697828693018216}
+  - component: {fileID: 114387275464318934}
   m_Layer: 5
-  m_Name: Standing Image
+  m_Name: Running Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &114807263530179270
+--- !u!114 &114387275464318934
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1393544498130052}
+  m_GameObject: {fileID: 1222355356148016}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
@@ -47,7 +47,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 5a506eb62d92007479fa8a8650eda73d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ae13480798ca97c4d81df0806c9079d0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -55,19 +55,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!222 &222017592366370312
+--- !u!222 &222697828693018216
 CanvasRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1393544498130052}
+  m_GameObject: {fileID: 1222355356148016}
   m_CullTransparentMesh: 0
---- !u!224 &224782544293607364
+--- !u!224 &224497306488015588
 RectTransform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1393544498130052}
+  m_GameObject: {fileID: 1222355356148016}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}

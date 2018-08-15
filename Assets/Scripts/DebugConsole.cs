@@ -2,22 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using USComics_User_Input;
-using USComics_Vision;
+using USComics_Movement;
 
 namespace USComics_Debug
 {
 
     public class DebugConsole : MonoBehaviour
     {
-        public TextMeshProUGUI movementType;
-        public TextMeshProUGUI currentMovementType;
+        public TextMeshProUGUI currentMove;
+        public TextMeshProUGUI previousMove;
         public TextMeshProUGUI speed;
-        public TextMeshProUGUI direction;
         public TextMeshProUGUI other1;
         public TextMeshProUGUI other2;
         public TextMeshProUGUI other3;
         public TextMeshProUGUI other4;
+        public TextMeshProUGUI other5;
+        public TextMeshProUGUI other6;
 
         // Use this for initialization
         void Start()
@@ -31,13 +31,13 @@ namespace USComics_Debug
 
         }
 
-        public void SetCurrentMovementType(MovementType inMovementType) { currentMovementType.text = "Current Movement Type: " + inMovementType.ToString(); }
-        public void SetMovementType(MovementType inMovementType) { movementType.text = "Movement Type: " + inMovementType.ToString(); }
-        public void SetSpeed(float inSpeed) { speed.text = "Speed: " + inSpeed.ToString(); }
-        public void SetDirection(Direction inDirection) { direction.text = "Direction: " + inDirection.ToString(); }
+        public void SetCurrentMove(Move inMovementType) { currentMove.text = "Current Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }
+        public void SetPreviousMove(Move inMovementType) { previousMove.text = "Previous Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }
         public void SetOther1(string inOther) { other1.text = inOther.ToString(); }
         public void SetOther2(string inOther) { other2.text = inOther.ToString(); }
         public void SetOther3(string inOther) { other3.text = inOther.ToString(); }
         public void SetOther4(string inOther) { other4.text = inOther.ToString(); }
+        public void SetOther5(string inOther) { other5.text = inOther.ToString(); }
+        public void SetOther6(string inOther) { other6.text = inOther.ToString(); }
     }
 }
