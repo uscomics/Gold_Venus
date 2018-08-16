@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using USComics_Movement;
 using USComics_Debug;
 
 namespace USComics_Movement

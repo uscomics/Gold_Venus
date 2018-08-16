@@ -13,6 +13,7 @@ Assets/AllStarCharacterLibrary/
 Assets/Fighter Pack Bundle/
 Assets/MORPH3D/
 Assets/StreamingAssets/
+Assets/VirtualJoystickTexture_Vol1/
 
 *.a
 Assembly-CSharp-Editor.csproj
@@ -31,5 +32,5 @@ Assets/AllStarCharacterLibrary.meta
 Assets/Fighter Pack Bundle.meta
 Assets/StreamingAssets.meta
 Assets/MORPH3D.meta
-	
+Assets/VirtualJoystickTexture_Vol1.meta
 

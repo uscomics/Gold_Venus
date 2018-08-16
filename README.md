@@ -15,4 +15,3 @@
 * Requires that some other component call its methods to get and process user input. This will probably be the PlayerController.
 
 == Known Bugs
-* Player falls over when stopped on stairs.

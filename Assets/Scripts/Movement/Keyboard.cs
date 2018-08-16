@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USComics_Combat;
 
 namespace USComics_Movement
 {
     public class Keyboard : MonoBehaviour {
         public DirectionQueue directionBuffer = new DirectionQueue();
         public MovementQueue movementBuffer = new MovementQueue();
+        public AttackQueue attackBuffer = new AttackQueue();
 
         // Use this for initialization
         void Start()
@@ -72,6 +74,34 @@ namespace USComics_Movement
             if (Input.GetKeyDown(KeyCode.LeftAlt)) return MovementType.Standing;
             return MovementType.None;
         }
+        public AttackType GetAttack()
+        {
+            if (0 < attackBuffer.queue.Count)
+            {
+                BufferedAttack bufferedAttack = attackBuffer.queue.Peek() as BufferedAttack;
+                if ((Time.realtimeSinceStartup >= directionBuffer.lastEventTime + bufferedAttack.delay)
+                || (0 == bufferedAttack.delay))
+                {
+                    directionBuffer.queue.Dequeue();
+                    directionBuffer.lastEventTime = Time.realtimeSinceStartup;
+                    return bufferedAttack.attack;
+                }
+            }
+            // ESC = Cancel (WALKING)
+            // ENTER/RETURN = Submit (RUNNING)
+            // SHIFT = (SNEAK)
+            if (Input.GetKeyDown(KeyCode.Alpha1)) return AttackType.Punch;
+            if (Input.GetKeyDown(KeyCode.Keypad1)) return AttackType.Punch;
+            if (Input.GetKeyDown(KeyCode.Alpha2)) return AttackType.Kick;
+            if (Input.GetKeyDown(KeyCode.Keypad2)) return AttackType.Kick;
+            if (Input.GetKeyDown(KeyCode.Alpha3)) return AttackType.Block;
+            if (Input.GetKeyDown(KeyCode.Keypad3)) return AttackType.Block;
+            if (Input.GetKeyDown(KeyCode.Alpha4)) return AttackType.Jumpkick;
+            if (Input.GetKeyDown(KeyCode.Keypad4)) return AttackType.Jumpkick;
+            if (Input.GetKeyDown(KeyCode.Alpha9)) return AttackType.Super;
+            if (Input.GetKeyDown(KeyCode.Keypad9)) return AttackType.Super;
+            return AttackType.None;
+        }
     }
     [System.Serializable]
     public class BufferedDirection
@@ -98,6 +128,18 @@ namespace USComics_Movement
     }
 
     [System.Serializable]
+    public class BufferedAttack
+    {
+        public BufferedAttack(AttackType inAttack, float inDelay = 0.0f)
+        {
+            attack = inAttack;
+            delay = inDelay;
+        }
+        public AttackType attack;
+        public float delay = 0.0f;
+    }
+
+    [System.Serializable]
     public class DirectionQueue
     {
         public Queue queue = new Queue();
@@ -106,6 +148,13 @@ namespace USComics_Movement
 
     [System.Serializable]
     public class MovementQueue
+    {
+        public Queue queue = new Queue();
+        public float lastEventTime = 0.0f;
+    }
+
+    [System.Serializable]
+    public class AttackQueue
     {
         public Queue queue = new Queue();
         public float lastEventTime = 0.0f;
