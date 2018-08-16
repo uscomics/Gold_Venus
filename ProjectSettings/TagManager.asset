@@ -25,6 +25,8 @@ TagManager:
   - DebugConsole
   - SpeedBar
   - SpeedBarBackground
+  - SpeedBarKnob
+  - ClimbingPanel
   layers:
   - Default
   - TransparentFX

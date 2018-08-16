@@ -14,6 +14,7 @@ namespace USComics_Movement
 
         private Animator Anim;
         private MovementTransitionManager MovementTransitionManagerScript;
+        private GameObject speedBar;
         private SpeedBar SpeedBarScript;
         private MovementPad MovementPadScript;
         private Keyboard KeyboardScript;
@@ -28,7 +29,8 @@ namespace USComics_Movement
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) MovementPadScript = movementPad.GetComponent<MovementPad>();
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
-            GameObject speedBarKnob = GameObject.FindWithTag("SpeedBar") as GameObject;
+            speedBar = GameObject.FindWithTag("SpeedBar") as GameObject;
+            GameObject speedBarKnob = GameObject.FindWithTag("SpeedBarKnob") as GameObject;
             if (null != speedBarKnob) SpeedBarScript = speedBarKnob.GetComponent<SpeedBar>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
@@ -37,6 +39,7 @@ namespace USComics_Movement
             if (null == MovementTransitionManagerScript) { Debug.LogError("SimpleMovementModule.Start: MovementTransitionManagerScript is null."); }
             if (null == MovementPadScript) { Debug.LogError("SimpleMovementModule.Start: MovementPadScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("SimpleMovementModule.Start: KeyboardScript is null."); }
+            if (null == speedBar) { Debug.LogError("SimpleMovementModule.Start: speedBar is null."); }
             if (null == SpeedBarScript) { Debug.LogError("SimpleMovementModule.Start: SpeedBarScript is null."); }
             if (null == debugConsoleScript) { Debug.LogError("SimpleMovementModule.Start: debugConsoleScript is null."); }
 
@@ -44,6 +47,7 @@ namespace USComics_Movement
             if (null == MovementTransitionManagerScript) { return; }
             if (null == MovementPadScript) { return; }
             if (null == KeyboardScript) { return; }
+            if (null == speedBar) { return; }
             if (null == SpeedBarScript) { return; }
             if (null == debugConsoleScript) { return; }
 
@@ -79,6 +83,7 @@ namespace USComics_Movement
         {
             ForceStop();
             moduleActive = true;
+            if (!speedBar.activeSelf) speedBar.SetActive(true);
         }
 
         public override bool IsRunning()
@@ -89,6 +94,7 @@ namespace USComics_Movement
         public override void StopModule()
         {
             moduleActive = false;
+            if (speedBar.activeSelf) speedBar.SetActive(false);
         }
 
         public void ForceStop()

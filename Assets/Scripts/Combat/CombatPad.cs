@@ -22,6 +22,8 @@ namespace USComics_Combat
         private Rect jumpkickRect;
         private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
+        private Color imageColor = Color.white;
+        private Color imageClickedColor = new Color(1.0f, 0.3f, 0.3f, 1.0f);
 
         // Use this for initialization
         void Start()
@@ -67,7 +69,9 @@ namespace USComics_Combat
         // Update is called once per frame
         void Update()
         {
-            AttackType direction = GetAttack();
+            AttackType attack = GetAttack();
+            UpdateButtonAppearances();
+            SetButtonAppearance(attack);
         }
 
         private AttackType GetAttack()
@@ -82,8 +86,28 @@ namespace USComics_Combat
             else if (kickRect.Contains(mousePosition)) { attack = AttackType.Kick; }
             else if (blockRect.Contains(mousePosition)) { attack = AttackType.Block; }
             else if (jumpkickRect.Contains(mousePosition)) { attack = AttackType.Jumpkick; }
+            // TODO: Super attack
             return attack;
         }
+
+        private void UpdateButtonAppearances()
+        {
+            float delta = Time.deltaTime * 3;
+            if (imageColor != punchImage.color) punchImage.color = Color.Lerp(punchImage.color, imageColor, delta);
+            if (imageColor != kickImage.color) kickImage.color = Color.Lerp(kickImage.color, imageColor, delta);
+            if (imageColor != blockImage.color) blockImage.color = Color.Lerp(blockImage.color, imageColor, delta);
+            if (imageColor != jumpkickImage.color) jumpkickImage.color = Color.Lerp(jumpkickImage.color, imageColor, delta);
+        }
+
+        private void SetButtonAppearance(AttackType attack)
+        {
+            if (AttackType.None == attack) return;
+            else if (AttackType.Punch == attack) punchImage.color = imageClickedColor;
+            else if (AttackType.Kick == attack) kickImage.color = imageClickedColor;
+            else if (AttackType.Block == attack) blockImage.color = imageClickedColor;
+            else if (AttackType.Jumpkick == attack) jumpkickImage.color = imageClickedColor;
+        }
+
     }
 
     [System.Serializable]

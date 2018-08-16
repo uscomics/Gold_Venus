@@ -18,6 +18,7 @@ namespace USComics_Movement
         private Animator Anim;
         private MovementTransitionManager movementTransitionManagerScript;
         private MovementPad MovementPadScript;
+        private GameObject climbingPanel;
         private Keyboard KeyboardScript;
         private DebugConsole debugConsoleScript;
         private bool moduleActive;
@@ -32,7 +33,7 @@ namespace USComics_Movement
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) MovementPadScript = movementPad.GetComponent<MovementPad>();
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
-            GameObject speedBarKnob = GameObject.FindWithTag("SpeedBar") as GameObject;
+            climbingPanel = GameObject.FindWithTag("ClimbingPanel") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
@@ -40,6 +41,7 @@ namespace USComics_Movement
             if (null == movementTransitionManagerScript) { Debug.LogError("ClimbMovementModule.Start: MovementTransitionManagerScript is null."); }
             if (null == rigidBody) { Debug.LogError("ClimbMovementModule.Start: rigidBody is null."); }
             if (null == MovementPadScript) { Debug.LogError("ClimbMovementModule.Start: MovementPadScript is null."); }
+            if (null == climbingPanel) { Debug.LogError("ClimbMovementModule.Start: climbingPanel is null."); }
             if (null == KeyboardScript) { Debug.LogError("ClimbMovementModule.Start: KeyboardScript is null."); }
             if (null == debugConsoleScript) { Debug.LogError("ClimbMovementModule.Start: debugConsoleScript is null."); }
 
@@ -47,6 +49,7 @@ namespace USComics_Movement
             if (null == movementTransitionManagerScript) { return; }
             if (null == rigidBody) { return; }
             if (null == MovementPadScript) { return; }
+            if (null == climbingPanel) { return; }
             if (null == KeyboardScript) { return; }
             if (null == debugConsoleScript) { return; }
 
@@ -57,6 +60,7 @@ namespace USComics_Movement
             Speed = 0.0f;
             moduleActive = false;
             movementTransitionManagerScript.Register(this);
+            climbingPanel.SetActive(false);
         }
 
         // Update is called once per frame
@@ -87,6 +91,7 @@ namespace USComics_Movement
         {
             moduleActive = true;
             rigidBody.useGravity = false;
+            if (!climbingPanel.activeSelf) climbingPanel.SetActive(true);
         }
 
         public override bool IsRunning()
@@ -98,6 +103,7 @@ namespace USComics_Movement
         {
             moduleActive = false;
             rigidBody.useGravity = true;
+            if (climbingPanel.activeSelf) climbingPanel.SetActive(false);
         }
 
         public void ForceStop()

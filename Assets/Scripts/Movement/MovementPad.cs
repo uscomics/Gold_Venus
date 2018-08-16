@@ -130,10 +130,10 @@ namespace USComics_Movement
         private Vector3 GetIndicatorPosition(DirectionType inDirection, Vector2 inMovementPadIndicatorOriginalPosition)
         {
             Vector2 position = inMovementPadIndicatorOriginalPosition;
-            if (DirectionType.North == inDirection) { position.y += 120; }
-            else if (DirectionType.South == inDirection) { position.y -= 120; }
-            else if (DirectionType.East == inDirection) { position.x += 120; }
-            else if (DirectionType.West == inDirection) { position.x -= 120; }
+            if (DirectionType.North == inDirection) { position.y += 83; }
+            else if (DirectionType.South == inDirection) { position.y -= 83; }
+            else if (DirectionType.East == inDirection) { position.x += 83; }
+            else if (DirectionType.West == inDirection) { position.x -= 83; }
             else if (DirectionType.NE == inDirection) { position.x += 60; position.y += 60; }
             else if (DirectionType.NW == inDirection) { position.x -= 60; position.y += 60; }
             else if (DirectionType.SE == inDirection) { position.x += 60; position.y -= 60; }
