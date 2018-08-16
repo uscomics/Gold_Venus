@@ -33,6 +33,8 @@ namespace USComics_Debug
 
         public void SetCurrentMove(Move inMovementType) { currentMove.text = "Current Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }
         public void SetPreviousMove(Move inMovementType) { previousMove.text = "Previous Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }
+        public void SetCurrentMove(ClimbMove inMovementType) { currentMove.text = "Direction: " + inMovementType.Direction + ", Climb: " + inMovementType.Climb; }
+        public void SetPreviousMove(ClimbMove inMovementType) { previousMove.text = "Direction: " + inMovementType.Direction + ", Climb: " + inMovementType.Climb; }
         public void SetOther1(string inOther) { other1.text = inOther.ToString(); }
         public void SetOther2(string inOther) { other2.text = inOther.ToString(); }
         public void SetOther3(string inOther) { other3.text = inOther.ToString(); }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using USComics_Debug;
 using USComics_Movement;
 
 public class ClimbStartBehaviour : StateMachineBehaviour {
@@ -9,13 +8,6 @@ public class ClimbStartBehaviour : StateMachineBehaviour {
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        DebugConsole debugConsoleScript;
-        GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-        if (null != debugConsole)
-        {
-            debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-            if (null != debugConsoleScript) debugConsoleScript.SetOther1("ClimbStartBehaviour.OnStateEnter");
-        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -33,13 +25,7 @@ public class ClimbStartBehaviour : StateMachineBehaviour {
             if (null != movementTransitionManagerScript)
             {
                 movementTransitionManagerScript.TransitionToComplete();
-                DebugConsole debugConsoleScript;
-                GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-                if (null != debugConsole)
-                {
-                    debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-                    if (null != debugConsoleScript) debugConsoleScript.SetOther1("SimpleStopBehaviour.OnStateEnter");
-                }
+                Debug.Log("ClimbStartBehaviour.OnStateExit");
             }
         }
     }

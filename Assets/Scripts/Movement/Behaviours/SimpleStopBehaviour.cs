@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using USComics_Debug;
 using USComics_Movement;
 
 public class SimpleStopBehaviour : StateMachineBehaviour {
@@ -16,13 +15,7 @@ public class SimpleStopBehaviour : StateMachineBehaviour {
             if (null != movementTransitionManagerScript)
             {
                 movementTransitionManagerScript.TransitionFromStarted();
-                DebugConsole debugConsoleScript;
-                GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-                if (null != debugConsole)
-                {
-                    debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-                    if (null != debugConsoleScript) debugConsoleScript.SetOther1("SimpleStopBehaviour.OnStateEnter");
-                }
+                Debug.Log("SimpleStopBehaviour.OnStateEnter");
             }
         }
     }
@@ -42,13 +35,7 @@ public class SimpleStopBehaviour : StateMachineBehaviour {
             if (null != movementTransitionManagerScript)
             {
                 movementTransitionManagerScript.TransitionFromComplete();
-                DebugConsole debugConsoleScript;
-                GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-                if (null != debugConsole)
-                {
-                    debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-                    if (null != debugConsoleScript) debugConsoleScript.SetOther1("SimpleStopBehaviour.OnStateEnter");
-                }
+                Debug.Log("SimpleStopBehaviour.OnStateExit");
             }
         }
     }

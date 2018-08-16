@@ -33,12 +33,12 @@ namespace USComics_Movement
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
-            if (null == Anim) { Debug.LogError("MovementManager.Start: Anim is null."); }
-            if (null == MovementTransitionManagerScript) { Debug.LogError("MovementManager.Start: MovementTransitionManagerScript is null."); }
-            if (null == MovementPadScript) { Debug.LogError("MovementManager.Start: MovementPadScript is null."); }
-            if (null == KeyboardScript) { Debug.LogError("MovementManager.Start: KeyboardScript is null."); }
-            if (null == SpeedBarScript) { Debug.LogError("MovementManager.Start: SpeedBarScript is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("MovementManager.Start: debugConsoleScript is null."); }
+            if (null == Anim) { Debug.LogError("SimpleMovementModule.Start: Anim is null."); }
+            if (null == MovementTransitionManagerScript) { Debug.LogError("SimpleMovementModule.Start: MovementTransitionManagerScript is null."); }
+            if (null == MovementPadScript) { Debug.LogError("SimpleMovementModule.Start: MovementPadScript is null."); }
+            if (null == KeyboardScript) { Debug.LogError("SimpleMovementModule.Start: KeyboardScript is null."); }
+            if (null == SpeedBarScript) { Debug.LogError("SimpleMovementModule.Start: SpeedBarScript is null."); }
+            if (null == debugConsoleScript) { Debug.LogError("SimpleMovementModule.Start: debugConsoleScript is null."); }
 
             if (null == Anim) { return; }
             if (null == MovementTransitionManagerScript) { return; }
@@ -77,6 +77,7 @@ namespace USComics_Movement
 
         public override void StartModule()
         {
+            ForceStop();
             moduleActive = true;
         }
 
@@ -87,9 +88,7 @@ namespace USComics_Movement
 
         public override void StopModule()
         {
-            //SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
-            //moduleActive = false;
-            Anim.SetBool("SimpleStop", true);
+            moduleActive = false;
         }
 
         public void ForceStop()
@@ -130,8 +129,6 @@ namespace USComics_Movement
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", false);
-            Anim.SetBool("ClimbMount", false);
-            Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", true);
             Anim.SetFloat("Speed", speed);
@@ -140,8 +137,6 @@ namespace USComics_Movement
         {
             Anim.SetBool("Sneak", true);
             Anim.SetBool("Climb", false);
-            Anim.SetBool("ClimbMount", false);
-            Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
             Anim.SetFloat("Speed", speed);
@@ -150,8 +145,6 @@ namespace USComics_Movement
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", false);
-            Anim.SetBool("ClimbMount", false);
-            Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
             Anim.SetFloat("Speed", speed);
@@ -160,8 +153,6 @@ namespace USComics_Movement
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", false);
-            Anim.SetBool("ClimbMount", false);
-            Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
             Anim.SetFloat("Speed", speed);

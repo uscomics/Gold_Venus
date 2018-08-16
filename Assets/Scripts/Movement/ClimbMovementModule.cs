@@ -14,8 +14,9 @@ namespace USComics_Movement
         public Vector3 PreviousVector { get; set; }
         public float Speed { get; set; }
 
+        private Rigidbody rigidBody;
         private Animator Anim;
-        private MovementTransitionManager MovementTransitionManagerScript;
+        private MovementTransitionManager movementTransitionManagerScript;
         private MovementPad MovementPadScript;
         private Keyboard KeyboardScript;
         private DebugConsole debugConsoleScript;
@@ -26,7 +27,8 @@ namespace USComics_Movement
         {
             GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
             if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
-            if (null != playerCharacter) MovementTransitionManagerScript = playerCharacter.GetComponent<MovementTransitionManager>();
+            if (null != playerCharacter) movementTransitionManagerScript = playerCharacter.GetComponent<MovementTransitionManager>();
+            if (null != playerCharacter) rigidBody = playerCharacter.GetComponent<Rigidbody>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) MovementPadScript = movementPad.GetComponent<MovementPad>();
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
@@ -34,25 +36,27 @@ namespace USComics_Movement
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
-            if (null == Anim) { Debug.LogError("ClimbManager.Start: Anim is null."); }
-            if (null == MovementTransitionManagerScript) { Debug.LogError("MovementManager.Start: MovementTransitionManagerScript is null."); }
-            if (null == MovementPadScript) { Debug.LogError("ClimbManager.Start: MovementPadScript is null."); }
-            if (null == KeyboardScript) { Debug.LogError("ClimbManager.Start: KeyboardScript is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("ClimbManager.Start: debugConsoleScript is null."); }
+            if (null == Anim) { Debug.LogError("ClimbMovementModule.Start: Anim is null."); }
+            if (null == movementTransitionManagerScript) { Debug.LogError("ClimbMovementModule.Start: MovementTransitionManagerScript is null."); }
+            if (null == rigidBody) { Debug.LogError("ClimbMovementModule.Start: rigidBody is null."); }
+            if (null == MovementPadScript) { Debug.LogError("ClimbMovementModule.Start: MovementPadScript is null."); }
+            if (null == KeyboardScript) { Debug.LogError("ClimbMovementModule.Start: KeyboardScript is null."); }
+            if (null == debugConsoleScript) { Debug.LogError("ClimbMovementModule.Start: debugConsoleScript is null."); }
 
             if (null == Anim) { return; }
-            if (null == MovementTransitionManagerScript) { return; }
+            if (null == movementTransitionManagerScript) { return; }
+            if (null == rigidBody) { return; }
             if (null == MovementPadScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == debugConsoleScript) { return; }
 
             CurrentMove = new ClimbMove(DirectionType.None, ClimbType.None);
-            CurrentVector = DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
+            CurrentVector = ConvertForClimbing(DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero));
             PreviousMove = new ClimbMove(DirectionType.None, ClimbType.None);
-            PreviousVector = DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
+            PreviousVector = ConvertForClimbing(DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero));
             Speed = 0.0f;
             moduleActive = false;
-            MovementTransitionManagerScript.Register(this);
+            movementTransitionManagerScript.Register(this);
         }
 
         // Update is called once per frame
@@ -60,15 +64,18 @@ namespace USComics_Movement
         {
             if (!moduleActive) return;
             DirectionType direction = GetDirection();
-            if (DirectionType.Stop == direction) Speed = 0.0f;
-            else if ((DirectionType.North != direction) 
+            if ((DirectionType.Stop != direction)
+            && (DirectionType.North != direction) 
             && (DirectionType.South != direction)
             && (DirectionType.None != direction))
             {
-                StopModule();
+                movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Climbing, ModuleTypes.Simple);
+                movementTransitionManagerScript.TransitionFromStarted();
                 return;
             }
             ClimbType climbType = GetClimbType();
+            if (DirectionType.Stop == direction) { Speed = 0.0f; }
+            else { Speed = ClimbSpeed.GetSpeed(climbType); }
             SetMove(direction, climbType);
         }
 
@@ -79,6 +86,7 @@ namespace USComics_Movement
         public override void StartModule()
         {
             moduleActive = true;
+            rigidBody.useGravity = false;
         }
 
         public override bool IsRunning()
@@ -89,6 +97,7 @@ namespace USComics_Movement
         public override void StopModule()
         {
             moduleActive = false;
+            rigidBody.useGravity = true;
         }
 
         public void ForceStop()
@@ -113,8 +122,7 @@ namespace USComics_Movement
 
         private ClimbType GetClimbType()
         {
-            if (Anim.GetBool("Climb")) return ClimbType.Climbing;
-            return ClimbType.None;
+            return ClimbType.Climbing;
         }
 
         private void SetMove(DirectionType direction, ClimbType climbType)
@@ -123,7 +131,7 @@ namespace USComics_Movement
 
             Vector3 tempVector = PreviousVector;
             PreviousVector = CurrentVector;
-            CurrentVector = DirectionUtilities.ConvertDirectionToVector(direction, tempVector);
+            CurrentVector = ConvertForClimbing(DirectionUtilities.ConvertDirectionToVector(direction, tempVector));
             PreviousMove = CurrentMove;
             CurrentMove = new ClimbMove(direction, climbType);
             UpdateAnimation(climbType);
@@ -137,11 +145,9 @@ namespace USComics_Movement
         {
             Anim.SetBool("Sneak", false);
             Anim.SetBool("Climb", true);
-            Anim.SetBool("ClimbMount", false);
-            Anim.SetBool("ClimbDismount", false);
             Anim.SetBool("Fall", false);
             Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", ClimbSpeed.GetSpeed(ClimbType.Climbing));
+            Anim.SetFloat("Speed", Speed);
         }
     }
 

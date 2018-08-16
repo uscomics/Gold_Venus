@@ -13,10 +13,10 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody playerCharacterRigidbody;
     private GameObject healthPanel;
     private Vector3 initialHelthPanelRotation;
+    private bool initialUpdate = true;
 
     // State variables
     private bool climbableInRange = false;
-    private ModuleTypes mode;
 
     // Scripts
     private MovementTransitionManager movementTransitionManagerScript;
@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
     private MessageManager messageManagerScript;
     private DebugConsole debugConsoleScript;
 
-    void Start () {
+    void Start() {
         playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
         if (null != playerCharacter) playerCharacterRigidbody = playerCharacter.GetComponent<Rigidbody>();
         if (null != playerCharacter) movementTransitionManagerScript = playerCharacter.GetComponent<MovementTransitionManager>();
@@ -55,31 +55,31 @@ public class PlayerController : MonoBehaviour {
         if (null == debugConsoleScript) { return; }
 
         initialHelthPanelRotation = healthPanel.transform.eulerAngles;
-        mode = ModuleTypes.Simple;
     }
 
-    void Update () {
-        if (ModuleTypes.Simple == mode)
+    void Update() {
+        if (initialUpdate)
         {
-            if (!simpleMovementScript.IsRunning())
-            {
-                simpleMovementScript.StartModule();
-                return;
-            }
+            simpleMovementScript.StartModule();
+            initialUpdate = false;
+        }
+        if (simpleMovementScript.IsRunning())
+        {
             Move currentMove = simpleMovementScript.CurrentMove;
             Vector3 currentVector = simpleMovementScript.CurrentVector;
             if (Vector3.zero != currentVector) playerCharacter.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
             playerCharacter.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
-            SetHealthPosition(currentMove.Direction);
+            if (DirectionType.Stop != currentMove.Direction) SetHealthPosition(currentMove.Direction);
+            debugConsoleScript.SetCurrentMove(currentMove);
+            debugConsoleScript.SetOther1("currentVector=" + currentVector);
         }
-        else if (ModuleTypes.Climbing == mode)
+        else if (climbMovementScript.IsRunning())
         {
-            if (!climbMovementScript.IsRunning())
-            {
-                simpleMovementScript.StartModule();
-                mode = ModuleTypes.Simple;
-                return;
-            }
+            ClimbMove currentMove = climbMovementScript.CurrentMove;
+            Vector3 currentVector = climbMovementScript.CurrentVector;
+            playerCharacter.transform.Translate(currentVector * ClimbSpeed.GetSpeed(currentMove.Climb) * Time.deltaTime, Space.World);
+            debugConsoleScript.SetCurrentMove(currentMove);
+            debugConsoleScript.SetOther1("currentVector=" + currentVector);
         }
     }
 
@@ -89,14 +89,20 @@ public class PlayerController : MonoBehaviour {
         if ("Climbable" == collision.gameObject.tag) climbableInRange = true;
         if (climbableInRange)
         {
-            Collider[] climbables = Environment.GetClimbables(playerCharacter.transform);
-            if (0 != climbables.Length)
+            if (!climbMovementScript.IsRunning())
             {
-                movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Simple, ModuleTypes.Climbing );
+                Collider[] climbables = Environment.GetClimbables(playerCharacter.transform);
+                if (0 != climbables.Length)
+                {
+                    movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Simple, ModuleTypes.Climbing);
+                    movementTransitionManagerScript.TransitionFromStarted();
+                }
+            } else
+            {
+                climbMovementScript.ForceStop();
+                movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Climbing, ModuleTypes.Simple);
                 movementTransitionManagerScript.TransitionFromStarted();
-                //climbManagerScript.StartModule();
-                //movementManagerScript.StopModule();
-                //mode = ModuleType.Climbing;
+
             }
         }
     }
@@ -107,7 +113,6 @@ public class PlayerController : MonoBehaviour {
     private void OnCollisionExit(Collision collision)
     {
         if ("Climbable" == collision.gameObject.tag) climbableInRange = false;
-        debugConsoleScript.SetOther1("climbableInRange: " + climbableInRange);
         // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
     }
     private bool PlayerCanClimb()

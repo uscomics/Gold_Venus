@@ -10,18 +10,21 @@ namespace USComics_Movement
         private List<AbstractMovementModule> modules;
         private Animator Anim;
 
-        void Start() {
-            GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
-            if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
-
-            if (null == Anim) { Debug.LogError("ClimbManager.Start: Anim is null."); }
-
-            if (null == Anim) { return; }
-
+        void Awake()
+        {
             modules = new List<AbstractMovementModule>();
         }
+        void Start()
+        {
+            GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
+            if (null == Anim) { Debug.LogError("ClimbManager.Start: Anim is null."); }
+            if (null == Anim) { return; }
+        }
         void Update() {}
-        public void Register(AbstractMovementModule movementModule) { modules.Add(movementModule); }
+        public void Register(AbstractMovementModule movementModule) {
+            modules.Add(movementModule);
+        }
         public AbstractMovementModule GetModule(ModuleTypes moduleType)
         {
             for (int loop = 0; loop < modules.Count; loop++)
@@ -31,6 +34,7 @@ namespace USComics_Movement
             }
             return null;
         }
+        public bool TransitionIs(ModuleTypes from, ModuleTypes to) { return null != Transition && from == Transition.From && to == Transition.To;  }
         public bool TransitionFromStarted()
         {
             AbstractMovementModule fromModule = GetModule(Transition.From);
@@ -47,6 +51,7 @@ namespace USComics_Movement
             if (null == fromModule) return false;
             if (null == toModule) return false;
             fromModule.StopModule();
+            Debug.Log("Stopped " + Transition.From);
             Anim.SetBool(fromModule.StopAnimationVariable(), false);
             Anim.SetBool(toModule.StartAnimationVariable(), true);
             return true;
@@ -59,6 +64,7 @@ namespace USComics_Movement
             if (null == toModule) return false;
             Anim.SetBool(toModule.StartAnimationVariable(), false);
             toModule.StartModule();
+            Debug.Log("Started " + Transition.To);
             return true;
         }
     }
