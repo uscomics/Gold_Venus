@@ -14,6 +14,10 @@ Assets/Fighter Pack Bundle/
 Assets/MORPH3D/
 Assets/StreamingAssets/
 Assets/VirtualJoystickTexture_Vol1/
+Assets/Sounds/Hits_Explosive_Finishers_pack_1/
+Assets/Sounds/Magic\ Spells\ v1.0
+Assets/Sounds/Punch\ Swing\ &\ Hit\ Sounds
+Assets/100BestEffectPack/
 
 *.a
 Assembly-CSharp-Editor.csproj
@@ -33,4 +37,6 @@ Assets/Fighter Pack Bundle.meta
 Assets/StreamingAssets.meta
 Assets/MORPH3D.meta
 Assets/VirtualJoystickTexture_Vol1.meta
+Assets/Sounds/Hits_Explosive_Finishers_pack_1.meta
+Assets/100BestEffectPack.meta
 

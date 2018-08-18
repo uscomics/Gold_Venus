@@ -41,7 +41,7 @@ namespace USComics_Movement
             AbstractMovementModule toModule = GetModule(Transition.To);
             if (null == fromModule) return false;
             if (null == toModule) return false;
-            Anim.SetBool(fromModule.StopAnimationVariable(), true);
+            Anim.Play(fromModule.StopAnimation());
             return true;
         }
         public bool TransitionFromComplete()
@@ -52,8 +52,7 @@ namespace USComics_Movement
             if (null == toModule) return false;
             fromModule.StopModule();
             Debug.Log("Stopped " + Transition.From);
-            Anim.SetBool(fromModule.StopAnimationVariable(), false);
-            Anim.SetBool(toModule.StartAnimationVariable(), true);
+            Anim.Play(toModule.StartAnimation());
             return true;
         }
         public bool TransitionToComplete()
@@ -62,7 +61,6 @@ namespace USComics_Movement
             AbstractMovementModule toModule = GetModule(Transition.To);
             if (null == fromModule) return false;
             if (null == toModule) return false;
-            Anim.SetBool(toModule.StartAnimationVariable(), false);
             toModule.StartModule();
             Debug.Log("Started " + Transition.To);
             return true;

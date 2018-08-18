@@ -76,8 +76,8 @@ namespace USComics_Movement
         }
 
         public override ModuleTypes ModuleType() { return ModuleTypes.Simple; }
-        public override string StartAnimationVariable() { return "SimpleStart"; }
-        public override string StopAnimationVariable() { return "SimpleStop"; }
+        public override string StartAnimation() { return "Idle"; }
+        public override string StopAnimation() { return "Idle"; }
 
         public override void StartModule()
         {
@@ -133,35 +133,19 @@ namespace USComics_Movement
         }
         private void Standing(float speed)
         {
-            Anim.SetBool("Sneak", false);
-            Anim.SetBool("Climb", false);
-            Anim.SetBool("Fall", false);
-            Anim.SetBool("Stand", true);
-            Anim.SetFloat("Speed", speed);
+            Anim.Play("Idle");
         }
         private void Sneaking(float speed)
         {
-            Anim.SetBool("Sneak", true);
-            Anim.SetBool("Climb", false);
-            Anim.SetBool("Fall", false);
-            Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", speed);
+            Anim.Play("Crouch_Walk");
         }
         private void Walking(float speed)
         {
-            Anim.SetBool("Sneak", false);
-            Anim.SetBool("Climb", false);
-            Anim.SetBool("Fall", false);
-            Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", speed);
+            Anim.Play("Walk");
         }
         private void Running(float speed)
         {
-            Anim.SetBool("Sneak", false);
-            Anim.SetBool("Climb", false);
-            Anim.SetBool("Fall", false);
-            Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", speed);
+            Anim.Play("Run");
         }
     }
     [System.Serializable]

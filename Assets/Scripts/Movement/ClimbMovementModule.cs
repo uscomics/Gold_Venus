@@ -84,8 +84,8 @@ namespace USComics_Movement
         }
 
         public override ModuleTypes ModuleType() { return ModuleTypes.Climbing;  }
-        public override string StartAnimationVariable() { return "ClimbStart"; }
-        public override string StopAnimationVariable() { return "ClimbStop"; }
+        public override string StartAnimation() { return "ClimbStart"; }
+        public override string StopAnimation() { return "ClimbStop"; }
 
         public override void StartModule()
         {
@@ -149,11 +149,7 @@ namespace USComics_Movement
         }
         private void Climbing()
         {
-            Anim.SetBool("Sneak", false);
-            Anim.SetBool("Climb", true);
-            Anim.SetBool("Fall", false);
-            Anim.SetBool("Stand", false);
-            Anim.SetFloat("Speed", Speed);
+            Anim.Play("LadderClimb");
         }
     }
 

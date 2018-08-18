@@ -27,6 +27,9 @@ TagManager:
   - SpeedBarBackground
   - SpeedBarKnob
   - ClimbingPanel
+  - CombatPanel
+  - SuperBar
+  - DynamicObjects
   layers:
   - Default
   - TransparentFX

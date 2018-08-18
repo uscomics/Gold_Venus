@@ -9,8 +9,8 @@ namespace USComics_Movement
         void Start() { }
         void Update() { }
         abstract public ModuleTypes ModuleType();
-        abstract public string StartAnimationVariable();
-        abstract public string StopAnimationVariable();
+        abstract public string StartAnimation();
+        abstract public string StopAnimation();
         abstract public void StartModule();
         abstract public void StopModule();
         abstract public bool IsRunning();
@@ -21,6 +21,7 @@ namespace USComics_Movement
     {
         None,
         Simple,
-        Climbing
+        Climbing,
+        Combat
     }
 }
