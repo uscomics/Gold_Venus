@@ -40,7 +40,7 @@ namespace USComics_Player
             if (null != playerCharacter) simpleMovementScript = playerCharacter.GetComponent<SimpleMovementModule>();
             if (null != playerCharacter) combatModuleScript = playerCharacter.GetComponent<CombatModule>();
             if (null != playerCharacter) climbMovementScript = playerCharacter.GetComponent<ClimbMovementModule>();
-                healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
             messageManagerScript = GetComponent<MessageManager>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
@@ -66,6 +66,7 @@ namespace USComics_Player
             if (null == debugConsoleScript) { return; }
 
             initialHelthPanelRotation = healthPanel.transform.eulerAngles;
+            messageManagerScript.ShowMessage("Hello World!");
         }
 
         void Update()
@@ -106,7 +107,6 @@ namespace USComics_Player
         private void OnCollisionEnter(Collision collision)
         {
             Move currentMove = simpleMovementScript.CurrentMove;
-            if ((int)LayerValues.TERRAIN != collision.gameObject.layer) simpleMovementScript.ForceStop();
             if ("Climbable" == collision.gameObject.tag) climbableInRange = true;
             if (climbableInRange)
             {
@@ -124,6 +124,9 @@ namespace USComics_Player
                     movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
 
                 }
+            } else
+            {
+                if ((int)LayerValues.TERRAIN != collision.gameObject.layer) simpleMovementScript.ForceStop();
             }
         }
         private void OnCollisionStay(Collision collision)

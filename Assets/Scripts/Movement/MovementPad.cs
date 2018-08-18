@@ -20,6 +20,7 @@ namespace USComics_Movement
         private GameObject movementPadIndicator;
         private Vector2 movementPadIndicatorOriginalPosition;
         private Keyboard KeyboardScript;
+        private SpeedBar SpeedBarScript;
 
         // Use this for initialization
         void Start()
@@ -29,14 +30,18 @@ namespace USComics_Movement
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
+            GameObject speedBarKnob = GameObject.FindWithTag("SpeedBarKnob") as GameObject;
+            if (null != speedBarKnob) SpeedBarScript = speedBarKnob.GetComponent<SpeedBar>();
 
             if (null == movementPadIndicator) { Debug.LogError("MovementPad.Start: movementPadIndicator is null."); }
             if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("MovementPad.Start: KeyboardScript is null."); }
+            if (null == SpeedBarScript) { Debug.LogError("MovementPad.Start: SpeedBarScript is null."); }
 
             if (null == movementPadIndicator) { return; }
             if (null == debugConsoleScript) { return; }
             if (null == KeyboardScript) { return; }
+            if (null == SpeedBarScript) { return; }
 
             movementPadIndicatorOriginalPosition = movementPadIndicator.transform.position;
             CurrentDirection = DirectionType.None;
@@ -81,6 +86,8 @@ namespace USComics_Movement
                 Vector3 indicatiorPosition = GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
                 CurrentDirection = direction;
                 movementPadIndicator.transform.position = indicatiorPosition;
+                if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
+
             }
         }
 

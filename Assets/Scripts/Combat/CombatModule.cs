@@ -4,6 +4,7 @@ using UnityEngine;
 using USComics_Debug;
 using USComics_Dynamic;
 using USComics_Movement;
+using USComics_Message_Manager;
 
 namespace USComics_Combat
 {
@@ -17,6 +18,7 @@ namespace USComics_Combat
         public GameObject KickPointsObject;
         public GameObject JumpkickPointsObject;
         public GameObject SuperPointsObject;
+        public GameObject BonusPointsObject;
         public AudioClip PunchSound;
         public AudioClip KickSound;
         public AudioClip BlockSound;
@@ -42,6 +44,7 @@ namespace USComics_Combat
         private GameObject healthPanel;
         private Animator Anim;
         private AudioSource audioSource;
+        private MessageManager messageManagerScript;
         private GameObject combatPanel;
         private GameObject superBar;
         private CombatPad CombatPadScript;
@@ -49,7 +52,7 @@ namespace USComics_Combat
         private DynamicObjectManager DynamicObjectManagerScript;
         private DebugConsole debugConsoleScript;
         private bool moduleActive;
-        private int bonusChance = 4;
+        private int bonusChance = 3;
         private int bamBonusChance = 33;
         private int powBonusChance = 66;
 
@@ -59,6 +62,7 @@ namespace USComics_Combat
             playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
             if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
             if (null != playerCharacter) audioSource = playerCharacter.GetComponent<AudioSource>();
+            if (null != playerCharacter) messageManagerScript = playerCharacter.GetComponent<MessageManager>();
             healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
@@ -73,6 +77,7 @@ namespace USComics_Combat
             if (null == playerCharacter) { Debug.LogError("CombatModule.Start: playerCharacter is null."); }
             if (null == Anim) { Debug.LogError("CombatModule.Start: Anim is null."); }
             if (null == audioSource) { Debug.LogError("CombatModule.Start: audioSource is null."); }
+            if (null == messageManagerScript) { Debug.LogError("CombatModule.Start: messageManagerScript is null."); }
             if (null == healthPanel) { Debug.LogError("CombatModule.Start: healthPanel is null."); }
             if (null == debugConsole) { Debug.LogError("CombatModule.Start: debugConsole is null."); }
             if (null == DynamicObjectManagerScript) { Debug.LogError("CombatModule.Start: DynamicObjectManagerScript is null."); }
@@ -84,6 +89,7 @@ namespace USComics_Combat
             if (null == playerCharacter) { return; }
             if (null == Anim) { return; }
             if (null == audioSource) { return; }
+            if (null == messageManagerScript) { return; }
             if (null == healthPanel) { return; }
             if (null == debugConsole) { return; }
             if (null == DynamicObjectManagerScript) { return; }
@@ -258,16 +264,20 @@ namespace USComics_Combat
                 effect = bamModel;
                 CombatPadScript.ClearKickTimer();
                 CombatPadScript.ClearJumpkickTimer();
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED);
             }
             else if (bonus <= powBonusChance)
             {
                 effect = powModel;
                 damageBonus = 2.0f;
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS);
+                DynamicObjectManagerScript.Clone(BonusPointsObject, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
             }
             else
             {
                 effect = kabamModel;
                 CombatPadScript.IncrementSuperBar(5);
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS);
             }
             effect = DynamicObjectManagerScript.Clone(effect, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
         }

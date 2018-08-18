@@ -15,6 +15,9 @@ namespace USComics_Message_Manager
         public static string MSG_HOW_TO_WALK = "Use Esc or movement menu to walk.";
         public static string MSG_HOW_TO_STOP = "Use Backspace or delete keys or movement pad to Stop.";
         public static string MSG_NOTHING_TO_CLIMB = "There's nothing here to climb.";
+        public static string MSG_ATTACK_TIMERS_CLEARED = "Attack timers cleared.";
+        public static string MSG_ATTACK_DAMAGE_BONUS = "+2 Damage bonus.";
+        public static string MSG_ATTACK_SUPER_BAR_BONUS = "+5 Super bonus.";
     }
 
     public class MessageManager : MonoBehaviour
@@ -22,14 +25,20 @@ namespace USComics_Message_Manager
         public TextMeshProUGUI message;
         public CanvasGroup messageCanvasGroup;
         public int lifetime = 5; // seconds
+        public AudioClip messageSound;
 
         private Queue<string> messageQueue = new Queue<string>();
         private bool visible = false;
         private float startTime;
+        private AudioSource audioSource;
 
         // Use this for initialization
         void Start()
         {
+            GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            if (null != playerCharacter) audioSource = playerCharacter.GetComponent<AudioSource>();
+            if (null == audioSource) { Debug.LogError("MessageManager.Start: audioSource is null."); }
+            if (null == audioSource) { return; }
         }
 
         // Update is called once per frame
@@ -60,6 +69,10 @@ namespace USComics_Message_Manager
             messageCanvasGroup.alpha = 1;
             messageCanvasGroup.interactable = true;
             messageCanvasGroup.blocksRaycasts = true;
+            if (null != messageSound)
+            {
+                audioSource.PlayOneShot(messageSound);
+            }
         }
 
         void HideMessage()

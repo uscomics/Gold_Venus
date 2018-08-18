@@ -16289,6 +16289,7 @@ MonoBehaviour:
   message: {fileID: 670421903}
   messageCanvasGroup: {fileID: 473722909}
   lifetime: 5
+  messageSound: {fileID: 8300000, guid: e7ae8934ec00aa048ae0352c159a32e5, type: 3}
 --- !u!114 &1686292631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16434,13 +16435,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcde0aa08e8214f48884e8b81c3733ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PunchPointsObject: {fileID: 1217362321382990, guid: dc2e35f0558178344843896688e76f8c,
+  PunchPointsObject: {fileID: 1649217636019058, guid: dc2e35f0558178344843896688e76f8c,
     type: 2}
-  KickPointsObject: {fileID: 1320246226061382, guid: 07ca1692a80ac814798abbd6cd82371f,
+  KickPointsObject: {fileID: 1312167694092086, guid: 07ca1692a80ac814798abbd6cd82371f,
     type: 2}
-  JumpkickPointsObject: {fileID: 1854541205679866, guid: 565211c5db22d78419d7132045908794,
+  JumpkickPointsObject: {fileID: 1270610200852952, guid: 565211c5db22d78419d7132045908794,
     type: 2}
-  SuperPointsObject: {fileID: 1238965367451100, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
+  SuperPointsObject: {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
+    type: 2}
+  BonusPointsObject: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
     type: 2}
   PunchSound: {fileID: 8300000, guid: 589b39b94d818154ba8c07091e2f940e, type: 3}
   KickSound: {fileID: 8300000, guid: 3fcdaeec05a248340a367470ea1b9456, type: 3}
