@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using USComics_Movement;
 using USComics_Debug;
+using USComics_Movement;
 using ProgressBar;
 
 namespace USComics_Combat
@@ -32,7 +32,7 @@ namespace USComics_Combat
         private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
         private Color imageColor = Color.white;
-        private Color imageClickedColor = new Color(0.7f, 0.7f, 0.7f, 0.7f);
+        private Color imageDisabledColor = new Color(0.7f, 0.7f, 0.7f, 0.7f);
         private Color punchColor = Color.white;
         private Color kickColor = Color.white;
         private Color blockColor = Color.white;
@@ -103,6 +103,50 @@ namespace USComics_Combat
             CurrentAttack = attack;
         }
 
+        public void ShowCombatUI()
+        {
+            combatPanel.SetActive(true);
+            superBar.SetActive(true);
+        }
+
+        public void HideCombatUI()
+        {
+            combatPanel.SetActive(false);
+            superBar.SetActive(false);
+        }
+
+        public void EnableButtons(bool enable)
+        {
+            EnablePunchButton(enable);
+            EnableKickButton(enable);
+            EnableBlockButton(enable);
+            EnableJumpkickButton(enable);
+        }
+
+        public void EnablePunchButton(bool enable)
+        {
+            if (enable) punchImage.color = imageColor;
+            else punchImage.color = imageDisabledColor;
+        }
+
+        public void EnableKickButton(bool enable)
+        {
+            if (enable) kickImage.color = imageColor;
+            else kickImage.color = imageDisabledColor;
+        }
+
+        public void EnableBlockButton(bool enable)
+        {
+            if (enable) blockImage.color = imageColor;
+            else blockImage.color = imageDisabledColor;
+        }
+
+        public void EnableJumpkickButton(bool enable)
+        {
+            if (enable) jumpkickImage.color = imageColor;
+            else jumpkickImage.color = imageDisabledColor;
+        }
+
         public void IncrementSuperBar(float value)
         {
             if (100 > ProgressBarBehaviourScript.Value) ProgressBarBehaviourScript.IncrementValue(value);
@@ -131,7 +175,7 @@ namespace USComics_Combat
             Vector2 mousePosition = Input.mousePosition;
             if (!padRect.Contains(mousePosition) && !superRect.Contains(mousePosition)) return AttackType.None;
             attack = AttackType.None;
-            if (punchRect.Contains(mousePosition)) { attack = AttackType.Punch; }
+            if (punchRect.Contains(mousePosition) && imageColor == punchImage.color) { attack = AttackType.Punch; }
             else if (kickRect.Contains(mousePosition) && imageColor == kickImage.color) { attack = AttackType.Kick; }
             else if (blockRect.Contains(mousePosition)) { attack = AttackType.Block; }
             else if (jumpkickRect.Contains(mousePosition) && imageColor == jumpkickImage.color) { attack = AttackType.Jumpkick; }
@@ -167,10 +211,10 @@ namespace USComics_Combat
         private void SetButtonAppearance(AttackType attack)
         {
             if (AttackType.None == attack) return;
-            else if (AttackType.Punch == attack) punchColor = punchImage.color = imageClickedColor;
-            else if (AttackType.Kick == attack) kickColor = kickImage.color = imageClickedColor;
-            else if (AttackType.Block == attack) blockColor = blockImage.color = imageClickedColor;
-            else if (AttackType.Jumpkick == attack) jumpkickColor = jumpkickImage.color = imageClickedColor;
+            else if (AttackType.Punch == attack) punchColor = punchImage.color = imageDisabledColor;
+            else if (AttackType.Kick == attack) kickColor = kickImage.color = imageDisabledColor;
+            else if (AttackType.Block == attack) blockColor = blockImage.color = imageDisabledColor;
+            else if (AttackType.Jumpkick == attack) jumpkickColor = jumpkickImage.color = imageDisabledColor;
         }
 
         private void UpdateSuperBar(AttackType attack)
@@ -181,6 +225,5 @@ namespace USComics_Combat
             else if (AttackType.Block == attack) IncrementSuperBar(0f);
             else if (AttackType.Jumpkick == attack) IncrementSuperBar(5f);
         }
-
     }
 }

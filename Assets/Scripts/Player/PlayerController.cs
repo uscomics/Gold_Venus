@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using USComics_Debug;
 using USComics_Combat;
 using USComics_Movement;
 using USComics_Environment;
 using USComics_Message_Manager;
-using USComics_Debug;
 
 namespace USComics_Player
 {
@@ -71,10 +71,10 @@ namespace USComics_Player
 
         void Update()
         {
+            UpdateCombat();
             if (initialUpdate)
             {
                 simpleMovementScript.StartModule();
-                combatModuleScript.StartModule();
                 initialUpdate = false;
             }
             if (simpleMovementScript.IsRunning())
@@ -155,6 +155,20 @@ namespace USComics_Player
             else if (DirectionType.SW == inDirection) { healthPanel.transform.Rotate(Vector3.up, 135); }
             else if (DirectionType.SE == inDirection) { healthPanel.transform.Rotate(Vector3.up, 225); }
         }
+
+        private void UpdateCombat()
+        {
+            Collider[] enemies = targetScanner.GetEnemiesInSight(playerCharacter.transform);
+            if (0 == enemies.Length)
+            {
+                combatModuleScript.StopModule();
+                return;
+            }
+            combatModuleScript.StartModule();
+            enemies = targetScanner.GetEnemiesInRange(playerCharacter.transform);
+            combatModuleScript.SetEnemyInRange(0 == enemies.Length);
+    }
+
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {

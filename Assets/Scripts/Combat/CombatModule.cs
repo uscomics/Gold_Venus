@@ -123,8 +123,8 @@ namespace USComics_Combat
         public override void StartModule()
         {
             moduleActive = true;
-            if (!combatPanel.activeSelf) combatPanel.SetActive(true);
-            if (!superBar.activeSelf) superBar.SetActive(true);
+            combatPanel.SetActive(true);
+            superBar.SetActive(true);
         }
 
         public override bool IsRunning()
@@ -135,8 +135,8 @@ namespace USComics_Combat
         public override void StopModule()
         {
             moduleActive = false;
-            if (combatPanel.activeSelf) combatPanel.SetActive(false);
-            if (!superBar.activeSelf) superBar.SetActive(false);
+            combatPanel.SetActive(false);
+            superBar.SetActive(false);
         }
 
         public void ForceStop()
@@ -180,25 +180,25 @@ namespace USComics_Combat
             else if (4 == punch) Anim.Play("PunchLeftUppercut");
             CalculateBonus();
             DynamicObjectManagerScript.Clone(PunchPointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
-    }
+        }
 
-    private void Kicking()
+        private void Kicking()
         {
             PlayAttackSound(KickSound);
             Anim.Play("KickForwardRoundhouse");
             CalculateBonus();
             DynamicObjectManagerScript.Clone(KickPointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
-    }
+        }
 
-    private void Jumpkicking()
+        private void Jumpkicking()
         {
             PlayAttackSound(JumpkickSound);
             Anim.Play("KickRoundhouse");
             CalculateBonus();
             DynamicObjectManagerScript.Clone(JumpkickPointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
-    }
+        }
 
-    private void Blocking()
+        private void Blocking()
         {
             PlayAttackSound(BlockSound);
             Anim.Play("Block");
@@ -237,9 +237,9 @@ namespace USComics_Combat
             Anim.Play("LeapingPunch");
             DynamicObjectManagerScript.Clone(SuperPointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
             CombatPadScript.ResetSuperBar();
-    }
+        }
 
-    private void PlayAttackSound(AudioClip attackSound)
+        private void PlayAttackSound(AudioClip attackSound)
         {
             int emote = Random.Range(1, 11);
             if (1 == emote) {
@@ -280,6 +280,11 @@ namespace USComics_Combat
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS);
             }
             effect = DynamicObjectManagerScript.Clone(effect, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
+        }
+
+        public void SetEnemyInRange(bool enable)
+        {
+            CombatPadScript.EnableButtons(enable);
         }
     }
 
