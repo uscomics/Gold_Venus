@@ -105,7 +105,12 @@ namespace USComics_Combat
 
         public void IncrementSuperBar(float value)
         {
-            ProgressBarBehaviourScript.IncrementValue(value);
+            if (100 > ProgressBarBehaviourScript.Value) ProgressBarBehaviourScript.IncrementValue(value);
+        }
+
+        public void ResetSuperBar()
+        {
+            ProgressBarBehaviourScript.Value = 0;
         }
 
         public void ClearKickTimer()
@@ -132,7 +137,6 @@ namespace USComics_Combat
             else if (jumpkickRect.Contains(mousePosition) && imageColor == jumpkickImage.color) { attack = AttackType.Jumpkick; }
             else if (superRect.Contains(mousePosition) && 100 == ProgressBarBehaviourScript.Value) {
                 attack = AttackType.Super;
-                ProgressBarBehaviourScript.Value = 0;
             }
             return attack;
         }

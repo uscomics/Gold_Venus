@@ -73,8 +73,7 @@ namespace USComics_Movement
             && (DirectionType.South != direction)
             && (DirectionType.None != direction))
             {
-                movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Climbing, ModuleTypes.Simple);
-                movementTransitionManagerScript.TransitionFromStarted();
+                movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
                 return;
             }
             ClimbType climbType = GetClimbType();
@@ -84,8 +83,8 @@ namespace USComics_Movement
         }
 
         public override ModuleTypes ModuleType() { return ModuleTypes.Climbing;  }
-        public override string StartAnimation() { return "ClimbStart"; }
-        public override string StopAnimation() { return "ClimbStop"; }
+        public override string GetTransitionToAnimationName() { return "ClimbStart"; }
+        public override string GetTransitionFromAnimationName() { return "ClimbStop"; }
 
         public override void StartModule()
         {

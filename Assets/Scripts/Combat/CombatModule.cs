@@ -49,7 +49,7 @@ namespace USComics_Combat
         private DynamicObjectManager DynamicObjectManagerScript;
         private DebugConsole debugConsoleScript;
         private bool moduleActive;
-        private int bonusChance = 2;
+        private int bonusChance = 4;
         private int bamBonusChance = 33;
         private int powBonusChance = 66;
 
@@ -111,8 +111,8 @@ namespace USComics_Combat
         }
 
         public override ModuleTypes ModuleType() { return ModuleTypes.Combat; }
-        public override string StartAnimation() { return "AttackStart"; }
-        public override string StopAnimation() { return "AttackStop"; }
+        public override string GetTransitionToAnimationName() { return "AttackStart"; }
+        public override string GetTransitionFromAnimationName() { return "AttackStop"; }
 
         public override void StartModule()
         {
@@ -230,6 +230,7 @@ namespace USComics_Combat
             PlayAttackSound(SuperSound);
             Anim.Play("LeapingPunch");
             DynamicObjectManagerScript.Clone(SuperPointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
+            CombatPadScript.ResetSuperBar();
     }
 
     private void PlayAttackSound(AudioClip attackSound)

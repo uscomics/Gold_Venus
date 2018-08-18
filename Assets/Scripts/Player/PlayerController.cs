@@ -115,15 +115,13 @@ namespace USComics_Player
                     Collider[] climbables = Environment.GetClimbables(playerCharacter.transform);
                     if (0 != climbables.Length)
                     {
-                        movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Simple, ModuleTypes.Climbing);
-                        movementTransitionManagerScript.TransitionFromStarted();
+                        movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Simple, ModuleTypes.Climbing);
                     }
                 }
                 else
                 {
                     climbMovementScript.ForceStop();
-                    movementTransitionManagerScript.Transition = new MovementModulesTransition(ModuleTypes.Climbing, ModuleTypes.Simple);
-                    movementTransitionManagerScript.TransitionFromStarted();
+                    movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
 
                 }
             }

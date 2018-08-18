@@ -6,7 +6,7 @@ namespace USComics_Movement
 {
     public class MovementTransitionManager : MonoBehaviour
     {
-        public MovementModulesTransition Transition { get; set; }
+        private MovementModulesTransition Transition { get; set; }
         private List<AbstractMovementModule> modules;
         private Animator Anim;
 
@@ -34,46 +34,42 @@ namespace USComics_Movement
             }
             return null;
         }
-        public bool TransitionIs(ModuleTypes from, ModuleTypes to) { return null != Transition && from == Transition.From && to == Transition.To;  }
-        public bool TransitionFromStarted()
+        public bool StartTransitionFrom(ModuleTypes fromModuleType, ModuleTypes toModuleType)
         {
-            AbstractMovementModule fromModule = GetModule(Transition.From);
-            AbstractMovementModule toModule = GetModule(Transition.To);
+            AbstractMovementModule fromModule = GetModule(fromModuleType);
+            AbstractMovementModule toModule = GetModule(toModuleType);
             if (null == fromModule) return false;
             if (null == toModule) return false;
-            Anim.Play(fromModule.StopAnimation());
+            Transition = new MovementModulesTransition(fromModule, toModule);
+            Debug.Log("StartTransitionFrom " + Transition.From.ModuleType() + " to " + Transition.To.ModuleType());
+            Debug.Log("StartTransitionFrom: playing animation " + fromModule.GetTransitionFromAnimationName());
+            Anim.Play(fromModule.GetTransitionFromAnimationName());
             return true;
         }
         public bool TransitionFromComplete()
         {
-            AbstractMovementModule fromModule = GetModule(Transition.From);
-            AbstractMovementModule toModule = GetModule(Transition.To);
-            if (null == fromModule) return false;
-            if (null == toModule) return false;
-            fromModule.StopModule();
-            Debug.Log("Stopped " + Transition.From);
-            Anim.Play(toModule.StartAnimation());
+            Debug.Log("TransitionFromComplete " + Transition.From.ModuleType() + " to " + Transition.To.ModuleType());
+            Transition.From.StopModule();
+            Debug.Log("TransitionFromComplete: playing animation " + Transition.To.GetTransitionToAnimationName());
+            Anim.Play(Transition.To.GetTransitionToAnimationName());
             return true;
         }
         public bool TransitionToComplete()
         {
-            AbstractMovementModule fromModule = GetModule(Transition.From);
-            AbstractMovementModule toModule = GetModule(Transition.To);
-            if (null == fromModule) return false;
-            if (null == toModule) return false;
-            toModule.StartModule();
+            Debug.Log("TransitionToComplete: " + Transition.From.ModuleType() + " to " + Transition.To.ModuleType());
+            Transition.To.StartModule();
             Debug.Log("Started " + Transition.To);
             return true;
         }
     }
 
     [System.Serializable]
-    public class MovementModulesTransition
+    class MovementModulesTransition
     {
-        public ModuleTypes From { get; set; }
-        public ModuleTypes To { get; set; }
+        public AbstractMovementModule From { get; set; }
+        public AbstractMovementModule To { get; set; }
 
-        public MovementModulesTransition(ModuleTypes from, ModuleTypes to)
+        public MovementModulesTransition(AbstractMovementModule from, AbstractMovementModule to)
         {
             From = from;
             To = to;

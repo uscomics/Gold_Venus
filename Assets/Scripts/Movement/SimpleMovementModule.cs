@@ -76,8 +76,8 @@ namespace USComics_Movement
         }
 
         public override ModuleTypes ModuleType() { return ModuleTypes.Simple; }
-        public override string StartAnimation() { return "Idle"; }
-        public override string StopAnimation() { return "Idle"; }
+        public override string GetTransitionToAnimationName() { return "Idle 0"; }
+        public override string GetTransitionFromAnimationName() { return "Idle 2"; }
 
         public override void StartModule()
         {

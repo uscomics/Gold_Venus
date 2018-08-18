@@ -9,8 +9,8 @@ namespace USComics_Movement
         void Start() { }
         void Update() { }
         abstract public ModuleTypes ModuleType();
-        abstract public string StartAnimation();
-        abstract public string StopAnimation();
+        abstract public string GetTransitionToAnimationName();
+        abstract public string GetTransitionFromAnimationName();
         abstract public void StartModule();
         abstract public void StopModule();
         abstract public bool IsRunning();
