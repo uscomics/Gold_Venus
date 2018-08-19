@@ -91,7 +91,6 @@ namespace USComics_Environment
         public static Collider[] GetEnemiesInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
             Collider[] colliders = DirectionUtilities.GetObjectsInRadius(transform.position, radius, LayerMaskValues.ENEMIES);
-            Debug.Log("GetObjectsInRadius = " + colliders.Length);
             List<Collider> results = new List<Collider>();
             float halfDegrees = degrees / 2.0f;
             for (int loop1 = 0; loop1 < colliders.Length; loop1++)
@@ -102,12 +101,9 @@ namespace USComics_Environment
                 Vector3 toPlayer = transform.position - eyePos;
 
                 // If the enemy is too high or too low ignore him.
-                Debug.Log("maxHeightDifference = " + maxHeightDifference);
-                Debug.Log("heightDifference = " + Mathf.Abs(toPlayer.y + heightOffset));
                 if (useHeightDifference && Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference) continue;
                 results.Add(colliders[loop1]);
             }
-            Debug.Log("Enemy in sight count = " + results.Count);
             return results.ToArray();
         }
 
@@ -125,7 +121,6 @@ namespace USComics_Environment
                     results.Add(colliders[loop]);
                 }
             }
-            Debug.Log("Enemy in range count = " + results.Count);
             return results.ToArray();
         }
     }
