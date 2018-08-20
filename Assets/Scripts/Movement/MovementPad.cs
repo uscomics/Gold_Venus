@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using USComics_Debug;
 
 namespace USComics_Movement
@@ -8,6 +9,15 @@ namespace USComics_Movement
     public class MovementPad : MonoBehaviour
     {
         public DirectionType CurrentDirection { get; set; }
+        public Image movementPadStop;
+        public Image movementPadNorth;
+        public Image movementPadSouth;
+        public Image movementPadEast;
+        public Image movementPadWest;
+        public Image movementPadNE;
+        public Image movementPadNW;
+        public Image movementPadSE;
+        public Image movementPadSW;
 
         private Rect padRect;
         private Rect centerRect;
@@ -15,35 +25,30 @@ namespace USComics_Movement
         private Rect southRect;
         private Rect eastRect;
         private Rect westRect;
+        private Image movementPadImage;
         private DebugConsole debugConsoleScript;
-
-        private GameObject movementPadIndicator;
-        private Vector2 movementPadIndicatorOriginalPosition;
         private Keyboard KeyboardScript;
         private SpeedBar SpeedBarScript;
 
         // Use this for initialization
         void Start()
         {
-            movementPadIndicator = GameObject.FindWithTag("MovementPadIndicator") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
+            if (null != movementPad) movementPadImage = movementPad.GetComponent<Image>();
             GameObject speedBarKnob = GameObject.FindWithTag("SpeedBarKnob") as GameObject;
             if (null != speedBarKnob) SpeedBarScript = speedBarKnob.GetComponent<SpeedBar>();
 
-            if (null == movementPadIndicator) { Debug.LogError("MovementPad.Start: movementPadIndicator is null."); }
             if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("MovementPad.Start: KeyboardScript is null."); }
             if (null == SpeedBarScript) { Debug.LogError("MovementPad.Start: SpeedBarScript is null."); }
 
-            if (null == movementPadIndicator) { return; }
             if (null == debugConsoleScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == SpeedBarScript) { return; }
 
-            movementPadIndicatorOriginalPosition = movementPadIndicator.transform.position;
             CurrentDirection = DirectionType.None;
 
             float padLeft = 500.0f;
@@ -83,18 +88,16 @@ namespace USComics_Movement
         {
             DirectionType direction = GetDirection();
             if (DirectionType.None != direction) {
-                Vector3 indicatiorPosition = GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
                 CurrentDirection = direction;
-                movementPadIndicator.transform.position = indicatiorPosition;
                 if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
-
+                SetMovementPadImage(direction);
             }
         }
 
         public void SetDirection(DirectionType direction) {
             if (DirectionType.None == direction) return;
             CurrentDirection = direction;
-            SetIndicatorPosition(direction);
+            SetMovementPadImage(direction);
         }
 
         private DirectionType GetDirection()
@@ -128,24 +131,18 @@ namespace USComics_Movement
             return direction;
         }
 
-        public void SetIndicatorPosition(DirectionType direction)
+        private void SetMovementPadImage(DirectionType direction)
         {
-            Vector3 indicatiorPosition = GetIndicatorPosition(direction, movementPadIndicatorOriginalPosition);
-            movementPadIndicator.transform.position = indicatiorPosition;
+            if (DirectionType.North == direction) movementPadImage.sprite = movementPadNorth.sprite;
+            else if (DirectionType.South == direction) movementPadImage.sprite = movementPadSouth.sprite;
+            else if (DirectionType.East == direction) movementPadImage.sprite = movementPadEast.sprite;
+            else if (DirectionType.West == direction) movementPadImage.sprite = movementPadWest.sprite;
+            else if (DirectionType.NE == direction) movementPadImage.sprite = movementPadNE.sprite;
+            else if (DirectionType.NW == direction) movementPadImage.sprite = movementPadNW.sprite;
+            else if (DirectionType.SE == direction) movementPadImage.sprite = movementPadSE.sprite;
+            else if (DirectionType.SW == direction) movementPadImage.sprite = movementPadSW.sprite;
+            else if (DirectionType.Stop == direction) movementPadImage.sprite = movementPadStop.sprite;
         }
 
-        private Vector3 GetIndicatorPosition(DirectionType inDirection, Vector2 inMovementPadIndicatorOriginalPosition)
-        {
-            Vector2 position = inMovementPadIndicatorOriginalPosition;
-            if (DirectionType.North == inDirection) { position.y += 83; }
-            else if (DirectionType.South == inDirection) { position.y -= 83; }
-            else if (DirectionType.East == inDirection) { position.x += 83; }
-            else if (DirectionType.West == inDirection) { position.x -= 83; }
-            else if (DirectionType.NE == inDirection) { position.x += 60; position.y += 60; }
-            else if (DirectionType.NW == inDirection) { position.x -= 60; position.y += 60; }
-            else if (DirectionType.SE == inDirection) { position.x += 60; position.y -= 60; }
-            else if (DirectionType.SW == inDirection) { position.x -= 60; position.y -= 60; }
-            return new Vector3(position.x, position.y, 0);
-        }
     }
 }

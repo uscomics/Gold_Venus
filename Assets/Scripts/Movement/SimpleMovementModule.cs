@@ -99,6 +99,7 @@ namespace USComics_Movement
 
         public void ForceStop()
         {
+            Debug.Log("ForceStop");
             BufferedDirection stop = new BufferedDirection(DirectionType.Stop);
             KeyboardScript.directionBuffer.queue.Enqueue(stop);
         }
