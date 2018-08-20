@@ -19,6 +19,6 @@ namespace USComics_Combat
 
         }
 
-        public abstract AttackInfo Debuff(AttackInfo attack);
+        public abstract Attack Debuff(Attack attack);
     }
 }

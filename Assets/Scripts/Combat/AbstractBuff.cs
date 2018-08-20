@@ -19,7 +19,7 @@ namespace USComics_Combat
 
         }
 
-        public AttackInfo Buff(AttackInfo attack) { return attack; }
+        public Attack Buff(Attack attack) { return attack; }
 
     }
 }

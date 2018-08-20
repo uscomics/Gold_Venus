@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using USComics_Debug;
+using USComics_Player;
 using USComics_Movement;
 using ProgressBar;
 
@@ -11,10 +12,10 @@ namespace USComics_Combat
     public class CombatPad : MonoBehaviour
     {
         public AttackType CurrentAttack { get; set; }
-        public Image punchImage;
-        public Image kickImage;
-        public Image blockImage;
-        public Image jumpkickImage;
+        public CombatButton punchButton;
+        public CombatButton kickButton;
+        public CombatButton blockButton;
+        public CombatButton jumpkickButton;
 
         private Rect padRect;
         private Rect punchRect;
@@ -31,35 +32,42 @@ namespace USComics_Combat
         private ProgressBarBehaviour ProgressBarBehaviourScript;
         private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
-        private Color imageColor = Color.white;
-        private Color imageDisabledColor = new Color(0.7f, 0.7f, 0.7f, 0.7f);
-        private Color punchColor = Color.white;
-        private Color kickColor = Color.white;
-        private Color blockColor = Color.white;
-        private Color jumpkickColor = Color.white;
+        private PlayerController PlayerControllerScript;
+        private CanvasGroup CombatPanelCanvasGroupScript;
+        private CanvasGroup SuperBarCanvasGroupScript;
 
         // Use this for initialization
         void Start()
         {
             combatPanel = GameObject.FindWithTag("CombatPanel") as GameObject;
+            if (null != combatPanel) CombatPanelCanvasGroupScript = combatPanel.GetComponent<CanvasGroup>();
             superBar = GameObject.FindWithTag("SuperBar") as GameObject;
             if (null != superBar) ProgressBarBehaviourScript = superBar.GetComponent<ProgressBarBehaviour>();
+            if (null != superBar) SuperBarCanvasGroupScript = superBar.GetComponent<CanvasGroup>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
+            GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            if (null != playerCharacter) PlayerControllerScript = playerCharacter.GetComponent<PlayerController>();
 
             if (null == combatPanel) { Debug.LogError("CombatPad.Start: combatPanel is null."); }
+            if (null == CombatPanelCanvasGroupScript) { Debug.LogError("CombatPad.Start: CombatPanelCanvasGroupScript is null."); }
             if (null == superBar) { Debug.LogError("CombatPad.Start: superBar is null."); }
             if (null == ProgressBarBehaviourScript) { Debug.LogError("CombatPad.Start: ProgressBarBehaviourScript is null."); }
+            if (null == SuperBarCanvasGroupScript) { Debug.LogError("CombatPad.Start: SuperBarCanvasGroupScript is null."); }
             if (null == debugConsoleScript) { Debug.LogError("CombatPad.Start: debugConsoleScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("CombatPad.Start: KeyboardScript is null."); }
+            if (null == PlayerControllerScript) { Debug.LogError("CombatPad.Start: PlayerControllerScript is null."); }
 
             if (null == combatPanel) { return; }
+            if (null == CombatPanelCanvasGroupScript) { return; }
             if (null == superBar) { return; }
             if (null == ProgressBarBehaviourScript) { return; }
+            if (null == SuperBarCanvasGroupScript) { return; }
             if (null == debugConsoleScript) { return; }
             if (null == KeyboardScript) { return; }
+            if (null == PlayerControllerScript) { return; }
 
             float padLeft = 20.0f;
             float padBottom = 70.0f;
@@ -91,60 +99,59 @@ namespace USComics_Combat
             float superWidth = 225.0f;
             float superHeight = 30.0f;
             superRect = new Rect(superLeft, superBottom, superWidth, superHeight);
+            CurrentAttack = AttackType.None;
         }
 
         // Update is called once per frame
         void Update()
         {
-            AttackType attack = AdjustAttack(GetAttack());
-            UpdateButtonAppearances();
-            SetButtonAppearance(attack);
-            UpdateSuperBar(attack);
+            Collider[] enemies = PlayerControllerScript.GetEnemiesInSight();
+            if (0 == enemies.Length) HideCombatUI();
+            else
+            {
+                GameObject[] enemiesGO= DirectionUtilities.GetGameObjects(enemies);
+                ShowCombatUI();
+                Attack punch = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Punch];
+                Attack kick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Kick];
+                Attack block = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Block];
+                Attack jumpkick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Jumpkick];
+                if (punch.IsUseable(enemiesGO)) punchButton.SetButtonState(ButtonState.Enabled);
+                else punchButton.SetButtonState(ButtonState.Disabled);
+                if (kick.IsUseable(enemiesGO)) kickButton.SetButtonState(ButtonState.Enabled);
+                else kickButton.SetButtonState(ButtonState.Disabled);
+                if (block.IsUseable(enemiesGO)) blockButton.SetButtonState(ButtonState.Enabled);
+                else blockButton.SetButtonState(ButtonState.Disabled);
+                if (jumpkick.IsUseable(enemiesGO)) jumpkickButton.SetButtonState(ButtonState.Enabled);
+                else jumpkickButton.SetButtonState(ButtonState.Disabled);
+            }
+            AttackType attack = GetAttack();
+            Attack(attack);
             CurrentAttack = attack;
         }
 
         public void ShowCombatUI()
         {
-            combatPanel.SetActive(true);
-            superBar.SetActive(true);
+            CombatPanelCanvasGroupScript.alpha = 1.0f;
+            CombatPanelCanvasGroupScript.interactable = true;
+            CombatPanelCanvasGroupScript.blocksRaycasts = true;
+            SuperBarCanvasGroupScript.alpha = 1.0f;
+            SuperBarCanvasGroupScript.interactable = true;
+            SuperBarCanvasGroupScript.blocksRaycasts = true;
         }
 
         public void HideCombatUI()
         {
-            combatPanel.SetActive(false);
-            superBar.SetActive(false);
+            CombatPanelCanvasGroupScript.alpha = 0.0f;
+            CombatPanelCanvasGroupScript.interactable = false;
+            CombatPanelCanvasGroupScript.blocksRaycasts = false;
+            SuperBarCanvasGroupScript.alpha = 0.0f;
+            SuperBarCanvasGroupScript.interactable = false;
+            SuperBarCanvasGroupScript.blocksRaycasts = false;
         }
 
-        public void EnableButtons(bool enable)
+        public bool IsCombatUIVisible()
         {
-            EnablePunchButton(enable);
-            EnableKickButton(enable);
-            EnableBlockButton(enable);
-            EnableJumpkickButton(enable);
-        }
-
-        public void EnablePunchButton(bool enable)
-        {
-            if (enable) punchImage.color = imageColor;
-            else punchImage.color = imageDisabledColor;
-        }
-
-        public void EnableKickButton(bool enable)
-        {
-            if (enable) kickImage.color = imageColor;
-            else kickImage.color = imageDisabledColor;
-        }
-
-        public void EnableBlockButton(bool enable)
-        {
-            if (enable) blockImage.color = imageColor;
-            else blockImage.color = imageDisabledColor;
-        }
-
-        public void EnableJumpkickButton(bool enable)
-        {
-            if (enable) jumpkickImage.color = imageColor;
-            else jumpkickImage.color = imageDisabledColor;
+            return (0.0f < CombatPanelCanvasGroupScript.alpha);
         }
 
         public void IncrementSuperBar(float value)
@@ -157,16 +164,6 @@ namespace USComics_Combat
             ProgressBarBehaviourScript.Value = 0;
         }
 
-        public void ClearKickTimer()
-        {
-            kickImage.color = imageColor;
-        }
-
-        public void ClearJumpkickTimer()
-        {
-            jumpkickImage.color = imageColor;
-        }
-
         private AttackType GetAttack()
         {
             AttackType attack = KeyboardScript.GetAttack();
@@ -175,55 +172,35 @@ namespace USComics_Combat
             Vector2 mousePosition = Input.mousePosition;
             if (!padRect.Contains(mousePosition) && !superRect.Contains(mousePosition)) return AttackType.None;
             attack = AttackType.None;
-            if (punchRect.Contains(mousePosition) && imageColor == punchImage.color) { attack = AttackType.Punch; }
-            else if (kickRect.Contains(mousePosition) && imageColor == kickImage.color) { attack = AttackType.Kick; }
-            else if (blockRect.Contains(mousePosition)) { attack = AttackType.Block; }
-            else if (jumpkickRect.Contains(mousePosition) && imageColor == jumpkickImage.color) { attack = AttackType.Jumpkick; }
+            if (punchRect.Contains(mousePosition)) { attack = punchButton.GetAttackType(); }
+            else if (kickRect.Contains(mousePosition)) { attack = kickButton.GetAttackType(); }
+            else if (blockRect.Contains(mousePosition)) { attack = blockButton.GetAttackType(); }
+            else if (jumpkickRect.Contains(mousePosition)) { attack = jumpkickButton.GetAttackType(); }
             else if (superRect.Contains(mousePosition) && 100 == ProgressBarBehaviourScript.Value) {
                 attack = AttackType.Super;
             }
             return attack;
         }
 
-        private AttackType AdjustAttack(AttackType attack)
+        private void Attack(AttackType inAttack)
         {
-            if (AttackType.None == attack) return attack;
-            else if ((AttackType.Punch == attack) && (imageColor != punchImage.color)) return AttackType.None;
-            else if ((AttackType.Kick == attack) && (imageColor != kickImage.color)) return AttackType.None;
-            else if ((AttackType.Block == attack) && (imageColor != blockImage.color)) return AttackType.None;
-            else if ((AttackType.Jumpkick == attack) && (imageColor != jumpkickImage.color)) return AttackType.None;
-            return attack;
+            if (AttackType.None == inAttack) return;
+            PlayerAttackIndex index = PlayerControllerScript.ConvertAttackTypeToPlayerAttackIndex(inAttack);
+            if (PlayerAttackIndex.None == index) return;
+            Attack attack = PlayerControllerScript.GetAttackAt(index);
+            if (null == attack) return;
+            attack.DoAttack();
+            if (AttackType.Super != inAttack) UpdateSuperBar(inAttack);
+            else ResetSuperBar();
         }
-
-        private void UpdateButtonAppearances()
+        private void UpdateSuperBar(AttackType inAttack)
         {
-            float delta = (Time.deltaTime * 10);
-            if (imageColor != punchImage.color) punchColor = Color.Lerp(punchColor, imageColor, delta * deltaPunch);
-            if (imageColor != kickImage.color) kickColor = Color.Lerp(kickColor, imageColor, delta * deltaKick);
-            if (imageColor != blockImage.color) blockColor = Color.Lerp(blockColor, imageColor, delta * deltaBlock);
-            if (imageColor != jumpkickImage.color) jumpkickColor = Color.Lerp(jumpkickColor, imageColor, delta * deltaJumpkick);
-            if (imageColor == punchColor) punchImage.color = imageColor;
-            if (imageColor == kickColor) kickImage.color = imageColor;
-            if (imageColor == blockColor) blockImage.color = imageColor;
-            if (imageColor == jumpkickColor) jumpkickImage.color = imageColor;
-        }
-
-        private void SetButtonAppearance(AttackType attack)
-        {
-            if (AttackType.None == attack) return;
-            else if (AttackType.Punch == attack) punchColor = punchImage.color = imageDisabledColor;
-            else if (AttackType.Kick == attack) kickColor = kickImage.color = imageDisabledColor;
-            else if (AttackType.Block == attack) blockColor = blockImage.color = imageDisabledColor;
-            else if (AttackType.Jumpkick == attack) jumpkickColor = jumpkickImage.color = imageDisabledColor;
-        }
-
-        private void UpdateSuperBar(AttackType attack)
-        {
-            if (AttackType.None == attack) return;
-            else if (AttackType.Punch == attack) IncrementSuperBar(3f);
-            else if (AttackType.Kick == attack) IncrementSuperBar(4f);
-            else if (AttackType.Block == attack) IncrementSuperBar(0f);
-            else if (AttackType.Jumpkick == attack) IncrementSuperBar(5f);
+            if (AttackType.None == inAttack) return;
+            PlayerAttackIndex index = PlayerControllerScript.ConvertAttackTypeToPlayerAttackIndex(inAttack);
+            if (PlayerAttackIndex.None == index) return;
+            Attack attack = PlayerControllerScript.GetAttackAt(index);
+            if (null == attack || 0 == attack.superBarValue) return;
+            IncrementSuperBar(attack.superBarValue);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using USComics;
 using USComics_Debug;
 using USComics_Dynamic;
@@ -9,69 +10,73 @@ using USComics_Message_Manager;
 
 namespace USComics_Combat
 {
-    public class Attack : MonoBehaviour
+    [System.Serializable]
+    public class Attack
     {
-        public AttackInfo attackInfo = new AttackInfo();
-        public GameObject character;
+        public string name;
+        public float damage;
+        public float duration;
+        public float range;
+        public float recharge;
+        public float lastUsed = 0;
+        public int superBarValue;
+        public int bonusChance;
+        public string[] animationNames;
+        public GameObject pointsObject;
+        public AudioSource audioSource1;
+        public AudioSource audioSource2;
+        public AudioClip sound1;
+        public AudioClip sound2;
+        public ParticleSystem[] particleSystems;
+        public Light[] lights;
+        public AbstractBuff[] buffs;
+        public AbstractDebuff[] debuffs;
+        public GameObject entity;
+        public GameObject bamModel;
+        public GameObject powModel;
+        public GameObject kabamModel;
+        public GameObject bonusPoints;
 
-        protected EntityController EntityControllerScript;
-        protected GameObject healthPanel;
-        protected Animator Anim;
-        protected MessageManager messageManagerScript;
-        protected GameObject combatPanel;
-        protected GameObject superBar;
-        protected CombatPad CombatPadScript;
-        protected Keyboard KeyboardScript;
-        protected DynamicObjectManager DynamicObjectManagerScript;
-        protected DebugConsole debugConsoleScript;
+        private EntityController EntityControllerScript;
+        private GameObject healthPanel;
+        private Animator Anim;
+        private MessageManager messageManagerScript;
+        private GameObject combatPanel;
+        private GameObject superBar;
+        private CombatPad CombatPadScript;
+        private Keyboard KeyboardScript;
+        private DynamicObjectManager DynamicObjectManagerScript;
+        private DebugConsole debugConsoleScript;
+        private bool isSetup = false;
+        private int bamBonusChance;
+        private int powBonusChance;
 
         public Attack() { }
-        public Attack(GameObject obj) { character = obj; }
-        public Attack(GameObject obj, AttackInfo attack)
+        public Attack(Attack attackInfo)
         {
-            character = obj;
-            attackInfo = attack;
+            name = attackInfo.name;
+            damage = attackInfo.damage;
+            duration = attackInfo.duration;
+            range = attackInfo.range;
+            recharge = attackInfo.recharge;
+            lastUsed = attackInfo.lastUsed;
+            animationNames = attackInfo.animationNames;
+            pointsObject = attackInfo.pointsObject;
+            sound1 = attackInfo.sound1;
+            sound2 = attackInfo.sound2;
+            particleSystems = attackInfo.particleSystems;
+            lights = attackInfo.lights;
+            buffs = attackInfo.buffs;
+            debuffs = attackInfo.debuffs;
+            audioSource1 = attackInfo.audioSource1;
+            audioSource2 = attackInfo.audioSource2;
+            entity = attackInfo.entity;
         }
+
 
         // Use this for initialization
         void Start()
         {
-            if (null != character) EntityControllerScript = character.GetComponent<EntityController>();
-            if (null != character) Anim = character.GetComponent<Animator>();
-            if (null != character) messageManagerScript = character.GetComponent<MessageManager>();
-            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-            GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
-            if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
-            combatPanel = GameObject.FindWithTag("CombatPanel") as GameObject;
-            if (null != combatPanel) CombatPadScript = combatPanel.GetComponent<CombatPad>();
-            superBar = GameObject.FindWithTag("SuperBar") as GameObject;
-            GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
-
-            if (null == character) { Debug.LogError("AbstractAttack.Start: character is null."); }
-            if (null == EntityControllerScript) { Debug.LogError("AbstractAttack.Start: EntityControllerScript is null."); }
-            if (null == Anim) { Debug.LogError("AbstractAttack.Start: Anim is null."); }
-            if (null == messageManagerScript) { Debug.LogError("AbstractAttack.Start: messageManagerScript is null."); }
-            if (null == healthPanel) { Debug.LogError("AbstractAttack.Start: healthPanel is null."); }
-            if (null == debugConsole) { Debug.LogError("AbstractAttack.Start: debugConsole is null."); }
-            if (null == DynamicObjectManagerScript) { Debug.LogError("AbstractAttack.Start: DynamicObjectManagerScript is null."); }
-            if (null == combatPanel) { Debug.LogError("AbstractAttack.Start: combatPanel is null."); }
-            if (null == superBar) { Debug.LogError("AbstractAttack.Start: superBar is null."); }
-            if (null == CombatPadScript) { Debug.LogError("AbstractAttack.Start: CombatPadScript is null."); }
-            if (null == KeyboardScript) { Debug.LogError("AbstractAttack.Start: KeyboardScript is null."); }
-
-            if (null == character) { return; }
-            if (null == Anim) { return; }
-            if (null == messageManagerScript) { return; }
-            if (null == healthPanel) { return; }
-            if (null == debugConsole) { return; }
-            if (null == DynamicObjectManagerScript) { return; }
-            if (null == combatPanel) { return; }
-            if (null == superBar) { return; }
-            if (null == CombatPadScript) { return; }
-            if (null == KeyboardScript) { return; }
         }
 
         // Update is called once per frame
@@ -82,10 +87,22 @@ namespace USComics_Combat
 
         public void DoAttack()
         {
+            PlayAll();
+            lastUsed = Time.time;
 
         }
-        public bool IsCharged(GameObject obj) { return attackInfo.lastUsed + attackInfo.recharge <= Time.time; }
-        public bool InRange(GameObject obj) { return DirectionUtilities.GetDistance(character.transform, obj.transform) <= attackInfo.range; }
+        public bool IsUseable(GameObject[] objs)
+        {
+            return IsCharged() && AnyInRange(objs);
+        }
+        public bool IsCharged() {
+            if (0 == lastUsed) return true;
+            return lastUsed + recharge <= Time.time;
+        }
+        public bool InRange(GameObject obj) {
+            if (!isSetup) SetupAttack();
+            return DirectionUtilities.GetDistance(entity.transform, obj.transform) <= range;
+        }
         public bool AnyInRange(GameObject[] objs)
         {
             for (int loop = 0; loop < objs.Length; loop++)
@@ -103,92 +120,168 @@ namespace USComics_Combat
             }
             return result.ToArray();
         }
-        public void ActivateGUI()
+        private void PlayAll()
         {
-            if (null == attackInfo.uiImage) return;
-        }
-        public void PlayAll()
-        {
+            if (!isSetup) SetupAttack();
             PlaySounds();
             PlayAnimation();
+            PlayEmote();
             PlayParticleSystems();
             PlayLights();
+            SpawnPoints();
+            CalculateBonus();
         }
-        public void StopAll()
+        private void StopAll()
         {
             StopSounds();
             StopParticleSystems();
             StopLights();
         }
-        public void PlaySounds()
+        private void PlaySounds()
         {
-            if (null == attackInfo.audioSource1) return;
-            if (null == attackInfo.sound1) return;
-            if (null == attackInfo.sound2)
-            {
-                attackInfo.audioSource1.PlayOneShot(attackInfo.sound1);
-                return;
-            }
-            if (null == attackInfo.audioSource2)
+            if (null == audioSource1) return;
+            if (null == sound1) return;
+            audioSource1.PlayOneShot(sound1);
+            if (null == sound2) return;
+            if (null == audioSource2)
             {
                 Debug.LogError("Need two audio sources to play two audio clips.");
                 return;
             }
-            // https://docs.unity3d.com/ScriptReference/AudioSource.SetScheduledEndTime.html
-            int len1 = attackInfo.sound1.samples;
-            int len2 = attackInfo.sound2.samples;
-            float overlap = 0.2F;
-            double t0 = AudioSettings.dspTime + 3.0F;
-            double clipTime1 = len1;
-            clipTime1 /= attackInfo.sound1.frequency;
-            attackInfo.audioSource1.PlayScheduled(t0);
-            attackInfo.audioSource1.SetScheduledEndTime(t0 + clipTime1);
-            Debug.Log("t0 = " + t0 + ", clipTime1 = " + clipTime1 + ", attackInfo.sound1.frequency = " + attackInfo.sound1.frequency);
-            Debug.Log("attackInfo.sound2.frequency = " + attackInfo.sound2.frequency + ", samplerate = " + AudioSettings.outputSampleRate);
-            attackInfo.audioSource2.PlayScheduled(t0 + clipTime1);
-            attackInfo.audioSource2.time = overlap;
+            audioSource2.PlayOneShot(sound2);
+
         }
-        public void StopSounds()
+        private void StopSounds()
         {
-            if (null != attackInfo.audioSource1 && attackInfo.audioSource1.isPlaying) attackInfo.audioSource1.Stop();
-            if (null != attackInfo.audioSource2 && attackInfo.audioSource2.isPlaying) attackInfo.audioSource2.Stop();
+            if (null != audioSource1 && audioSource1.isPlaying) audioSource1.Stop();
+            if (null != audioSource2 && audioSource2.isPlaying) audioSource2.Stop();
         }
-        public void PlayAnimation()
+        private void PlayEmote()
         {
-            int randomAniation = Random.Range(0, attackInfo.animationNames.Length);
-            Anim.Play(attackInfo.animationNames[randomAniation]);
+            if (null == EntityControllerScript.CombatEmoteSource) return;
+            if (0 == EntityControllerScript.CombatEmoteSounds.Length) return;
+            int chance = Random.Range(1, 101);
+            if (chance > EntityControllerScript.CombatEmoteChance) return;
+            int randomEmote = Random.Range(0, EntityControllerScript.CombatEmoteSounds.Length);
+            EntityControllerScript.CombatEmoteSource.PlayOneShot(EntityControllerScript.CombatEmoteSounds[randomEmote]);
         }
-        public void PlayParticleSystems()
+        private void PlayAnimation()
         {
-            for (int loop1 = 0; loop1 < attackInfo.particleSystems.Length; loop1++)
+            int randomAniation = Random.Range(0, animationNames.Length);
+            Anim.Play(animationNames[randomAniation]);
+        }
+        private void PlayParticleSystems()
+        {
+            for (int loop1 = 0; loop1 < particleSystems.Length; loop1++)
             {
-                ParticleSystem particleSystem = attackInfo.particleSystems[loop1];
+                ParticleSystem particleSystem = particleSystems[loop1];
                 particleSystem.Play();
             }
         }
-        public void StopParticleSystems()
+        private void StopParticleSystems()
         {
-            for (int loop1 = 0; loop1 < attackInfo.particleSystems.Length; loop1++)
+            for (int loop1 = 0; loop1 < particleSystems.Length; loop1++)
             {
-                ParticleSystem particleSystem = attackInfo.particleSystems[loop1];
+                ParticleSystem particleSystem = particleSystems[loop1];
                 particleSystem.Stop();
             }
         }
-        public void PlayLights()
+        private void PlayLights()
         {
-            for (int loop1 = 0; loop1 < attackInfo.lights.Length; loop1++)
+            for (int loop1 = 0; loop1 < lights.Length; loop1++)
             {
-                Light light = attackInfo.lights[loop1];
+                Light light = lights[loop1];
                 light.enabled = true;
             }
         }
-        public void StopLights()
+        private void StopLights()
         {
-            for (int loop1 = 0; loop1 < attackInfo.lights.Length; loop1++)
+            for (int loop1 = 0; loop1 < lights.Length; loop1++)
             {
-                Light light = attackInfo.lights[loop1];
+                Light light = lights[loop1];
                 light.enabled = false;
             }
         }
+        private void SpawnPoints()
+        {
+            DynamicObjectManagerScript.Clone(pointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
+        }
+        private void ApplyDamage(int damage)
+        {
+        }
+
+        private void CalculateBonus()
+        {
+            int bonus = Random.Range(1, 101);
+            if (bonus > bonusChance) return;
+            bonus = Random.Range(1, 101);
+            if (bonus <= bamBonusChance)
+            {
+                EntityControllerScript.ClearAttackTimers();
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED);
+                DynamicObjectManagerScript.Clone(bamModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
+            }
+            else if (bonus <= powBonusChance)
+            {
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS);
+                DynamicObjectManagerScript.Clone(powModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(bonusPoints, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
+                ApplyDamage(2);
+            }
+            else
+            {
+                CombatPadScript.IncrementSuperBar(5);
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS);
+                DynamicObjectManagerScript.Clone(kabamModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
+            }
+        }
+
+        private bool SetupAttack()
+        {
+            if (null != entity) EntityControllerScript = entity.GetComponent<EntityController>();
+            if (null != entity) Anim = entity.GetComponent<Animator>();
+            if (null != entity) messageManagerScript = entity.GetComponent<MessageManager>();
+            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
+            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
+            GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
+            if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
+            combatPanel = GameObject.FindWithTag("CombatPanel") as GameObject;
+            if (null != combatPanel) CombatPadScript = combatPanel.GetComponent<CombatPad>();
+            superBar = GameObject.FindWithTag("SuperBar") as GameObject;
+            GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
+            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
+
+            if (null == entity) { Debug.LogError("Attack.SetupAttack: entity is null."); }
+            if (null == EntityControllerScript) { Debug.LogError("Attack.SetupAttack: EntityControllerScript is null."); }
+            if (null == Anim) { Debug.LogError("Attack.SetupAttack: Anim is null."); }
+            if (null == messageManagerScript) { Debug.LogError("Attack.SetupAttack: messageManagerScript is null."); }
+            if (null == healthPanel) { Debug.LogError("Attack.SetupAttack: healthPanel is null."); }
+            if (null == debugConsole) { Debug.LogError("Attack.SetupAttack: debugConsole is null."); }
+            if (null == DynamicObjectManagerScript) { Debug.LogError("Attack.SetupAttack: DynamicObjectManagerScript is null."); }
+            if (null == combatPanel) { Debug.LogError("Attack.SetupAttack: combatPanel is null."); }
+            if (null == superBar) { Debug.LogError("Attack.SetupAttack: superBar is null."); }
+            if (null == CombatPadScript) { Debug.LogError("Attack.SetupAttack: CombatPadScript is null."); }
+            if (null == KeyboardScript) { Debug.LogError("Attack.SetupAttack: KeyboardScript is null."); }
+
+            if (null == entity) { return false; }
+            if (null == Anim) { return false; }
+            if (null == messageManagerScript) { return false; }
+            if (null == healthPanel) { return false; }
+            if (null == debugConsole) { return false; }
+            if (null == DynamicObjectManagerScript) { return false; }
+            if (null == combatPanel) { return false; }
+            if (null == superBar) { return false; }
+            if (null == CombatPadScript) { return false; }
+            if (null == KeyboardScript) { return false; }
+
+            bamBonusChance = 33;
+            powBonusChance = 66;
+            isSetup = true;
+            return true;
+        }
     }
+
+    [System.Serializable]
+    public enum AttackType { Punch, Kick, Jumpkick, Block, BlockBreak, BlockHitReact, Knockdown, Super, None };
 }

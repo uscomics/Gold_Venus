@@ -13,9 +13,13 @@ namespace USComics_Player
 {
     public class PlayerController : EntityController
     {
+        void Start()
+        {
+            SetupEntity();
+        }
+
         void Update()
         {
-            UpdateCombat();
             if (initialUpdate)
             {
                 simpleMovementScript.StartModule();
@@ -23,20 +27,13 @@ namespace USComics_Player
             }
             if (simpleMovementScript.IsRunning())
             {
-                AttackType currentAttack = combatModuleScript.CurrentAttack;
-
-                debugConsoleScript.SetOther1("currentAttack=" + currentAttack);
-                if (AttackType.None == currentAttack)
-                {
-                    Move currentMove = simpleMovementScript.CurrentMove;
-                    Vector3 currentVector = simpleMovementScript.CurrentVector;
-                    if (Vector3.zero != currentVector) entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
-                    entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
-                    if (DirectionType.Stop != currentMove.Direction) SetHealthPosition(currentMove.Direction);
-                    debugConsoleScript.SetCurrentMove(currentMove);
-                    debugConsoleScript.SetOther1("currentVector=" + currentVector);
-                }
-
+                Move currentMove = simpleMovementScript.CurrentMove;
+                Vector3 currentVector = simpleMovementScript.CurrentVector;
+                if (Vector3.zero != currentVector) entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
+                entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
+                if (DirectionType.Stop != currentMove.Direction) SetHealthPosition(currentMove.Direction);
+                debugConsoleScript.SetCurrentMove(currentMove);
+                debugConsoleScript.SetOther1("currentVector=" + currentVector);
             }
             else if (climbMovementScript.IsRunning())
             {
@@ -46,6 +43,41 @@ namespace USComics_Player
                 debugConsoleScript.SetCurrentMove(currentMove);
                 debugConsoleScript.SetOther1("currentVector=" + currentVector);
             }
+        }
+
+        public PlayerAttackIndex ConvertAttackTypeToPlayerAttackIndex(AttackType attack)
+        {
+            if (AttackType.Punch == attack) return PlayerAttackIndex.Punch;
+            else if (AttackType.Kick == attack) return PlayerAttackIndex.Kick;
+            else if (AttackType.Block == attack) return PlayerAttackIndex.Block;
+            else if (AttackType.Jumpkick == attack) return PlayerAttackIndex.Jumpkick;
+            else if (AttackType.Super == attack) return PlayerAttackIndex.Super;
+            return PlayerAttackIndex.None;
+        }
+
+        public Attack GetAttackAt(PlayerAttackIndex index) { return attacks[(int)index]; }
+
+        protected override bool SetupEntity()
+        {
+            base.SetupEntity();
+            entity = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            if (null != entity) entityRigidBody = entity.GetComponent<Rigidbody>();
+            if (null != entity) movementTransitionManagerScript = entity.GetComponent<MovementTransitionManager>();
+            if (null != entity) simpleMovementScript = entity.GetComponent<SimpleMovementModule>();
+            if (null != entity) climbMovementScript = entity.GetComponent<ClimbMovementModule>();
+
+            if (null == entity) { Debug.LogError("PlayerController.SetupEntity: playerCharacter is null."); }
+            if (null == entityRigidBody) { Debug.LogError("PlayerController.SetupEntity: entityRigidBody is null."); }
+            if (null == movementTransitionManagerScript) { Debug.LogError("PlayerController.SetupEntity: MovementTransitionManagerScript is null."); }
+            if (null == simpleMovementScript) { Debug.LogError("PlayerController.SetupEntity: movementManagerScript is null."); }
+            if (null == climbMovementScript) { Debug.LogError("EntityController.SetupEntity: climbManagerScript is null."); }
+
+            if (null == entity) { return false; }
+            if (null == entityRigidBody) { return false; }
+            if (null == movementTransitionManagerScript) { return false; }
+            if (null == simpleMovementScript) { return false; }
+            if (null == climbMovementScript) { return false; }
+            return true;
         }
 
         private void OnCollisionEnter(Collision collision)
@@ -70,7 +102,7 @@ namespace USComics_Player
                 }
             } else
             {
-                Debug.Log("BANG! tag = " + collision.gameObject.tag);
+                //Debug.Log("BANG! tag = " + collision.gameObject.tag);
                 if ((int)LayerValues.TERRAIN != collision.gameObject.layer) simpleMovementScript.ForceStop();
             }
         }
@@ -102,32 +134,6 @@ namespace USComics_Player
             else if (DirectionType.SE == inDirection) { healthPanel.transform.Rotate(Vector3.up, 225); }
         }
 
-        private void UpdateCombat()
-        {
-            Collider[] enemies;
-            if (null != CurrentEnemy && CurrentEnemyInRange)
-            {
-                enemies = GetEnemiesInRange(entity.transform);
-                if (0 == enemies.Length) combatModuleScript.SetEnemyInRange(false);
-                return;
-            }
-            enemies = GetEnemiesInSight(entity.transform);
-            if (0 == enemies.Length)
-            {
-                combatModuleScript.StopModule();
-                return;
-            }
-            combatModuleScript.StartModule();
-            enemies = GetEnemiesInRange(entity.transform);
-            bool enemiesInRange = (0 != enemies.Length);
-            combatModuleScript.SetEnemyInRange(enemiesInRange);
-            if (!enemiesInRange) return;
-            simpleMovementScript.ForceStop();
-            combatModuleScript.SetEnemyInRange(0 == enemies.Length);
-            GameObject[] enemyGameObjects = DirectionUtilities.GetGameObjects(enemies);
-            CurrentEnemy = DirectionUtilities.GetNearestObject(entity.transform.position, enemyGameObjects);
-    }
-
 #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
@@ -135,4 +141,14 @@ namespace USComics_Player
         }
 #endif
     }
+
+    [System.Serializable]
+    public enum PlayerAttackIndex {
+        None = -1,
+        Punch = 0,
+        Kick = 1,
+        Block = 2,
+        Jumpkick = 3,
+        Super = 4
+    };
 }

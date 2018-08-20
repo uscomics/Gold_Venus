@@ -5194,7 +5194,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1686292635}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &213733071
 SkinnedMeshRenderer:
@@ -6137,6 +6137,7 @@ GameObject:
   - component: {fileID: 380082743}
   - component: {fileID: 380082742}
   - component: {fileID: 380082745}
+  - component: {fileID: 380082746}
   m_Layer: 5
   m_Name: Combat Panel
   m_TagString: CombatPanel
@@ -6234,10 +6235,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b719c8f2e32fc6f41b636fa9a0c13909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  punchImage: {fileID: 1681068087}
-  kickImage: {fileID: 633326279}
-  blockImage: {fileID: 844139634}
-  jumpkickImage: {fileID: 697107462}
+  punchButton: {fileID: 1681068089}
+  kickButton: {fileID: 633326281}
+  blockButton: {fileID: 844139636}
+  jumpkickButton: {fileID: 697107464}
+--- !u!225 &380082746
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 380082740}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &407054505
 GameObject:
   m_ObjectHideFlags: 0
@@ -7199,6 +7211,7 @@ GameObject:
   - component: {fileID: 633326278}
   - component: {fileID: 633326280}
   - component: {fileID: 633326279}
+  - component: {fileID: 633326281}
   m_Layer: 5
   m_Name: Kick Image
   m_TagString: Untagged
@@ -7258,6 +7271,25 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 633326277}
   m_CullTransparentMesh: 0
+--- !u!114 &633326281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 633326277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572549531da39c44d97bbed72e4126bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 633326279}
+  imageEnabled: {fileID: 114093969300980982, guid: 2c73a78071afdb34b892644c69b47897,
+    type: 2}
+  imageDisabled: {fileID: 114181850114410032, guid: bd347c9f61280624b840eb78b3f76024,
+    type: 2}
+  imageClicked: {fileID: 114656251414486074, guid: 575b2ea94182ce840bebabe4c38deb74,
+    type: 2}
+  attackType: 1
 --- !u!1 &639674603
 GameObject:
   m_ObjectHideFlags: 0
@@ -7629,6 +7661,7 @@ GameObject:
   - component: {fileID: 697107461}
   - component: {fileID: 697107463}
   - component: {fileID: 697107462}
+  - component: {fileID: 697107464}
   m_Layer: 5
   m_Name: Jump Kick Image
   m_TagString: Untagged
@@ -7688,6 +7721,25 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 697107460}
   m_CullTransparentMesh: 0
+--- !u!114 &697107464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 697107460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572549531da39c44d97bbed72e4126bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 697107462}
+  imageEnabled: {fileID: 114254128293183272, guid: 8aaa94738da269a43a23c7eda692c2fe,
+    type: 2}
+  imageDisabled: {fileID: 114371325360169780, guid: f64e3fc579ff06a4b8e125678416dae6,
+    type: 2}
+  imageClicked: {fileID: 114112514003052372, guid: b67b7f63b80b6da46880837928800608,
+    type: 2}
+  attackType: 2
 --- !u!1 &719984961
 GameObject:
   m_ObjectHideFlags: 0
@@ -8118,6 +8170,7 @@ GameObject:
   - component: {fileID: 844139633}
   - component: {fileID: 844139635}
   - component: {fileID: 844139634}
+  - component: {fileID: 844139636}
   m_Layer: 5
   m_Name: Block Image
   m_TagString: Untagged
@@ -8177,6 +8230,25 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 844139632}
   m_CullTransparentMesh: 0
+--- !u!114 &844139636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 844139632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572549531da39c44d97bbed72e4126bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 844139634}
+  imageEnabled: {fileID: 114715624550504432, guid: a7e648516cd0ec84bbe4fb33fb9575c2,
+    type: 2}
+  imageDisabled: {fileID: 114509523751735080, guid: f61bd261dc08f7e4181514803ff862b0,
+    type: 2}
+  imageClicked: {fileID: 114055432308044074, guid: 1fc46b74b3a35b84eb6ab2a568edb9d5,
+    type: 2}
+  attackType: 3
 --- !u!1 &853279843
 GameObject:
   m_ObjectHideFlags: 0
@@ -8567,7 +8639,7 @@ Transform:
   - {fileID: 45715384}
   - {fileID: 360815275}
   m_Father: {fileID: 1686292635}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &908538585
 GameObject:
@@ -16134,6 +16206,22 @@ Transform:
   m_Father: {fileID: 2019441209}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1676770451 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 149070, guid: c0b6535c910df0e4daf5df258aaaf550,
+    type: 2}
+  m_PrefabInternal: {fileID: 1788611660}
+--- !u!225 &1676770452
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1676770451}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1680644592
 GameObject:
   m_ObjectHideFlags: 0
@@ -16229,6 +16317,7 @@ GameObject:
   - component: {fileID: 1681068086}
   - component: {fileID: 1681068088}
   - component: {fileID: 1681068087}
+  - component: {fileID: 1681068089}
   m_Layer: 5
   m_Name: Punch Image
   m_TagString: Untagged
@@ -16288,6 +16377,25 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1681068085}
   m_CullTransparentMesh: 0
+--- !u!114 &1681068089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1681068085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 572549531da39c44d97bbed72e4126bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  image: {fileID: 1681068087}
+  imageEnabled: {fileID: 114808767082699938, guid: 5e8fa20751f39f241aabeecc896c81cb,
+    type: 2}
+  imageDisabled: {fileID: 114582685563500278, guid: d965078a3805d9f48b874712ccddec4d,
+    type: 2}
+  imageClicked: {fileID: 114491524190865662, guid: 16ff65d7f26e29a4ba99723473311d24,
+    type: 2}
+  attackType: 0
 --- !u!1 &1686292629
 GameObject:
   m_ObjectHideFlags: 0
@@ -16403,7 +16511,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1978283530}
-  - {fileID: 1800604329}
   - {fileID: 2038328293}
   - {fileID: 213733070}
   - {fileID: 2019441209}
@@ -16423,6 +16530,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ca92864d8a02a469088ace08f3ee84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityName: Gold Venus
   buffs: []
   debuffs: []
   attacks:
@@ -16430,8 +16538,10 @@ MonoBehaviour:
     damage: 1
     duration: 0
     range: 1.5
-    recharge: 1
+    recharge: 0
     lastUsed: 0
+    superBarValue: 3
+    bonusChance: 4
     animationNames:
     - PunchRightUppercut
     - PunchLeftCross
@@ -16447,14 +16557,21 @@ MonoBehaviour:
     lights: []
     buffs: []
     debuffs: []
-    keyCodes: 3100000001010000
-    uiImage: {fileID: 1681068087}
+    entity: {fileID: 1686292629}
+    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
+    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
+    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
+      type: 2}
+    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
+      type: 2}
   - name: Kick
-    damage: 2
+    damage: 3
     duration: 0
     range: 1.5
-    recharge: 3
+    recharge: 2
     lastUsed: 0
+    superBarValue: 4
+    bonusChance: 5
     animationNames:
     - KickForwardRoundhouse
     pointsObject: {fileID: 1312167694092086, guid: 07ca1692a80ac814798abbd6cd82371f,
@@ -16467,47 +16584,109 @@ MonoBehaviour:
     lights: []
     buffs: []
     debuffs: []
-    keyCodes: 3200000002010000
-    uiImage: {fileID: 633326279}
+    entity: {fileID: 1686292629}
+    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
+    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
+    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
+      type: 2}
+    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
+      type: 2}
   - name: Block
     damage: 0
     duration: 0
     range: 1.5
     recharge: 1
     lastUsed: 0
+    superBarValue: 0
+    bonusChance: 0
     animationNames:
     - Block
     pointsObject: {fileID: 0}
     audioSource1: {fileID: 1686292641}
     audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: 1111e85f094684351958fb8510d8524f, type: 3}
+    sound1: {fileID: 8300000, guid: baf24b9c66c2f4c87ad733010a9fdb39, type: 3}
     sound2: {fileID: 0}
     particleSystems: []
     lights: []
     buffs: []
     debuffs: []
-    keyCodes: 3300000003010000
-    uiImage: {fileID: 844139634}
+    entity: {fileID: 1686292629}
+    bamModel: {fileID: 0}
+    powModel: {fileID: 0}
+    kabamModel: {fileID: 0}
+    bonusPoints: {fileID: 0}
   - name: Jumpkick
     damage: 10
     duration: 0
     range: 1.5
     recharge: 6
     lastUsed: 0
+    superBarValue: 5
+    bonusChance: 5
     animationNames:
     - KickRoundhouse
     pointsObject: {fileID: 1270610200852952, guid: 565211c5db22d78419d7132045908794,
       type: 2}
     audioSource1: {fileID: 1686292641}
     audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: 3c78112d961cb1a42bae623b3f8e7c91, type: 3}
+    sound1: {fileID: 8300000, guid: fd9be99018cd46443b68536783f042ae, type: 3}
     sound2: {fileID: 0}
     particleSystems: []
+    lights:
+    - {fileID: 360815276}
+    buffs: []
+    debuffs: []
+    entity: {fileID: 1686292629}
+    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
+    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
+    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
+      type: 2}
+    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
+      type: 2}
+  - name: Super
+    damage: 30
+    duration: 0
+    range: 1.5
+    recharge: 0
+    lastUsed: 0
+    superBarValue: 0
+    bonusChance: 5
+    animationNames:
+    - LeapingPunch
+    pointsObject: {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
+      type: 2}
+    audioSource1: {fileID: 534669906}
+    audioSource2: {fileID: 1686292641}
+    sound1: {fileID: 8300000, guid: 19b3f14e218a068489edb8e1a250424e, type: 3}
+    sound2: {fileID: 8300000, guid: cb0b89d385bd857439afa4fcfd293b87, type: 3}
+    particleSystems:
+    - {fileID: 1947299470}
+    - {fileID: 1460061230}
+    - {fileID: 45715386}
     lights: []
     buffs: []
     debuffs: []
-    keyCodes: 3400000004010000
-    uiImage: {fileID: 697107462}
+    entity: {fileID: 1686292629}
+    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
+    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
+    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
+      type: 2}
+    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
+      type: 2}
+  vision:
+    heightOffset: 0
+    detectionRadius: 10
+    rangeRadius: 1.5
+    detectionAngle: 200
+    maxHeightDifference: 4
+  CombatEmoteChance: 20
+  CombatEmoteSounds:
+  - {fileID: 8300000, guid: e392c24220f584716a9da9b4a5ed54db, type: 3}
+  - {fileID: 8300000, guid: 8af4f5d15d2da4f56ae3070a34a82f2c, type: 3}
+  - {fileID: 8300000, guid: b4494ce358dce4db2807c6b92a1d658e, type: 3}
+  - {fileID: 8300000, guid: af3e053e9a3424f0dbba112c292b81dc, type: 3}
+  - {fileID: 8300000, guid: aa78330fa764b48e5a0eb1a97404d91f, type: 3}
+  CombatEmoteSource: {fileID: 2019441212}
 --- !u!114 &1686292637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16576,9 +16755,6 @@ MonoBehaviour:
   Emote3Sound: {fileID: 8300000, guid: 8af4f5d15d2da4f56ae3070a34a82f2c, type: 3}
   Emote4Sound: {fileID: 8300000, guid: c83ef219161064d6882639af40078271, type: 3}
   Emote5Sound: {fileID: 8300000, guid: b4494ce358dce4db2807c6b92a1d658e, type: 3}
-  bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
-  powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
-  kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239, type: 2}
   superEffects:
   - {fileID: 1947299470}
   - {fileID: 1460061230}
@@ -17112,9 +17288,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106b752c522794445b5157042c9c0269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  entityName: 
   buffs: []
   debuffs: []
   attacks: []
+  vision:
+    heightOffset: 0
+    detectionRadius: 10
+    rangeRadius: 1.5
+    detectionAngle: 270
+    maxHeightDifference: 4
+  CombatEmoteChance: 0
+  CombatEmoteSounds: []
+  CombatEmoteSource: {fileID: 0}
 --- !u!54 &1786750954
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -17353,6 +17539,14 @@ Prefab:
       propertyPath: m_FontData.m_MinSize
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 149064, guid: c0b6535c910df0e4daf5df258aaaf550, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 149068, guid: c0b6535c910df0e4daf5df258aaaf550, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0b6535c910df0e4daf5df258aaaf550, type: 2}
   m_IsPrefabAsset: 0
@@ -17384,12 +17578,12 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1800604328}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1686292635}
-  m_RootOrder: 1
+  m_Father: {fileID: 1978283530}
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1808441186
 GameObject:
@@ -22818,6 +23012,7 @@ Transform:
   - {fileID: 1188178297}
   - {fileID: 1291405897}
   - {fileID: 873239509}
+  - {fileID: 1800604329}
   m_Father: {fileID: 1686292635}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -23062,6 +23257,7 @@ GameObject:
   - component: {fileID: 2019441209}
   - component: {fileID: 2019441211}
   - component: {fileID: 2019441210}
+  - component: {fileID: 2019441212}
   m_Layer: 0
   m_Name: Invisible Health Cube
   m_TagString: HealthGameObject
@@ -23087,7 +23283,7 @@ Transform:
   - {fileID: 308107374}
   - {fileID: 1674634608}
   m_Father: {fileID: 1686292635}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &2019441210
 BoxCollider:
@@ -23108,6 +23304,101 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2019441208}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!82 &2019441212
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2019441208}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2024822651
 GameObject:
   m_ObjectHideFlags: 0
@@ -23199,7 +23490,7 @@ Transform:
   m_Children:
   - {fileID: 1808441187}
   m_Father: {fileID: 1686292635}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2043954110
 GameObject:

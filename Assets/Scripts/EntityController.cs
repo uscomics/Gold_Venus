@@ -11,10 +11,14 @@ namespace USComics
 {
     public class EntityController : MonoBehaviour
     {
+        public string entityName = "";
         public List<AbstractBuff> buffs = new List<AbstractBuff>();
         public List<AbstractDebuff> debuffs = new List<AbstractDebuff>();
-        public AttackInfo[] attacks;
+        public Attack[] attacks;
         public Vision vision = new Vision();
+        public int CombatEmoteChance;
+        public AudioClip[] CombatEmoteSounds;
+        public AudioSource CombatEmoteSource;
 
         // Player game objects
         protected GameObject entity;
@@ -31,7 +35,6 @@ namespace USComics
         // Scripts
         protected MovementTransitionManager movementTransitionManagerScript;
         protected SimpleMovementModule simpleMovementScript;
-        protected CombatModule combatModuleScript;
         protected ClimbMovementModule climbMovementScript;
         protected MessageManager messageManagerScript;
         protected DebugConsole debugConsoleScript;
@@ -39,42 +42,7 @@ namespace USComics
         // Use this for initialization
         void Start()
         {
-            entity = GameObject.FindWithTag("PlayerCharacter") as GameObject;
-            if (null != entity) entityRigidBody = entity.GetComponent<Rigidbody>();
-            if (null != entity) movementTransitionManagerScript = entity.GetComponent<MovementTransitionManager>();
-            if (null != entity) simpleMovementScript = entity.GetComponent<SimpleMovementModule>();
-            if (null != entity) combatModuleScript = entity.GetComponent<CombatModule>();
-            if (null != entity) climbMovementScript = entity.GetComponent<ClimbMovementModule>();
-            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
-            messageManagerScript = GetComponent<MessageManager>();
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-
-            if (null == entity) { Debug.LogError("PlayerController.Start: playerCharacter is null."); }
-            if (null == entityRigidBody) { Debug.LogError("PlayerController.Start: v is null."); }
-            if (null == movementTransitionManagerScript) { Debug.LogError("PlayerController.Start: MovementTransitionManagerScript is null."); }
-            if (null == simpleMovementScript) { Debug.LogError("PlayerController.Start: movementManagerScript is null."); }
-            if (null == combatModuleScript) { Debug.LogError("PlayerController.Start: combatModuleScript is null."); }
-            if (null == climbMovementScript) { Debug.LogError("PlayerController.Start: climbManagerScript is null."); }
-            if (null == healthPanel) { Debug.LogError("PlayerController.Start: healthPanel is null."); }
-            if (null == messageManagerScript) { Debug.LogError("PlayerController.Start: messageManager is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("PlayerController.Start: debugConsoleScript is null."); }
-
-            if (null == entity) { return; }
-            if (null == entityRigidBody) { return; }
-            if (null == movementTransitionManagerScript) { return; }
-            if (null == simpleMovementScript) { return; }
-            if (null == combatModuleScript) { return; }
-            if (null == climbMovementScript) { return; }
-            if (null == healthPanel) { return; }
-            if (null == messageManagerScript) { return; }
-            if (null == debugConsoleScript) { return; }
-
-            initialHelthPanelRotation = healthPanel.transform.eulerAngles;
-            CurrentEnemy = null;
-            CurrentEnemyInRange = false;
-            messageManagerScript.ShowMessage("Hello World!");
-
+            SetupEntity();
         }
 
         // Update is called once per frame
@@ -88,22 +56,31 @@ namespace USComics
             float rangeRadius = 0.0f;
             for (int loop = 0; loop < attacks.Length; loop++)
             {
-                AttackInfo attackInfo = attacks[loop];
+                Attack attackInfo = attacks[loop];
                 if (attackInfo.range > rangeRadius) rangeRadius = attackInfo.range;
             }
             return rangeRadius;
         }
 
-        public Collider[] GetEnemiesInSight(Transform player, bool useHeightDifference = true)
+        public Collider[] GetEnemiesInSight(bool useHeightDifference = true)
         {
-            Collider[] enemies = Environment.GetEnemiesInSight(player, vision.detectionRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Collider[] enemies = Environment.GetEnemiesInSight(entity.transform, vision.detectionRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
             return enemies;
         }
 
-        public Collider[] GetEnemiesInRange(Transform player, bool useHeightDifference = true)
+        public Collider[] GetEnemiesInRange(bool useHeightDifference = true)
         {
-            Collider[] enemies = Environment.GetEnemiesInRange(player, vision.rangeRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Collider[] enemies = Environment.GetEnemiesInRange(entity.transform, vision.rangeRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
             return enemies;
+        }
+
+        public void ClearAttackTimers()
+        {
+            for (int loop = 0; loop < attacks.Length; loop++)
+            {
+                Attack attackInfo = attacks[loop];
+                attackInfo.lastUsed = 0;
+            }
         }
 
 #if UNITY_EDITOR
@@ -125,9 +102,31 @@ namespace USComics
             Gizmos.DrawWireSphere(transform.position + Vector3.up * vision.heightOffset, 0.2f);
         }
 
+        protected virtual bool SetupEntity()
+        {
+            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+            messageManagerScript = GetComponent<MessageManager>();
+            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
+            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
+
+            if (null == healthPanel) { Debug.LogError("EntityController.SetupEntity: healthPanel is null."); }
+            if (null == messageManagerScript) { Debug.LogError("EntityController.SetupEntity: messageManager is null."); }
+            if (null == debugConsoleScript) { Debug.LogError("EntityController.SetupEntity: debugConsoleScript is null."); }
+
+            if (null == healthPanel) { return false; }
+            if (null == messageManagerScript) { return false; }
+            if (null == debugConsoleScript) { return false; }
+
+            initialHelthPanelRotation = healthPanel.transform.eulerAngles;
+            CurrentEnemy = null;
+            CurrentEnemyInRange = false;
+            messageManagerScript.ShowMessage("Hello World!");
+            return true;
+        }
 #endif
     }
 
+    [System.Serializable]
     public class Vision
     {
         public float heightOffset = 0.0f;

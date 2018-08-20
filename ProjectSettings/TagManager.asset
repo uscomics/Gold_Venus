@@ -30,6 +30,14 @@ TagManager:
   - CombatPanel
   - SuperBar
   - DynamicObjects
+  - BAM Balloon
+  - KABAM Balloon
+  - POW Balloon
+  - 1 Point
+  - 2 Points
+  - 3 Points
+  - 10 Points
+  - 30 Points
   layers:
   - Default
   - TransparentFX
