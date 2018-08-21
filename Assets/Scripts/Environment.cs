@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USComics_Entity;
 using USComics_Movement;
 
 namespace USComics_Environment
@@ -90,7 +91,27 @@ namespace USComics_Environment
 
         public static Collider[] GetEnemiesInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
-            Collider[] colliders = DirectionUtilities.GetObjectsInRadius(transform.position, radius, LayerMaskValues.ENEMIES);
+            return GetEntitiesInSight(LayerMaskValues.ENEMIES, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
+        }
+
+        public static Collider[] GetEnemiesInRange(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
+        {
+            return GetEntitiesInRange(LayerMaskValues.ENEMIES, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
+        }
+
+        public static Collider[] GetPlayersInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
+        {
+            return GetEntitiesInSight(LayerMaskValues.PLAYER, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
+        }
+
+        public static Collider[] GetPlayersInRange(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
+        {
+            return GetEntitiesInRange(LayerMaskValues.PLAYER, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
+        }
+
+        public static Collider[] GetEntitiesInSight(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
+        {
+            Collider[] colliders = DirectionUtilities.GetObjectsInRadius(transform.position, radius, mask);
             List<Collider> results = new List<Collider>();
             float halfDegrees = degrees / 2.0f;
             for (int loop1 = 0; loop1 < colliders.Length; loop1++)
@@ -102,24 +123,24 @@ namespace USComics_Environment
 
                 // If the enemy is too high or too low ignore him.
                 if (useHeightDifference && Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference) continue;
+                EntityController entity = candidate.GetComponent<EntityController>();
+                if (null == entity || entity.dead) continue;
                 results.Add(colliders[loop1]);
             }
             return results.ToArray();
         }
 
-        public static Collider[] GetEnemiesInRange(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
+        public static Collider[] GetEntitiesInRange(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
-            Collider[] colliders = Environment.GetEnemiesInSight(transform, radius, degrees, heightOffset, maxHeightDifference, useHeightDifference);
-            Debug.Log("GetEnemiesInSight.Length=" + colliders.Length);
+            Collider[] colliders = Environment.GetEntitiesInSight(mask, transform, radius, degrees, heightOffset, maxHeightDifference, useHeightDifference);
             List<Collider> results = new List<Collider>();
             float halfDegrees = degrees / 2.0f;
             for (int loop = 0; loop < colliders.Length; loop++)
             {
                 GameObject candidate = DirectionUtilities.GetGameObject(colliders[loop]);
-                Debug.Log("GetForwardOrBehind=" + DirectionUtilities.GetForwardOrBehind(transform, candidate.transform));
-                Debug.Log("AreParallel=" + DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 15.0f));
+                EntityController entity = candidate.GetComponent<EntityController>();
+                if (null == entity || entity.dead) continue;
                 if (0 < DirectionUtilities.GetForwardOrBehind(transform, candidate.transform))
-                // && (DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 15.0f)))
                 {
                     results.Add(colliders[loop]);
                 }
