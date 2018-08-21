@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644fc266db07a98468c5a78fafd584cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 2
+  lifetime: 4
 --- !u!114 &114964950870688472
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -141,4 +141,4 @@ MonoBehaviour:
   rotateX: 0
   rotateY: 1
   rotateZ: 0
-  speed: 5
+  speed: 6
