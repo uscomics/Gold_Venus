@@ -6,6 +6,7 @@ using USComics_Debug;
 using USComics_Entity;
 using USComics_Dynamic;
 using USComics_Movement;
+using USComics_Environment;
 using USComics_Message_Manager;
 
 namespace USComics_Combat
@@ -17,6 +18,11 @@ namespace USComics_Combat
         public float damage;
         public float duration;
         public float range;
+        public bool isAoE = false;
+        public float radiusAoE;
+        public bool isDoT = false;
+        public float damageDoT;
+        public float tickTimeDoT;
         public float recharge;
         public float lastUsed = 0;
         public int superBarValue;
@@ -58,6 +64,11 @@ namespace USComics_Combat
             damage = attackInfo.damage;
             duration = attackInfo.duration;
             range = attackInfo.range;
+            isAoE = attackInfo.isAoE;
+            radiusAoE = attackInfo.radiusAoE;
+            isDoT = attackInfo.isDoT;
+            damageDoT = attackInfo.damageDoT;
+            tickTimeDoT = attackInfo.tickTimeDoT;
             recharge = attackInfo.recharge;
             lastUsed = attackInfo.lastUsed;
             animationNames = attackInfo.animationNames;
@@ -85,17 +96,26 @@ namespace USComics_Combat
 
         }
 
-        public void DoAttack(EntityController target)
-        {
+        public void DoAttack(EntityController target) {
             Attack clone = new Attack(this);
-            PlayAll(clone);
             lastUsed = Time.time;
-            target.Attacked(EntityControllerScript, clone);
+            if (!isAoE) {
+                target.Attacked(EntityControllerScript, clone);
+                PlayAll(clone, target);
+            }
+            else {
+                Collider[] targets;
+                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                else { targets = Environment.GetPlayersInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                for (int loop = 0; loop < targets.Length; loop++) {
+                    EntityController entityController = targets[loop].GetComponent<EntityController>();
+                    if (null != entityController) entityController.Attacked(EntityControllerScript, clone);
+                    if (0 == loop) PlayAll(clone, entityController);
+
+                }
+            }
         }
-        public bool IsUseable(GameObject[] objs)
-        {
-            return IsCharged() && AnyInRange(objs);
-        }
+        public bool IsUseable(GameObject[] objs)  { return IsCharged() && AnyInRange(objs); }
         public bool IsCharged() {
             if (0 == lastUsed) return true;
             return lastUsed + recharge <= Time.time;
@@ -104,24 +124,20 @@ namespace USComics_Combat
             if (!isSetup) SetupAttack();
             return DirectionUtilities.GetDistance(entity.transform, obj.transform) <= range;
         }
-        public bool AnyInRange(GameObject[] objs)
-        {
-            for (int loop = 0; loop < objs.Length; loop++)
-            {
+        public bool AnyInRange(GameObject[] objs) {
+            for (int loop = 0; loop < objs.Length; loop++) {
                 if (InRange(objs[loop])) return true;
             }
             return false;
         }
-        public GameObject[] AllInRange(GameObject[] objs)
-        {
+        public GameObject[] AllInRange(GameObject[] objs) {
             List<GameObject> result = new List<GameObject>();
-            for (int loop = 0; loop < objs.Length; loop++)
-            {
+            for (int loop = 0; loop < objs.Length; loop++) {
                 if (InRange(objs[loop])) result.Add(objs[loop]);
             }
             return result.ToArray();
         }
-        private void PlayAll(Attack attack)
+        private void PlayAll(Attack attack, EntityController target)
         {
             if (!isSetup) SetupAttack();
             PlaySounds();
@@ -129,8 +145,8 @@ namespace USComics_Combat
             PlayEmote();
             PlayParticleSystems();
             PlayLights();
-            SpawnPoints();
-            CalculateBonus(attack);
+            SpawnPoints(target);
+            CalculateBonus(attack, target);
         }
         private void StopAll()
         {
@@ -203,13 +219,13 @@ namespace USComics_Combat
                 light.enabled = false;
             }
         }
-        private void SpawnPoints()
+        private void SpawnPoints(EntityController target)
         {
             if (null == pointsObject) return;
-            DynamicObjectManagerScript.Clone(pointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
+            DynamicObjectManagerScript.Clone(pointsObject, target.transform.position, 0.0f, 180.0f, 0.0f);
         }
 
-        private void CalculateBonus(Attack attack)
+        private void CalculateBonus(Attack attack, EntityController target)
         {
             int bonus = Random.Range(1, 101);
             if (bonus > bonusChance) return;
@@ -218,20 +234,20 @@ namespace USComics_Combat
             {
                 EntityControllerScript.ClearAttackTimers();
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED);
-                DynamicObjectManagerScript.Clone(bamModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(bamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
             else if (bonus <= powBonusChance)
             {
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS);
-                DynamicObjectManagerScript.Clone(powModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
-                DynamicObjectManagerScript.Clone(bonusPoints, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(powModel, target.transform.position, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(bonusPoints, target.transform.position, 0.0f, 180.0f, 0.0f);
                 attack.damage += 2;
             }
             else
             {
                 CombatPadScript.IncrementSuperBar(5);
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS);
-                DynamicObjectManagerScript.Clone(kabamModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(kabamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
         }
 

@@ -189,10 +189,10 @@ namespace USComics_Combat
             if (PlayerAttackIndex.None == index) return;
             Attack attack = PlayerControllerScript.GetAttackAt(index);
             if (null == attack) return;
+            if (null != PlayerControllerScript.CurrentEnemy && PlayerControllerScript.CurrentEnemy.dead) PlayerControllerScript.CurrentEnemy = null;
             if (null == PlayerControllerScript.CurrentEnemy)
             {
                 GameObject target = PlayerControllerScript.NearestInRange();
-                Debug.Log("target=" + target.tag);
                 PlayerControllerScript.CurrentEnemy = target.GetComponent<EnemyController>();
                 PlayerControllerScript.CurrentEnemy.Targetted(PlayerControllerScript);
             }
