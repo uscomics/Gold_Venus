@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using USComics_Debug;
-using USComics_Player;
+using USComics_Entity;
 using USComics_Movement;
 using ProgressBar;
 
@@ -189,7 +189,14 @@ namespace USComics_Combat
             if (PlayerAttackIndex.None == index) return;
             Attack attack = PlayerControllerScript.GetAttackAt(index);
             if (null == attack) return;
-            attack.DoAttack();
+            if (null == PlayerControllerScript.CurrentEnemy)
+            {
+                GameObject target = PlayerControllerScript.NearestInRange();
+                Debug.Log("target=" + target.tag);
+                PlayerControllerScript.CurrentEnemy = target.GetComponent<EnemyController>();
+                PlayerControllerScript.CurrentEnemy.Targetted(PlayerControllerScript);
+            }
+            attack.DoAttack(PlayerControllerScript.CurrentEnemy);
             if (AttackType.Super != inAttack) UpdateSuperBar(inAttack);
             else ResetSuperBar();
         }

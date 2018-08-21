@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using USComics;
 using USComics_Debug;
+using USComics_Entity;
 using USComics_Dynamic;
 using USComics_Movement;
 using USComics_Message_Manager;
@@ -85,11 +85,12 @@ namespace USComics_Combat
 
         }
 
-        public void DoAttack()
+        public void DoAttack(EntityController target)
         {
-            PlayAll();
+            Attack clone = new Attack(this);
+            PlayAll(clone);
             lastUsed = Time.time;
-
+            target.Attacked(EntityControllerScript, clone);
         }
         public bool IsUseable(GameObject[] objs)
         {
@@ -120,7 +121,7 @@ namespace USComics_Combat
             }
             return result.ToArray();
         }
-        private void PlayAll()
+        private void PlayAll(Attack attack)
         {
             if (!isSetup) SetupAttack();
             PlaySounds();
@@ -129,7 +130,7 @@ namespace USComics_Combat
             PlayParticleSystems();
             PlayLights();
             SpawnPoints();
-            CalculateBonus();
+            CalculateBonus(attack);
         }
         private void StopAll()
         {
@@ -149,7 +150,6 @@ namespace USComics_Combat
                 return;
             }
             audioSource2.PlayOneShot(sound2);
-
         }
         private void StopSounds()
         {
@@ -167,6 +167,7 @@ namespace USComics_Combat
         }
         private void PlayAnimation()
         {
+            if (null == Anim) return;
             int randomAniation = Random.Range(0, animationNames.Length);
             Anim.Play(animationNames[randomAniation]);
         }
@@ -204,13 +205,11 @@ namespace USComics_Combat
         }
         private void SpawnPoints()
         {
+            if (null == pointsObject) return;
             DynamicObjectManagerScript.Clone(pointsObject, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
         }
-        private void ApplyDamage(int damage)
-        {
-        }
 
-        private void CalculateBonus()
+        private void CalculateBonus(Attack attack)
         {
             int bonus = Random.Range(1, 101);
             if (bonus > bonusChance) return;
@@ -226,7 +225,7 @@ namespace USComics_Combat
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS);
                 DynamicObjectManagerScript.Clone(powModel, healthPanel.transform.position, 0.0f, 0.0f, 0.0f);
                 DynamicObjectManagerScript.Clone(bonusPoints, healthPanel.transform.position, 0.0f, 180.0f, 0.0f);
-                ApplyDamage(2);
+                attack.damage += 2;
             }
             else
             {

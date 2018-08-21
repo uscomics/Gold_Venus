@@ -73,12 +73,12 @@ namespace USComics_Movement
             && (DirectionType.South != direction)
             && (DirectionType.None != direction))
             {
-                movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
+                TransitionOutOfClimb();
                 return;
             }
             ClimbType climbType = GetClimbType();
-            if (DirectionType.Stop == direction) { Speed = 0.0f; }
-            else { Speed = ClimbSpeed.GetSpeed(climbType); }
+            if (DirectionType.Stop == direction) { climbType = ClimbType.Idle; }
+            Speed = ClimbSpeed.GetSpeed(climbType);
             SetMove(direction, climbType);
         }
 
@@ -91,6 +91,7 @@ namespace USComics_Movement
             moduleActive = true;
             rigidBody.useGravity = false;
             if (!climbingPanel.activeSelf) climbingPanel.SetActive(true);
+            ForceStop();
         }
 
         public override bool IsRunning()
@@ -109,6 +110,11 @@ namespace USComics_Movement
         {
             BufferedDirection stop = new BufferedDirection(DirectionType.Stop);
             KeyboardScript.directionBuffer.queue.Enqueue(stop);
+        }
+
+        public void TransitionOutOfClimb()
+        {
+            movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
         }
 
         private DirectionType GetDirection()
@@ -145,10 +151,15 @@ namespace USComics_Movement
         private void UpdateAnimation(ClimbType climbType)
         {
             if (ClimbType.Climbing == climbType) Climbing();
+            else if (ClimbType.Idle == climbType) Idle();
         }
         private void Climbing()
         {
             Anim.Play("LadderClimb");
+        }
+        private void Idle()
+        {
+            Anim.Play("EdgeGrab_Idle");
         }
     }
 
@@ -156,6 +167,7 @@ namespace USComics_Movement
     public enum ClimbType
     {
         Climbing,
+        Idle,
         None
     }
 
@@ -163,9 +175,11 @@ namespace USComics_Movement
     public class ClimbSpeed
     {
         public const float CLIMB_SPEED = 1.0f;
+        public const float IDLE_SPEED = 1.0f;
         public static float GetSpeed(ClimbType climbType)
         {
             if (ClimbType.Climbing == climbType) return ClimbSpeed.CLIMB_SPEED;
+            if (ClimbType.Idle == climbType) return ClimbSpeed.IDLE_SPEED;
             return 0.0f;
         }
     }

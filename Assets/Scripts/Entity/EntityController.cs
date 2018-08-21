@@ -7,33 +7,35 @@ using USComics_Movement;
 using USComics_Environment;
 using USComics_Message_Manager;
 
-namespace USComics
+namespace USComics_Entity
 {
     public class EntityController : MonoBehaviour
     {
+        public GameObject entity;
         public string entityName = "";
+        public GameObject healthPanel;
         public List<AbstractBuff> buffs = new List<AbstractBuff>();
         public List<AbstractDebuff> debuffs = new List<AbstractDebuff>();
+        public Attack death;
+        public bool dead;
         public Attack[] attacks;
         public Vision vision = new Vision();
         public int CombatEmoteChance;
         public AudioClip[] CombatEmoteSounds;
         public AudioSource CombatEmoteSource;
+        public EntityController CurrentEnemy { get; set; }
 
         // Player game objects
-        protected GameObject entity;
         protected Rigidbody entityRigidBody;
-        protected GameObject healthPanel;
         protected Vector3 initialHelthPanelRotation;
         protected bool initialUpdate = true;
-        protected GameObject CurrentEnemy { get; set; }
-        protected bool CurrentEnemyInRange { get; set; }
 
         // State variables
         protected bool climbableInRange = false;
 
         // Scripts
         protected MovementTransitionManager movementTransitionManagerScript;
+        protected Health healthScript;
         protected SimpleMovementModule simpleMovementScript;
         protected ClimbMovementModule climbMovementScript;
         protected MessageManager messageManagerScript;
@@ -49,6 +51,26 @@ namespace USComics
         void Update()
         {
 
+        }
+
+        public virtual bool IsPlayer() { return false; }
+
+        public void ShowHealth()
+        {
+            Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
+            for (int loop = 0; loop < childComponents.Length; loop++)
+            {
+                childComponents[loop].enabled = true;
+            }
+        }
+
+        public void HideHealth()
+        {
+            Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
+            for (int loop = 0; loop < childComponents.Length; loop++)
+            {
+                childComponents[loop].enabled = false;
+            }
         }
 
         public float GetMaxAttackRange()
@@ -70,8 +92,31 @@ namespace USComics
 
         public Collider[] GetEnemiesInRange(bool useHeightDifference = true)
         {
-            Collider[] enemies = Environment.GetEnemiesInRange(entity.transform, vision.rangeRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Debug.Log("entity.transform=" + entity.transform.ToString());
+            Debug.Log("GetMaxAttackRange()=" + GetMaxAttackRange());
+            Debug.Log("vision.detectionAngle=" + vision.detectionAngle);
+            Debug.Log("vision.heightOffset=" + vision.heightOffset);
+            Debug.Log("vision.maxHeightDifference=" + vision.maxHeightDifference);
+            Collider[] enemies = Environment.GetEnemiesInRange(entity.transform, GetMaxAttackRange(), vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Debug.Log("enemies.Length=" + enemies.Length);
             return enemies;
+        }
+        public GameObject NearestInRange(bool useHeightDifference = true)
+        {
+            Collider[] enemies = GetEnemiesInRange(useHeightDifference);
+            if (0 == enemies.Length) return null;
+            GameObject[] enemiesGO = DirectionUtilities.GetGameObjects(enemies);
+            return DirectionUtilities.GetNearestObject(transform.position, enemiesGO);
+        }
+
+        public void Targetted(EntityController targettedBy)
+        {
+        }
+        public void Attacked(EntityController attackedBy, Attack attack)
+        {
+            if (dead) return;
+            healthScript.health -= attack.damage;
+            if (0 >= healthScript.health) DoDeath(attackedBy);
         }
 
         public void ClearAttackTimers()
@@ -81,6 +126,15 @@ namespace USComics
                 Attack attackInfo = attacks[loop];
                 attackInfo.lastUsed = 0;
             }
+        }
+
+        public void DoDeath(EntityController whoKilledMe)
+        {
+            dead = true;
+            healthScript.health = 0;
+            HideHealth();
+            if (null == death) return;
+            death.DoAttack(whoKilledMe);
         }
 
 #if UNITY_EDITOR
@@ -104,22 +158,25 @@ namespace USComics
 
         protected virtual bool SetupEntity()
         {
-            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+            if (null != entity) entityRigidBody = entity.GetComponent<Rigidbody>();
             messageManagerScript = GetComponent<MessageManager>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
+            if (null != entity) healthScript = entity.GetComponent<Health>();
 
-            if (null == healthPanel) { Debug.LogError("EntityController.SetupEntity: healthPanel is null."); }
+            if (null == entityRigidBody) { Debug.LogError("EntityController.SetupEntity: entityRigidBody is null."); }
             if (null == messageManagerScript) { Debug.LogError("EntityController.SetupEntity: messageManager is null."); }
             if (null == debugConsoleScript) { Debug.LogError("EntityController.SetupEntity: debugConsoleScript is null."); }
+            if (null == healthScript) { Debug.LogError("EntityController.SetupEntity: healthScript is null."); }
 
-            if (null == healthPanel) { return false; }
+            if (null == entityRigidBody) { return false; }
             if (null == messageManagerScript) { return false; }
             if (null == debugConsoleScript) { return false; }
+            if (null == healthScript) { return false; }
 
             initialHelthPanelRotation = healthPanel.transform.eulerAngles;
             CurrentEnemy = null;
-            CurrentEnemyInRange = false;
+            dead = false;
             messageManagerScript.ShowMessage("Hello World!");
             return true;
         }
@@ -131,7 +188,6 @@ namespace USComics
     {
         public float heightOffset = 0.0f;
         public float detectionRadius = 10;
-        public float rangeRadius = 1.5f;
         [Range(0.0f, 360.0f)]
         public float detectionAngle = 270;
         public float maxHeightDifference = 4.0f;

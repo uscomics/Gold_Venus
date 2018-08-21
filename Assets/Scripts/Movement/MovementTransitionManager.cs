@@ -41,24 +41,18 @@ namespace USComics_Movement
             if (null == fromModule) return false;
             if (null == toModule) return false;
             Transition = new MovementModulesTransition(fromModule, toModule);
-            Debug.Log("StartTransitionFrom " + Transition.From.ModuleType() + " to " + Transition.To.ModuleType());
-            Debug.Log("StartTransitionFrom: playing animation " + fromModule.GetTransitionFromAnimationName());
             Anim.Play(fromModule.GetTransitionFromAnimationName());
             return true;
         }
         public bool TransitionFromComplete()
         {
-            Debug.Log("TransitionFromComplete " + Transition.From.ModuleType() + " to " + Transition.To.ModuleType());
             Transition.From.StopModule();
-            Debug.Log("TransitionFromComplete: playing animation " + Transition.To.GetTransitionToAnimationName());
             Anim.Play(Transition.To.GetTransitionToAnimationName());
             return true;
         }
         public bool TransitionToComplete()
         {
-            Debug.Log("TransitionToComplete: " + Transition.From.ModuleType() + " to " + Transition.To.ModuleType());
             Transition.To.StartModule();
-            Debug.Log("Started " + Transition.To);
             return true;
         }
     }

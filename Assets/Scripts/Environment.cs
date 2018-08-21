@@ -110,13 +110,16 @@ namespace USComics_Environment
         public static Collider[] GetEnemiesInRange(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
             Collider[] colliders = Environment.GetEnemiesInSight(transform, radius, degrees, heightOffset, maxHeightDifference, useHeightDifference);
+            Debug.Log("GetEnemiesInSight.Length=" + colliders.Length);
             List<Collider> results = new List<Collider>();
             float halfDegrees = degrees / 2.0f;
             for (int loop = 0; loop < colliders.Length; loop++)
             {
                 GameObject candidate = DirectionUtilities.GetGameObject(colliders[loop]);
-                if ((0 < DirectionUtilities.GetForwardOrBehind(transform, candidate.transform))
-                && (DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 15.0f)))
+                Debug.Log("GetForwardOrBehind=" + DirectionUtilities.GetForwardOrBehind(transform, candidate.transform));
+                Debug.Log("AreParallel=" + DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 15.0f));
+                if (0 < DirectionUtilities.GetForwardOrBehind(transform, candidate.transform))
+                // && (DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 15.0f)))
                 {
                     results.Add(colliders[loop]);
                 }

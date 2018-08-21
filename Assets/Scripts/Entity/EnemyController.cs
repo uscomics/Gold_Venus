@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using USComics;
 
-namespace USComics_Combat
+namespace USComics_Entity
 {
     public class EnemyController : EntityController
     {
@@ -11,7 +11,7 @@ namespace USComics_Combat
         // Use this for initialization
         void Start()
         {
-
+            SetupEntity();
         }
 
         // Update is called once per frame

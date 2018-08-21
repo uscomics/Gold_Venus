@@ -9,7 +9,7 @@ using USComics_Movement;
 using USComics_Environment;
 using USComics_Message_Manager;
 
-namespace USComics_Player
+namespace USComics_Entity
 {
     public class PlayerController : EntityController
     {
@@ -44,6 +44,7 @@ namespace USComics_Player
                 debugConsoleScript.SetOther1("currentVector=" + currentVector);
             }
         }
+        public override bool IsPlayer() { return true; }
 
         public PlayerAttackIndex ConvertAttackTypeToPlayerAttackIndex(AttackType attack)
         {
@@ -61,19 +62,16 @@ namespace USComics_Player
         {
             base.SetupEntity();
             entity = GameObject.FindWithTag("PlayerCharacter") as GameObject;
-            if (null != entity) entityRigidBody = entity.GetComponent<Rigidbody>();
             if (null != entity) movementTransitionManagerScript = entity.GetComponent<MovementTransitionManager>();
             if (null != entity) simpleMovementScript = entity.GetComponent<SimpleMovementModule>();
             if (null != entity) climbMovementScript = entity.GetComponent<ClimbMovementModule>();
 
             if (null == entity) { Debug.LogError("PlayerController.SetupEntity: playerCharacter is null."); }
-            if (null == entityRigidBody) { Debug.LogError("PlayerController.SetupEntity: entityRigidBody is null."); }
             if (null == movementTransitionManagerScript) { Debug.LogError("PlayerController.SetupEntity: MovementTransitionManagerScript is null."); }
             if (null == simpleMovementScript) { Debug.LogError("PlayerController.SetupEntity: movementManagerScript is null."); }
             if (null == climbMovementScript) { Debug.LogError("EntityController.SetupEntity: climbManagerScript is null."); }
 
             if (null == entity) { return false; }
-            if (null == entityRigidBody) { return false; }
             if (null == movementTransitionManagerScript) { return false; }
             if (null == simpleMovementScript) { return false; }
             if (null == climbMovementScript) { return false; }
