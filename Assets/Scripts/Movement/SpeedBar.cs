@@ -10,8 +10,6 @@ namespace USComics_Movement
         public Image sneakingIcon;
         public Image walkingIcon;
         public Image runningIcon;
-        public Image climbingIcon;
-        public Image fallingIcon;
         public Image standingIcon;
         public Slider speedBar;
         public Image knob;
