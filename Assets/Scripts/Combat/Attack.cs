@@ -17,17 +17,12 @@ namespace USComics_Combat
         public string name;
         public float damage;
         public DamageType damageType;
-        public float durationDoT;
         public float range;
-        public bool isAoE = false;
+        public bool isAoE;
         public float radiusAoE;
-        public bool isDoT = false;
-        public float damageDoT;
-        public DamageType damageTypeDoT;
-        public float tickTimeDoT;
+        public DamageDoTEntityInfo dotInfo;
         public float recharge;
-        public float lastUsed = 0;
-        public float lastUsedDoT = 0;
+        public float lastUsed;
         public int superBarValue;
         public int bonusChance;
         public string[] animationNames;
@@ -38,13 +33,12 @@ namespace USComics_Combat
         public AudioClip sound2;
         public ParticleSystem[] particleSystems;
         public Light[] lights;
-        public AbstractBuff[] targetBuffs;
+        public AbstractBuffInfo[] targetBuffs;
         public GameObject entity;
         public GameObject bamModel;
         public GameObject powModel;
         public GameObject kabamModel;
         public GameObject bonusPoints;
-        public GameObject damageModelDoT;
 
         private EntityController EntityControllerScript;
         private GameObject healthPanel;
@@ -56,7 +50,7 @@ namespace USComics_Combat
         private Keyboard KeyboardScript;
         private DynamicObjectManager DynamicObjectManagerScript;
         private DebugConsole debugConsoleScript;
-        private bool isSetup = false;
+        private bool isSetup;
         private int bamBonusChance;
         private int powBonusChance;
 
@@ -68,15 +62,9 @@ namespace USComics_Combat
             range = attackInfo.range;
             isAoE = attackInfo.isAoE;
             radiusAoE = attackInfo.radiusAoE;
-            isDoT = attackInfo.isDoT;
-            durationDoT = attackInfo.durationDoT;
-            damageDoT = attackInfo.damageDoT;
-            damageTypeDoT = attackInfo.damageTypeDoT;
-            tickTimeDoT = attackInfo.tickTimeDoT;
-            damageModelDoT = attackInfo.damageModelDoT;
+            dotInfo = attackInfo.dotInfo;
             recharge = attackInfo.recharge;
             lastUsed = attackInfo.lastUsed;
-            lastUsedDoT = attackInfo.lastUsedDoT;
             animationNames = attackInfo.animationNames;
             pointsObject = attackInfo.pointsObject;
             audioSource1 = attackInfo.audioSource1;
@@ -96,6 +84,7 @@ namespace USComics_Combat
         void Start() { }
         void Update() { }
 
+        public bool IsDoT()  { return dotInfo && dotInfo.isDoT; }
         public bool IsUseable(GameObject[] objs)  { return IsCharged() && AnyInRange(objs); }
         public bool IsCharged() {
             if (0 == lastUsed) return true;
@@ -149,20 +138,19 @@ namespace USComics_Combat
         private void ApplyBuffsToTarget(EntityController target) {
             if (null == targetBuffs) return;
             for (int loop = 0; loop < targetBuffs.Length; loop++) {
-                AbstractBuff buff = targetBuffs[loop];
+                AbstractBuff buff = targetBuffs[loop].GetBuff();
                 buff.Target = target;
                 buff.Attacker = EntityControllerScript;
                 target.AddBuff(buff);
             }
         }
         private void ApplyDoTToTarget(Attack attack, EntityController target) {
-            if (!attack.isDoT) return;
+            if (!attack.IsDoT()) return;
             DamageDoTEntity dot = new DamageDoTEntity();
             dot.FromAttack(this, EntityControllerScript, target);
             target.AddBuff(dot);
         }
-        private void PlayAll(Attack attack, EntityController target)
-        {
+        private void PlayAll(Attack attack, EntityController target) {
             if (!isSetup) SetupAttack();
             PlaySounds();
             PlayAnimation();
@@ -174,32 +162,27 @@ namespace USComics_Combat
             ApplyDoTToTarget(attack, target);
             ApplyBuffsToTarget(target);
         }
-        private void StopAll()
-        {
+        private void StopAll() {
             StopSounds();
             StopParticleSystems();
             StopLights();
         }
-        private void PlaySounds()
-        {
+        private void PlaySounds() {
             if (null == audioSource1) return;
             if (null == sound1) return;
             audioSource1.PlayOneShot(sound1);
             if (null == sound2) return;
-            if (null == audioSource2)
-            {
+            if (null == audioSource2) {
                 Debug.LogError("Need two audio sources to play two audio clips.");
                 return;
             }
             audioSource2.PlayOneShot(sound2);
         }
-        private void StopSounds()
-        {
+        private void StopSounds() {
             if (null != audioSource1 && audioSource1.isPlaying) audioSource1.Stop();
             if (null != audioSource2 && audioSource2.isPlaying) audioSource2.Stop();
         }
-        private void PlayEmote()
-        {
+        private void PlayEmote() {
             if (null == EntityControllerScript.CombatEmoteSource) return;
             if (0 == EntityControllerScript.CombatEmoteSounds.Length) return;
             int chance = Random.Range(1, 101);
@@ -207,78 +190,62 @@ namespace USComics_Combat
             int randomEmote = Random.Range(0, EntityControllerScript.CombatEmoteSounds.Length);
             EntityControllerScript.CombatEmoteSource.PlayOneShot(EntityControllerScript.CombatEmoteSounds[randomEmote]);
         }
-        private void PlayAnimation()
-        {
+        private void PlayAnimation() {
             if (null == Anim) return;
             int randomAniation = Random.Range(0, animationNames.Length);
             Anim.Play(animationNames[randomAniation]);
         }
-        private void PlayParticleSystems()
-        {
-            for (int loop1 = 0; loop1 < particleSystems.Length; loop1++)
-            {
+        private void PlayParticleSystems() {
+            for (int loop1 = 0; loop1 < particleSystems.Length; loop1++) {
                 ParticleSystem particleSystem = particleSystems[loop1];
                 particleSystem.Play();
             }
         }
-        private void StopParticleSystems()
-        {
-            for (int loop1 = 0; loop1 < particleSystems.Length; loop1++)
-            {
+        private void StopParticleSystems() {
+            for (int loop1 = 0; loop1 < particleSystems.Length; loop1++) {
                 ParticleSystem particleSystem = particleSystems[loop1];
                 particleSystem.Stop();
             }
         }
-        private void PlayLights()
-        {
-            for (int loop1 = 0; loop1 < lights.Length; loop1++)
-            {
+        private void PlayLights() {
+            for (int loop1 = 0; loop1 < lights.Length; loop1++) {
                 Light light = lights[loop1];
                 light.enabled = true;
             }
         }
-        private void StopLights()
-        {
-            for (int loop1 = 0; loop1 < lights.Length; loop1++)
-            {
+        private void StopLights() {
+            for (int loop1 = 0; loop1 < lights.Length; loop1++) {
                 Light light = lights[loop1];
                 light.enabled = false;
             }
         }
-        private void SpawnPoints(EntityController target)
-        {
+        private void SpawnPoints(EntityController target) {
             if (null == pointsObject) return;
             DynamicObjectManagerScript.Clone(pointsObject, target.transform.position, 0.0f, 180.0f, 0.0f);
         }
 
-        private void CalculateBonus(Attack attack, EntityController target)
-        {
+        private void CalculateBonus(Attack attack, EntityController target) {
             int bonus = Random.Range(1, 101);
             if (bonus > bonusChance) return;
             bonus = Random.Range(1, 101);
-            if (bonus <= bamBonusChance)
-            {
+            if (bonus <= bamBonusChance) {
                 EntityControllerScript.ClearAttackTimers();
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED);
                 DynamicObjectManagerScript.Clone(bamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
-            else if (bonus <= powBonusChance)
-            {
+            else if (bonus <= powBonusChance) {
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS);
                 DynamicObjectManagerScript.Clone(powModel, target.transform.position, 0.0f, 0.0f, 0.0f);
                 DynamicObjectManagerScript.Clone(bonusPoints, target.transform.position, 0.0f, 180.0f, 0.0f);
                 attack.damage += 2;
-            }
-            else
-            {
+            } else {
                 CombatPadScript.IncrementSuperBar(5);
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS);
                 DynamicObjectManagerScript.Clone(kabamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
         }
 
-        private bool SetupAttack()
-        {
+        private bool SetupAttack() {
             if (null != entity) EntityControllerScript = entity.GetComponent<EntityController>();
             if (null != entity) Anim = entity.GetComponent<Animator>();
             GameObject messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;

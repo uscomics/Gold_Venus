@@ -7,48 +7,51 @@ using USComics_Dynamic;
 namespace USComics_Combat {
 	[System.Serializable]
 	public class DamageDoTEntity : AbstractBuff {
-		public float damageDoT;
-		public float durationDoT;
-		public DamageType damageTypeDoT;
-		public float tickTimeDoT;
-		public float lastUsedDoT;
-		public GameObject damageModelDoT;
+		public DamageDoTEntityInfo dotInfo;
 
 		private DynamicObjectManager DynamicObjectManagerScript;
 
 		public DamageDoTEntity() { }
 		public DamageDoTEntity(DamageDoTEntity buff) : base(buff) {
-			damageDoT = buff.damageDoT;
-			durationDoT = buff.durationDoT;
-			damageTypeDoT = buff.damageTypeDoT;
-			tickTimeDoT = buff.tickTimeDoT;
-			lastUsedDoT = buff.lastUsedDoT;
-			damageModelDoT = buff.damageModelDoT;
+			dotInfo.damage = buff.dotInfo.damage;
+			dotInfo.duration = buff.dotInfo.duration;
+			dotInfo.damageType = buff.dotInfo.damageType;
+			dotInfo.tickTime = buff.dotInfo.tickTime;
+			dotInfo.lastTick = buff.dotInfo.lastTick;
+			dotInfo.damageModel = buff.dotInfo.damageModel;
+		}
+		public DamageDoTEntity(DamageDoTEntityInfo buff) {
+			dotInfo.damage = buff.damage;
+			dotInfo.duration = buff.duration;
+			dotInfo.damageType = buff.damageType;
+			dotInfo.tickTime = buff.tickTime;
+			dotInfo.lastTick = buff.lastTick;
+			dotInfo.damageModel = buff.damageModel;
 		}
 		public override AbstractBuff Clone() { return new DamageDoTEntity(this); }
 		public void FromAttack(Attack attack, EntityController attacker, EntityController target) {
-			damageDoT = attack.damageDoT;
-			durationDoT = attack.durationDoT;
-			damageTypeDoT = attack.damageTypeDoT;
-			tickTimeDoT = attack.tickTimeDoT;
-			lastUsedDoT = attack.lastUsedDoT;
-			damageModelDoT = attack.damageModelDoT;
+			dotInfo.damage = attack.dotInfo.damage;
+			dotInfo.duration = attack.dotInfo.duration;
+			dotInfo.damageType = attack.dotInfo.damageType;
+			dotInfo.tickTime = attack.dotInfo.tickTime;
+			dotInfo.lastTick = attack.dotInfo.lastTick;
+			dotInfo.damageModel = attack.dotInfo.damageModel;
 			Attacker = attacker;
 			Target = target;
 		}
 		public override Attack Buff(Attack attack) { return attack; }
 		public override EntityController Buff(EntityController entity) {
 			if (Expired) return entity;
-			if ((0 != lastUsedDoT) && (Time.time - lastUsedDoT < tickTimeDoT)) return entity;
-			entity.healthScript.health -= damageDoT;
+			if ((0 != dotInfo.lastTick) && (Time.time - dotInfo.lastTick < dotInfo.tickTime)) return entity;
+			entity.healthScript.health -= dotInfo.damage;
 			SpawnPoints(entity);
 			if (0 >= entity.healthScript.health) {
 				entity.healthScript.health = 0;
 				entity.DoDeath(Attacker);
 			}
 			if (0 == StartTime) StartTime = Time.time;
-			lastUsedDoT = Time.time;
-			if (lastUsedDoT - StartTime >= durationDoT) Expired = true;
+			dotInfo.lastTick = Time.time;
+			if (dotInfo.lastTick - StartTime >= dotInfo.duration) Expired = true;
 			return entity;
 		}
 		protected override bool SetupBuff() {
@@ -61,8 +64,8 @@ namespace USComics_Combat {
 		}
 		private void SpawnPoints(EntityController target)
 		{
-			if (null == damageModelDoT) return;
-			DynamicObjectManagerScript.Clone(damageModelDoT, target.transform.position + (target.transform.up * 2), 0.0f, 180.0f, 0.0f);
+			if (null == dotInfo.damageModel) return;
+			DynamicObjectManagerScript.Clone(dotInfo.damageModel, target.transform.position + (target.transform.up * 2), 0.0f, 180.0f, 0.0f);
 		}
 	}
 }

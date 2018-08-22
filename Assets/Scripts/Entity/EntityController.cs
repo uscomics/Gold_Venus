@@ -12,7 +12,7 @@ using USComics_Pickups;
 namespace USComics_Entity {
     public class EntityController : MonoBehaviour {
         public GameObject entity;
-        public string entityName = "";
+        public string entityName;
         public GameObject healthPanel;
         public List<AbstractBuff> buffs = new List<AbstractBuff>();
         public Health healthScript;
