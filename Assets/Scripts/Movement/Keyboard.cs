@@ -45,8 +45,8 @@ namespace USComics_Movement
                 if (Input.GetKeyDown(KeyCode.Delete)) return DirectionType.Stop;
                 return DirectionType.None;
             }
-            if (vert < 0) return DirectionType.South;
-            if (vert > 0) return DirectionType.North;
+            if (vert < 0) { if (horz < 0) return DirectionType.SW; if (horz > 0) return DirectionType.SE; return DirectionType.South; }
+            if (vert > 0) { if (horz < 0) return DirectionType.NW; if (horz > 0) return DirectionType.NE; return DirectionType.North; }
             if (horz < 0) return DirectionType.West;
             return DirectionType.East;
         }
