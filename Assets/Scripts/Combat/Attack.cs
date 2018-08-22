@@ -281,7 +281,8 @@ namespace USComics_Combat
         {
             if (null != entity) EntityControllerScript = entity.GetComponent<EntityController>();
             if (null != entity) Anim = entity.GetComponent<Animator>();
-            if (null != entity) messageManagerScript = entity.GetComponent<MessageManager>();
+            GameObject messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
+            if (null != messageCanvas) messageManagerScript = messageCanvas.GetComponent<MessageManager>();
             healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();

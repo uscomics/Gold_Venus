@@ -13,7 +13,6 @@ public class EndOfTransitionTo : StateMachineBehaviour {
             MovementTransitionManager movementTransitionManagerScript = playerCharacter.GetComponent<MovementTransitionManager>();
             if (null != movementTransitionManagerScript)
             {
-                Debug.Log("EndOfTransitionTo.OnStateExit");
                 movementTransitionManagerScript.TransitionToComplete();
             }
         }

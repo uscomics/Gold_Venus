@@ -7,11 +7,10 @@ using USComics_Dynamic;
 using USComics_Movement;
 using USComics_Environment;
 using USComics_Message_Manager;
+using USComics_Pickups;
 
-namespace USComics_Entity
-{
-    public class EntityController : MonoBehaviour
-    {
+namespace USComics_Entity {
+    public class EntityController : MonoBehaviour {
         public GameObject entity;
         public string entityName = "";
         public GameObject healthPanel;
@@ -45,6 +44,16 @@ namespace USComics_Entity
 
         void Start() { SetupEntity(); }
         void Update() { }
+        private void OnTriggerEnter(Collider other) {
+            GameObject go = DirectionUtilities.GetGameObject(other);
+            if (go.CompareTag("Pickup")) {
+                AbstractPickup pickup = go.GetComponent<AbstractPickup>();
+                if (null == pickup) return;
+                pickup.ExecutePickup(this);
+                Destroy(go);
+            }
+        }
+
         public virtual bool IsPlayer() { return false; }
 
         public void ShowHealth() {
@@ -55,6 +64,14 @@ namespace USComics_Entity
         public void HideHealth() {
             Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
             for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = false; }
+        }
+
+        public void AddHealth(float amount) {
+            healthScript.AddHealth(amount);
+        }
+
+        public void AddLife() {
+            healthScript.AddLife();
         }
 
         public void AddBuff(AbstractBuff buff) { buffs.Add(buff); }
@@ -135,7 +152,8 @@ namespace USComics_Entity
         protected virtual bool SetupEntity()
         {            
             if (null != entity) entityRigidBody = entity.GetComponent<Rigidbody>();
-            messageManagerScript = GetComponent<MessageManager>();
+            GameObject messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
+            if (null != messageCanvas) messageManagerScript = messageCanvas.GetComponent<MessageManager>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             if (null != entity) healthScript = entity.GetComponent<Health>();

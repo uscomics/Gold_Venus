@@ -38,6 +38,7 @@ TagManager:
   - 3 Points
   - 10 Points
   - 30 Points
+  - Pickup
   layers:
   - Default
   - TransparentFX

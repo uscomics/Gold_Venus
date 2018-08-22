@@ -35,7 +35,7 @@ namespace USComics_Message_Manager
         // Use this for initialization
         void Start()
         {
-            GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            GameObject playerCharacter = GameObject.FindWithTag("MainCamera") as GameObject;
             if (null != playerCharacter) audioSource = playerCharacter.GetComponent<AudioSource>();
             if (null == audioSource) { Debug.LogError("MessageManager.Start: audioSource is null."); }
             if (null == audioSource) { return; }

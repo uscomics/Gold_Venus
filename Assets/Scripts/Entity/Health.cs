@@ -23,14 +23,10 @@ namespace USComics_Entity
         private float maxHeath;
 
         // Use this for initialization
-        void Start()
-        {
-            maxHeath = health;
-        }
+        void Start() { maxHeath = health; }
 
         // Update is called once per frame
-        void Update()
-        {
+        void Update() {
             float healthRemainingPrecentage = health / maxHeath;
             float healthBarPercentage = healthRemainingPrecentage * initialHealthBarScale;
             Vector3 healthBarScale = healthBar.transform.localScale;
@@ -42,10 +38,16 @@ namespace USComics_Entity
             if (3 > lives) HideGameObject(life3); else ShowGameObject(life3);
             if (2 > lives) HideGameObject(life2); else ShowGameObject(life2);
             if (1 > lives) HideGameObject(life1); else ShowGameObject(life1);
-
         }
-
-        void HideGameObject(GameObject gameObject) { gameObject.SetActive(false); }
-        void ShowGameObject(GameObject gameObject) { gameObject.SetActive(true); }
+        public void AddHealth(float amount) {
+            health += amount;
+            if (health > maxHeath) health = maxHeath;
+        }
+        public void AddLife() {
+            if (lives == Health.MAX_LIVES) return;
+            lives++;
+        }
+        private void HideGameObject(GameObject gameObject) { gameObject.SetActive(false); }
+        private void ShowGameObject(GameObject gameObject) { gameObject.SetActive(true); }
     }
 }
