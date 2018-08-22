@@ -39,6 +39,8 @@ TagManager:
   - 10 Points
   - 30 Points
   - Pickup
+  - ClimbPad
+  - SpeedBarPanel
   layers:
   - Default
   - TransparentFX

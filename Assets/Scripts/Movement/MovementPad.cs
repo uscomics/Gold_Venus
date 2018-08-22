@@ -29,6 +29,8 @@ namespace USComics_Movement
         private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
         private SpeedBar SpeedBarScript;
+        private CanvasGroup MovementPadCanvasGroupScript;
+        private CanvasGroup SpeedBarCanvasGroupScript;
 
         // Use this for initialization
         void Start()
@@ -36,18 +38,25 @@ namespace USComics_Movement
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
+            if (null != movementPad) MovementPadCanvasGroupScript = movementPad.GetComponent<CanvasGroup>();
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
             if (null != movementPad) movementPadImage = movementPad.GetComponent<Image>();
             GameObject speedBarKnob = GameObject.FindWithTag("SpeedBarKnob") as GameObject;
             if (null != speedBarKnob) SpeedBarScript = speedBarKnob.GetComponent<SpeedBar>();
+            GameObject speedBarPanel = GameObject.FindWithTag("SpeedBarPanel") as GameObject;
+            if (null != speedBarPanel) SpeedBarCanvasGroupScript = speedBarPanel.GetComponent<CanvasGroup>();
 
             if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
+            if (null == MovementPadCanvasGroupScript) { Debug.LogError("MovementPad.Start: MovementPadCanvasGroupScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("MovementPad.Start: KeyboardScript is null."); }
             if (null == SpeedBarScript) { Debug.LogError("MovementPad.Start: SpeedBarScript is null."); }
+            if (null == SpeedBarCanvasGroupScript) { Debug.LogError("MovementPad.Start: SpeedBarCanvasGroupScript is null."); }
 
             if (null == debugConsoleScript) { return; }
+            if (null == MovementPadCanvasGroupScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == SpeedBarScript) { return; }
+            if (null == SpeedBarCanvasGroupScript) { return; }
 
             CurrentDirection = DirectionType.None;
 
@@ -94,6 +103,24 @@ namespace USComics_Movement
             }
         }
 
+        public void ShowMovementUI() {
+            MovementPadCanvasGroupScript.alpha = 1.0f;
+            MovementPadCanvasGroupScript.interactable = true;
+            MovementPadCanvasGroupScript.blocksRaycasts = true;
+            SpeedBarCanvasGroupScript.alpha = 1.0f;
+            SpeedBarCanvasGroupScript.interactable = true;
+            SpeedBarCanvasGroupScript.blocksRaycasts = true;
+        }
+
+        public void HideMovementUI() {
+            MovementPadCanvasGroupScript.alpha = 0.0f;
+            MovementPadCanvasGroupScript.interactable = false;
+            MovementPadCanvasGroupScript.blocksRaycasts = false;
+            SpeedBarCanvasGroupScript.alpha = 0.0f;
+            SpeedBarCanvasGroupScript.interactable = false;
+            SpeedBarCanvasGroupScript.blocksRaycasts = false;
+        }
+        
         public void SetDirection(DirectionType direction) {
             if (DirectionType.None == direction) return;
             CurrentDirection = direction;

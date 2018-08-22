@@ -302,7 +302,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4655999463382822, guid: fca4507d38b3e704294b9885fa9ceff8, type: 2}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 114683811123244288, guid: fca4507d38b3e704294b9885fa9ceff8,
         type: 2}
@@ -349,7 +349,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4460985500265090, guid: b1a1fb1245480c4419cda91a8de860e2, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 114371314340792320, guid: b1a1fb1245480c4419cda91a8de860e2,
         type: 2}
@@ -5667,6 +5667,7 @@ GameObject:
   - component: {fileID: 229610846}
   - component: {fileID: 229610845}
   - component: {fileID: 229610847}
+  - component: {fileID: 229610849}
   m_Layer: 5
   m_Name: Movement Pad Button
   m_TagString: MovementPad
@@ -5775,6 +5776,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 229610843}
   m_CullTransparentMesh: 0
+--- !u!225 &229610849
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 229610843}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &233388766
 GameObject:
   m_ObjectHideFlags: 0
@@ -10542,7 +10554,7 @@ RectTransform:
   - {fileID: 388804746}
   - {fileID: 1534074492}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10697,7 +10709,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &337221748
 GameObject:
@@ -11304,9 +11316,10 @@ GameObject:
   - component: {fileID: 388804749}
   - component: {fileID: 388804748}
   - component: {fileID: 388804747}
+  - component: {fileID: 388804751}
   m_Layer: 5
   m_Name: Climb Pad Pad Button
-  m_TagString: MovementPad
+  m_TagString: ClimbPad
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -11400,6 +11413,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 388804745}
   m_CullTransparentMesh: 0
+--- !u!225 &388804751
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 388804745}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &407054505
 GameObject:
   m_ObjectHideFlags: 0
@@ -12370,7 +12394,7 @@ RectTransform:
   - {fileID: 380082741}
   - {fileID: 1788611661}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13438,7 +13462,7 @@ Transform:
   - {fileID: 554075689}
   - {fileID: 1786750952}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844139632
 GameObject:
@@ -32801,7 +32825,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 229610844}
-  - {fileID: 1680644593}
+  - {fileID: 1308551150}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -33672,6 +33696,88 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.21945775, y: -0.016071081, z: 0.01535292}
     m_Extent: {x: 0.32832068, y: 0.16259831, z: 0.16132332}
   m_DirtyAABB: 0
+--- !u!1 &1308551149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1308551150}
+  - component: {fileID: 1308551152}
+  - component: {fileID: 1308551151}
+  - component: {fileID: 1308551153}
+  m_Layer: 5
+  m_Name: SpeedBar Panel
+  m_TagString: SpeedBarPanel
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1308551150
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1308551149}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1680644593}
+  m_Father: {fileID: 1126453504}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -60, y: 20}
+  m_SizeDelta: {x: 180, y: 20}
+  m_Pivot: {x: 1, y: 0}
+--- !u!114 &1308551151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1308551149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+--- !u!222 &1308551152
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1308551149}
+  m_CullTransparentMesh: 0
+--- !u!225 &1308551153
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1308551149}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1342474105
 GameObject:
   m_ObjectHideFlags: 0
@@ -38926,7 +39032,7 @@ RectTransform:
   m_Children:
   - {fileID: 749666955}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -39186,6 +39292,7 @@ GameObject:
   - component: {fileID: 1534074495}
   - component: {fileID: 1534074494}
   - component: {fileID: 1534074493}
+  - component: {fileID: 1534074496}
   m_Layer: 5
   m_Name: Climbing Panel
   m_TagString: ClimbingPanel
@@ -39208,7 +39315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -120.58002, y: 11.61}
+  m_AnchoredPosition: {x: -120.58002, y: 11.609985}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1534074493
@@ -39275,6 +39382,17 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1534074491}
   m_CullTransparentMesh: 0
+--- !u!225 &1534074496
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1534074491}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1545017090
 GameObject:
   m_ObjectHideFlags: 0
@@ -40330,12 +40448,12 @@ RectTransform:
   - {fileID: 1601782952}
   - {fileID: 966519663}
   - {fileID: 1781151873}
-  m_Father: {fileID: 1126453504}
-  m_RootOrder: 1
+  m_Father: {fileID: 1308551150}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -60, y: 20}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &1680644594
@@ -48023,7 +48141,7 @@ Prefab:
     - target: {fileID: 224780152332410876, guid: a19b10838215746458d23476cbfd9236,
         type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 224780152332410876, guid: a19b10838215746458d23476cbfd9236,
         type: 2}
@@ -48063,7 +48181,7 @@ Prefab:
     - target: {fileID: 224780152332410876, guid: a19b10838215746458d23476cbfd9236,
         type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 224780152332410876, guid: a19b10838215746458d23476cbfd9236,
         type: 2}

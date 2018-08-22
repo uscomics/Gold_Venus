@@ -127,7 +127,7 @@ namespace USComics_Entity {
             HideHealth();
             if (null != death) death.DoAttack(whoKilledMe);
             if (null != deathSpawn) DynamicObjectManagerScript.Clone(deathSpawn, deathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
-            
+            if (this == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
         }
 
 #if UNITY_EDITOR

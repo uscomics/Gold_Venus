@@ -17,7 +17,7 @@ namespace USComics_Movement
         private Rigidbody rigidBody;
         private Animator Anim;
         private MovementTransitionManager movementTransitionManagerScript;
-        private MovementPad MovementPadScript;
+        private ClimbPad ClimbPadScript;
         private GameObject climbingPanel;
         private Keyboard KeyboardScript;
         private DebugConsole debugConsoleScript;
@@ -30,9 +30,9 @@ namespace USComics_Movement
             if (null != playerCharacter) Anim = playerCharacter.GetComponent<Animator>();
             if (null != playerCharacter) movementTransitionManagerScript = playerCharacter.GetComponent<MovementTransitionManager>();
             if (null != playerCharacter) rigidBody = playerCharacter.GetComponent<Rigidbody>();
-            GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
-            if (null != movementPad) MovementPadScript = movementPad.GetComponent<MovementPad>();
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
+            GameObject climbPad = GameObject.FindWithTag("ClimbPad") as GameObject;
+            if (null != climbPad) ClimbPadScript = climbPad.GetComponent<ClimbPad>();
+            if (null != climbPad) KeyboardScript = climbPad.GetComponent<Keyboard>();
             climbingPanel = GameObject.FindWithTag("ClimbingPanel") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
@@ -40,7 +40,7 @@ namespace USComics_Movement
             if (null == Anim) { Debug.LogError("ClimbMovementModule.Start: Anim is null."); }
             if (null == movementTransitionManagerScript) { Debug.LogError("ClimbMovementModule.Start: MovementTransitionManagerScript is null."); }
             if (null == rigidBody) { Debug.LogError("ClimbMovementModule.Start: rigidBody is null."); }
-            if (null == MovementPadScript) { Debug.LogError("ClimbMovementModule.Start: MovementPadScript is null."); }
+            if (null == ClimbPadScript) { Debug.LogError("ClimbMovementModule.Start: ClimbPadScript is null."); }
             if (null == climbingPanel) { Debug.LogError("ClimbMovementModule.Start: climbingPanel is null."); }
             if (null == KeyboardScript) { Debug.LogError("ClimbMovementModule.Start: KeyboardScript is null."); }
             if (null == debugConsoleScript) { Debug.LogError("ClimbMovementModule.Start: debugConsoleScript is null."); }
@@ -48,7 +48,7 @@ namespace USComics_Movement
             if (null == Anim) { return; }
             if (null == movementTransitionManagerScript) { return; }
             if (null == rigidBody) { return; }
-            if (null == MovementPadScript) { return; }
+            if (null == ClimbPadScript) { return; }
             if (null == climbingPanel) { return; }
             if (null == KeyboardScript) { return; }
             if (null == debugConsoleScript) { return; }
@@ -60,7 +60,7 @@ namespace USComics_Movement
             Speed = 0.0f;
             moduleActive = false;
             movementTransitionManagerScript.Register(this);
-            climbingPanel.SetActive(false);
+            ClimbPadScript.HideClimbingUI();
         }
 
         // Update is called once per frame
@@ -90,7 +90,7 @@ namespace USComics_Movement
         {
             moduleActive = true;
             rigidBody.useGravity = false;
-            if (!climbingPanel.activeSelf) climbingPanel.SetActive(true);
+            ClimbPadScript.ShowClimbingUI();
             ForceStop();
         }
 
@@ -103,7 +103,7 @@ namespace USComics_Movement
         {
             moduleActive = false;
             rigidBody.useGravity = true;
-            if (climbingPanel.activeSelf) climbingPanel.SetActive(false);
+            ClimbPadScript.HideClimbingUI();
         }
 
         public void ForceStop()
@@ -119,7 +119,7 @@ namespace USComics_Movement
 
         private DirectionType GetDirection()
         {
-            DirectionType direction = MovementPadScript.CurrentDirection;
+            DirectionType direction = ClimbPadScript.CurrentDirection;
             return direction;
         }
 
@@ -175,7 +175,7 @@ namespace USComics_Movement
     public class ClimbSpeed
     {
         public const float CLIMB_SPEED = 1.0f;
-        public const float IDLE_SPEED = 1.0f;
+        public const float IDLE_SPEED = 0.0f;
         public static float GetSpeed(ClimbType climbType)
         {
             if (ClimbType.Climbing == climbType) return ClimbSpeed.CLIMB_SPEED;

@@ -20,21 +20,30 @@ namespace USComics_Movement
         private Image climbPadImage;
         private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
+        private CanvasGroup ClimbPadCanvasGroupScript;
+        private CanvasGroup ClimbingPanelCanvasGroupScript;
 
         // Use this for initialization
         void Start()
         {
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-            GameObject movementPad = GameObject.FindWithTag("ClimbPad") as GameObject;
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
-            if (null != movementPad) climbPadImage = movementPad.GetComponent<Image>();
+            GameObject climbPad = GameObject.FindWithTag("ClimbPad") as GameObject;
+            if (null != climbPad) ClimbPadCanvasGroupScript = climbPad.GetComponent<CanvasGroup>();
+            if (null != climbPad) KeyboardScript = climbPad.GetComponent<Keyboard>();
+            if (null != climbPad) climbPadImage = climbPad.GetComponent<Image>();
+            GameObject climbingPanel = GameObject.FindWithTag("ClimbingPanel") as GameObject;
+            if (null != climbingPanel) ClimbingPanelCanvasGroupScript = climbingPanel.GetComponent<CanvasGroup>();
 
-            if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
-            if (null == KeyboardScript) { Debug.LogError("MovementPad.Start: KeyboardScript is null."); }
+            if (null == debugConsoleScript) { Debug.LogError("ClimbPad.Start: debugConsoleScript is null."); }
+            if (null == ClimbPadCanvasGroupScript) { Debug.LogError("ClimbPad.Start: ClimbPadCanvasGroupScript is null."); }
+            if (null == KeyboardScript) { Debug.LogError("ClimbPad.Start: KeyboardScript is null."); }
+            if (null == ClimbingPanelCanvasGroupScript) { Debug.LogError("ClimbPad.Start: ClimbingPanelCanvasGroupScript is null."); }
 
             if (null == debugConsoleScript) { return; }
+            if (null == ClimbPadCanvasGroupScript) { return; }
             if (null == KeyboardScript) { return; }
+            if (null == ClimbingPanelCanvasGroupScript) { return; }
 
             CurrentDirection = DirectionType.None;
 
@@ -69,6 +78,24 @@ namespace USComics_Movement
                 // if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
                 SetMovementPadImage(direction);
             }
+        }
+
+        public void ShowClimbingUI() {
+            ClimbPadCanvasGroupScript.alpha = 1.0f;
+            ClimbPadCanvasGroupScript.interactable = true;
+            ClimbPadCanvasGroupScript.blocksRaycasts = true;
+            ClimbingPanelCanvasGroupScript.alpha = 1.0f;
+            ClimbingPanelCanvasGroupScript.interactable = true;
+            ClimbingPanelCanvasGroupScript.blocksRaycasts = true;
+        }
+
+        public void HideClimbingUI() {
+            ClimbPadCanvasGroupScript.alpha = 0.0f;
+            ClimbPadCanvasGroupScript.interactable = false;
+            ClimbPadCanvasGroupScript.blocksRaycasts = false;
+            ClimbingPanelCanvasGroupScript.alpha = 0.0f;
+            ClimbingPanelCanvasGroupScript.interactable = false;
+            ClimbingPanelCanvasGroupScript.blocksRaycasts = false;
         }
 
         public void SetDirection(DirectionType direction) {

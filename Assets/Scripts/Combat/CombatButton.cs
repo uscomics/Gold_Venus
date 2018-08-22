@@ -30,12 +30,10 @@ namespace USComics_Combat
         public void MouseDown() {
             if (ButtonState.Disabled == GetButtonState()) return;
             SetButtonState(ButtonState.Clicked);
-            Debug.Log("Down");
         }
         public void MouseUp() {
             if (ButtonState.Disabled == GetButtonState()) return;
             SetButtonState(ButtonState.Enabled);
-            Debug.Log("Up");
         }
         public void SetButtonStateOn()
         {

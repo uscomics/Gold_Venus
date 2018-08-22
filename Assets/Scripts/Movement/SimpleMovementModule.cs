@@ -78,13 +78,12 @@ namespace USComics_Movement
         public override ModuleTypes ModuleType() { return ModuleTypes.Simple; }
         public override string GetTransitionToAnimationName() { return "Idle 0"; }
         public override string GetTransitionFromAnimationName() { return "Walk 0"; }
-        // public override string GetTransitionFromAnimationName() { return "Idle 2"; }
 
         public override void StartModule()
         {
             ForceStop();
             moduleActive = true;
-            if (!speedBar.activeSelf) speedBar.SetActive(true);
+            MovementPadScript.ShowMovementUI();
         }
 
         public override bool IsRunning()
@@ -96,6 +95,7 @@ namespace USComics_Movement
         {
             moduleActive = false;
             if (speedBar.activeSelf) speedBar.SetActive(false);
+            MovementPadScript.HideMovementUI();
         }
 
         public void ForceStop()
