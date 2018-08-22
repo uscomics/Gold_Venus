@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using USComics_Debug;
 using USComics_Combat;
+using USComics_Dynamic;
 using USComics_Movement;
 using USComics_Environment;
 using USComics_Message_Manager;
@@ -17,6 +18,7 @@ namespace USComics_Entity
         public List<AbstractBuff> buffs = new List<AbstractBuff>();
         public Health healthScript;
         public Attack death;
+        public GameObject deathSpawn;
         public bool dead;
         public Attack[] attacks;
         public Vision vision = new Vision();
@@ -39,6 +41,7 @@ namespace USComics_Entity
         protected ClimbMovementModule climbMovementScript;
         protected MessageManager messageManagerScript;
         protected DebugConsole debugConsoleScript;
+        protected DynamicObjectManager DynamicObjectManagerScript;
 
         void Start() { SetupEntity(); }
         void Update() { }
@@ -105,8 +108,9 @@ namespace USComics_Entity
             dead = true;
             healthScript.health = 0;
             HideHealth();
-            if (null == death) return;
-            death.DoAttack(whoKilledMe);
+            if (null != death) death.DoAttack(whoKilledMe);
+            if (null != deathSpawn) DynamicObjectManagerScript.Clone(deathSpawn, deathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
+            
         }
 
 #if UNITY_EDITOR
@@ -129,22 +133,26 @@ namespace USComics_Entity
         }
 
         protected virtual bool SetupEntity()
-        {
+        {            
             if (null != entity) entityRigidBody = entity.GetComponent<Rigidbody>();
             messageManagerScript = GetComponent<MessageManager>();
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             if (null != entity) healthScript = entity.GetComponent<Health>();
+            GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
+            if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
 
             if (null == entityRigidBody) { Debug.LogError("EntityController.SetupEntity: entityRigidBody is null."); }
             if (null == messageManagerScript) { Debug.LogError("EntityController.SetupEntity: messageManager is null."); }
             if (null == debugConsoleScript) { Debug.LogError("EntityController.SetupEntity: debugConsoleScript is null."); }
             if (null == healthScript) { Debug.LogError("EntityController.SetupEntity: healthScript is null."); }
+            if (null == DynamicObjectManagerScript) { Debug.LogError("EntityController.SetupEntity: DynamicObjectManagerScript is null."); }
 
             if (null == entityRigidBody) { return false; }
             if (null == messageManagerScript) { return false; }
             if (null == debugConsoleScript) { return false; }
             if (null == healthScript) { return false; }
+            if (null == DynamicObjectManagerScript) { return false; }
 
             initialHelthPanelRotation = healthPanel.transform.eulerAngles;
             CurrentEnemy = null;
