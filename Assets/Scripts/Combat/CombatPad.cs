@@ -111,13 +111,13 @@ namespace USComics_Combat
                 Attack kick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Kick];
                 Attack block = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Block];
                 Attack jumpkick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Jumpkick];
-                if (punch.IsUseable(enemiesGO)) punchButton.SetButtonState(ButtonState.Enabled);
+                if (punch.IsUseable(enemiesGO)) punchButton.SetButtonStateOn();
                 else punchButton.SetButtonState(ButtonState.Disabled);
-                if (kick.IsUseable(enemiesGO)) kickButton.SetButtonState(ButtonState.Enabled);
+                if (kick.IsUseable(enemiesGO)) kickButton.SetButtonStateOn();
                 else kickButton.SetButtonState(ButtonState.Disabled);
-                if (block.IsUseable(enemiesGO)) blockButton.SetButtonState(ButtonState.Enabled);
+                if (block.IsUseable(enemiesGO)) blockButton.SetButtonStateOn();
                 else blockButton.SetButtonState(ButtonState.Disabled);
-                if (jumpkick.IsUseable(enemiesGO)) jumpkickButton.SetButtonState(ButtonState.Enabled);
+                if (jumpkick.IsUseable(enemiesGO)) jumpkickButton.SetButtonStateOn();
                 else jumpkickButton.SetButtonState(ButtonState.Disabled);
             }
             AttackType attack = GetAttack();

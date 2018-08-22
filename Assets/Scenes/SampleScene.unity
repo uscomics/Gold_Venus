@@ -325,7 +325,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4460985500265090, guid: b1a1fb1245480c4419cda91a8de860e2, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4.83
+      value: 4.39
       objectReference: {fileID: 0}
     - target: {fileID: 4460985500265090, guid: b1a1fb1245480c4419cda91a8de860e2, type: 2}
       propertyPath: m_LocalPosition.z
@@ -40189,6 +40189,7 @@ GameObject:
   - component: {fileID: 1681068088}
   - component: {fileID: 1681068087}
   - component: {fileID: 1681068089}
+  - component: {fileID: 1681068090}
   m_Layer: 5
   m_Name: Punch Image
   m_TagString: Untagged
@@ -40267,6 +40268,53 @@ MonoBehaviour:
   imageClicked: {fileID: 114491524190865662, guid: 16ff65d7f26e29a4ba99723473311d24,
     type: 2}
   attackType: 0
+--- !u!114 &1681068090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1681068085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1681068089}
+          m_MethodName: MouseDown
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1681068089}
+          m_MethodName: MouseUp
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1686292629
 GameObject:
   m_ObjectHideFlags: 0
@@ -41298,7 +41346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd9e9cc61c694b4b8d122dc35bb8e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  health: 100
   lives: 0
   healthBar: {fileID: 915709585}
   life1: {fileID: 1491086833}
