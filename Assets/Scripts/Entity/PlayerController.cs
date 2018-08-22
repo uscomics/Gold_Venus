@@ -25,6 +25,7 @@ namespace USComics_Entity
                 simpleMovementScript.StartModule();
                 initialUpdate = false;
             }
+            UpdateBuffs();
             if (simpleMovementScript.IsRunning())
             {
                 Move currentMove = simpleMovementScript.CurrentMove;
@@ -81,7 +82,7 @@ namespace USComics_Entity
         private void OnCollisionEnter(Collision collision)
         {
             Move currentMove = simpleMovementScript.CurrentMove;
-            if ("Climbable" == collision.gameObject.tag) climbableInRange = true;
+            if (collision.gameObject.CompareTag("Climbable")) climbableInRange = true;
             if (climbableInRange)
             {
                 if (!climbMovementScript.IsRunning())
@@ -110,7 +111,7 @@ namespace USComics_Entity
         }
         private void OnCollisionExit(Collision collision)
         {
-            if ("Climbable" == collision.gameObject.tag) climbableInRange = false;
+            if (collision.gameObject.CompareTag("Climbable")) climbableInRange = false;
             // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
         }
 

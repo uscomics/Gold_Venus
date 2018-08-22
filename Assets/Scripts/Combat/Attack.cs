@@ -16,15 +16,18 @@ namespace USComics_Combat
     {
         public string name;
         public float damage;
-        public float duration;
+        public DamageType damageType;
+        public float durationDoT;
         public float range;
         public bool isAoE = false;
         public float radiusAoE;
         public bool isDoT = false;
         public float damageDoT;
+        public DamageType damageTypeDoT;
         public float tickTimeDoT;
         public float recharge;
         public float lastUsed = 0;
+        public float lastUsedDoT = 0;
         public int superBarValue;
         public int bonusChance;
         public string[] animationNames;
@@ -35,13 +38,13 @@ namespace USComics_Combat
         public AudioClip sound2;
         public ParticleSystem[] particleSystems;
         public Light[] lights;
-        public AbstractBuff[] buffs;
-        public AbstractDebuff[] debuffs;
+        public AbstractBuff[] targetBuffs;
         public GameObject entity;
         public GameObject bamModel;
         public GameObject powModel;
         public GameObject kabamModel;
         public GameObject bonusPoints;
+        public GameObject damageModelDoT;
 
         private EntityController EntityControllerScript;
         private GameObject healthPanel;
@@ -58,63 +61,41 @@ namespace USComics_Combat
         private int powBonusChance;
 
         public Attack() { }
-        public Attack(Attack attackInfo)
-        {
+        public Attack(Attack attackInfo) {
             name = attackInfo.name;
             damage = attackInfo.damage;
-            duration = attackInfo.duration;
+            damageType = attackInfo.damageType;
             range = attackInfo.range;
             isAoE = attackInfo.isAoE;
             radiusAoE = attackInfo.radiusAoE;
             isDoT = attackInfo.isDoT;
+            durationDoT = attackInfo.durationDoT;
             damageDoT = attackInfo.damageDoT;
+            damageTypeDoT = attackInfo.damageTypeDoT;
             tickTimeDoT = attackInfo.tickTimeDoT;
+            damageModelDoT = attackInfo.damageModelDoT;
             recharge = attackInfo.recharge;
             lastUsed = attackInfo.lastUsed;
+            lastUsedDoT = attackInfo.lastUsedDoT;
             animationNames = attackInfo.animationNames;
             pointsObject = attackInfo.pointsObject;
+            audioSource1 = attackInfo.audioSource1;
+            audioSource2 = attackInfo.audioSource2;
             sound1 = attackInfo.sound1;
             sound2 = attackInfo.sound2;
             particleSystems = attackInfo.particleSystems;
             lights = attackInfo.lights;
-            buffs = attackInfo.buffs;
-            debuffs = attackInfo.debuffs;
-            audioSource1 = attackInfo.audioSource1;
-            audioSource2 = attackInfo.audioSource2;
+            targetBuffs = attackInfo.targetBuffs;
             entity = attackInfo.entity;
+            bamModel = attackInfo.bamModel;
+            powModel = attackInfo.powModel;
+            kabamModel = attackInfo.kabamModel;
+            bonusPoints = attackInfo.bonusPoints;
         }
 
+        void Start() { }
+        void Update() { }
 
-        // Use this for initialization
-        void Start()
-        {
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public void DoAttack(EntityController target) {
-            Attack clone = new Attack(this);
-            lastUsed = Time.time;
-            if (!isAoE) {
-                target.Attacked(EntityControllerScript, clone);
-                PlayAll(clone, target);
-            }
-            else {
-                Collider[] targets;
-                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
-                else { targets = Environment.GetPlayersInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
-                for (int loop = 0; loop < targets.Length; loop++) {
-                    EntityController entityController = targets[loop].GetComponent<EntityController>();
-                    if (null != entityController) entityController.Attacked(EntityControllerScript, clone);
-                    if (0 == loop) PlayAll(clone, entityController);
-
-                }
-            }
-        }
         public bool IsUseable(GameObject[] objs)  { return IsCharged() && AnyInRange(objs); }
         public bool IsCharged() {
             if (0 == lastUsed) return true;
@@ -137,6 +118,49 @@ namespace USComics_Combat
             }
             return result.ToArray();
         }
+
+        public void DoAttack(EntityController target) {
+            Attack clone = new Attack(this);
+            clone = ApplyBuffsToAttack(clone);
+            lastUsed = Time.time;
+            if (!isAoE) {
+                target.Attacked(EntityControllerScript, clone);
+                PlayAll(clone, target);
+            }
+            else {
+                Collider[] targets;
+                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                else { targets = Environment.GetPlayersInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                for (int loop = 0; loop < targets.Length; loop++) {
+                    EntityController entityController = targets[loop].GetComponent<EntityController>();
+                    if (null != entityController) entityController.Attacked(EntityControllerScript, clone);
+                    if (0 == loop) PlayAll(clone, entityController);
+
+                }
+            }
+        }
+        private Attack ApplyBuffsToAttack(Attack attack) {
+            if (null == EntityControllerScript || null == EntityControllerScript.buffs) return attack;
+            for (int loop = 0; loop < EntityControllerScript.buffs.Count; loop++) {
+                attack = EntityControllerScript.buffs[loop].Buff(attack);
+            }
+            return attack;
+        }
+        private void ApplyBuffsToTarget(EntityController target) {
+            if (null == targetBuffs) return;
+            for (int loop = 0; loop < targetBuffs.Length; loop++) {
+                AbstractBuff buff = targetBuffs[loop];
+                buff.Target = target;
+                buff.Attacker = EntityControllerScript;
+                target.AddBuff(buff);
+            }
+        }
+        private void ApplyDoTToTarget(Attack attack, EntityController target) {
+            if (!attack.isDoT) return;
+            DamageDoTEntity dot = new DamageDoTEntity();
+            dot.FromAttack(this, EntityControllerScript, target);
+            target.AddBuff(dot);
+        }
         private void PlayAll(Attack attack, EntityController target)
         {
             if (!isSetup) SetupAttack();
@@ -147,6 +171,8 @@ namespace USComics_Combat
             PlayLights();
             SpawnPoints(target);
             CalculateBonus(attack, target);
+            ApplyDoTToTarget(attack, target);
+            ApplyBuffsToTarget(target);
         }
         private void StopAll()
         {
@@ -269,7 +295,7 @@ namespace USComics_Combat
 
             if (null == entity) { Debug.LogError("Attack.SetupAttack: entity is null."); }
             if (null == EntityControllerScript) { Debug.LogError("Attack.SetupAttack: EntityControllerScript is null."); }
-            if (null == Anim) { Debug.LogError("Attack.SetupAttack: Anim is null."); }
+            if (null == Anim) { Debug.LogWarning("Attack.SetupAttack: Anim is null."); }
             if (null == messageManagerScript) { Debug.LogError("Attack.SetupAttack: messageManagerScript is null."); }
             if (null == healthPanel) { Debug.LogError("Attack.SetupAttack: healthPanel is null."); }
             if (null == debugConsole) { Debug.LogError("Attack.SetupAttack: debugConsole is null."); }
@@ -280,7 +306,6 @@ namespace USComics_Combat
             if (null == KeyboardScript) { Debug.LogError("Attack.SetupAttack: KeyboardScript is null."); }
 
             if (null == entity) { return false; }
-            if (null == Anim) { return false; }
             if (null == messageManagerScript) { return false; }
             if (null == healthPanel) { return false; }
             if (null == debugConsole) { return false; }
@@ -299,4 +324,7 @@ namespace USComics_Combat
 
     [System.Serializable]
     public enum AttackType { Punch, Kick, Jumpkick, Block, BlockBreak, BlockHitReact, Knockdown, Super, None };
+
+    [System.Serializable]
+    public enum DamageType { Blunt, Fire, Cold, Acid, Poison };
 }

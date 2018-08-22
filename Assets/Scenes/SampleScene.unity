@@ -40293,20 +40293,22 @@ MonoBehaviour:
   entity: {fileID: 1686292629}
   entityName: Gold Venus
   healthPanel: {fileID: 2019441208}
-  buffs: []
-  debuffs: []
+  healthScript: {fileID: 0}
   death:
     name: 
     damage: 0
-    duration: 0
+    damageType: 0
+    durationDoT: 0
     range: 0
     isAoE: 0
     radiusAoE: 0
     isDoT: 0
     damageDoT: 0
+    damageTypeDoT: 0
     tickTimeDoT: 0
     recharge: 0
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 0
     bonusChance: 0
     animationNames: []
@@ -40317,26 +40319,28 @@ MonoBehaviour:
     sound2: {fileID: 0}
     particleSystems: []
     lights: []
-    buffs: []
-    debuffs: []
     entity: {fileID: 0}
     bamModel: {fileID: 0}
     powModel: {fileID: 0}
     kabamModel: {fileID: 0}
     bonusPoints: {fileID: 0}
+    damageModelDoT: {fileID: 0}
   dead: 0
   attacks:
   - name: Punch
     damage: 1
-    duration: 0
+    damageType: 0
+    durationDoT: 0
     range: 1.5
     isAoE: 0
     radiusAoE: 0
     isDoT: 0
     damageDoT: 0
+    damageTypeDoT: 0
     tickTimeDoT: 0
     recharge: 0
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 3
     bonusChance: 4
     animationNames:
@@ -40352,8 +40356,6 @@ MonoBehaviour:
     sound2: {fileID: 0}
     particleSystems: []
     lights: []
-    buffs: []
-    debuffs: []
     entity: {fileID: 1686292629}
     bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
     powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
@@ -40361,17 +40363,21 @@ MonoBehaviour:
       type: 2}
     bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
       type: 2}
+    damageModelDoT: {fileID: 0}
   - name: Kick
     damage: 3
-    duration: 0
+    damageType: 0
+    durationDoT: 0
     range: 1.5
     isAoE: 0
     radiusAoE: 0
     isDoT: 0
     damageDoT: 0
+    damageTypeDoT: 0
     tickTimeDoT: 0
     recharge: 2
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 4
     bonusChance: 5
     animationNames:
@@ -40384,8 +40390,6 @@ MonoBehaviour:
     sound2: {fileID: 0}
     particleSystems: []
     lights: []
-    buffs: []
-    debuffs: []
     entity: {fileID: 1686292629}
     bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
     powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
@@ -40393,17 +40397,21 @@ MonoBehaviour:
       type: 2}
     bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
       type: 2}
+    damageModelDoT: {fileID: 0}
   - name: Block
     damage: 0
-    duration: 0
+    damageType: 0
+    durationDoT: 0
     range: 1.5
     isAoE: 0
     radiusAoE: 0
     isDoT: 0
     damageDoT: 0
+    damageTypeDoT: 0
     tickTimeDoT: 0
     recharge: 1
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 0
     bonusChance: 0
     animationNames:
@@ -40415,24 +40423,26 @@ MonoBehaviour:
     sound2: {fileID: 0}
     particleSystems: []
     lights: []
-    buffs: []
-    debuffs: []
     entity: {fileID: 1686292629}
     bamModel: {fileID: 0}
     powModel: {fileID: 0}
     kabamModel: {fileID: 0}
     bonusPoints: {fileID: 0}
+    damageModelDoT: {fileID: 0}
   - name: Jumpkick
     damage: 10
-    duration: 0
+    damageType: 0
+    durationDoT: 0
     range: 1.5
     isAoE: 0
     radiusAoE: 0
     isDoT: 0
     damageDoT: 0
+    damageTypeDoT: 0
     tickTimeDoT: 0
     recharge: 6
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 5
     bonusChance: 5
     animationNames:
@@ -40446,8 +40456,6 @@ MonoBehaviour:
     particleSystems: []
     lights:
     - {fileID: 360815276}
-    buffs: []
-    debuffs: []
     entity: {fileID: 1686292629}
     bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
     powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
@@ -40455,17 +40463,21 @@ MonoBehaviour:
       type: 2}
     bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
       type: 2}
+    damageModelDoT: {fileID: 0}
   - name: Super
     damage: 30
-    duration: 0
+    damageType: 0
+    durationDoT: 0
     range: 1.5
     isAoE: 0
     radiusAoE: 0
     isDoT: 0
     damageDoT: 0
+    damageTypeDoT: 0
     tickTimeDoT: 0
     recharge: 0
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 0
     bonusChance: 5
     animationNames:
@@ -40481,8 +40493,6 @@ MonoBehaviour:
     - {fileID: 1460061230}
     - {fileID: 45715386}
     lights: []
-    buffs: []
-    debuffs: []
     entity: {fileID: 1686292629}
     bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
     powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
@@ -40490,6 +40500,7 @@ MonoBehaviour:
       type: 2}
     bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
       type: 2}
+    damageModelDoT: {fileID: 0}
   vision:
     heightOffset: 0
     detectionRadius: 10
@@ -41102,20 +41113,22 @@ MonoBehaviour:
   entity: {fileID: 1786750948}
   entityName: Evil Cube
   healthPanel: {fileID: 3023965}
-  buffs: []
-  debuffs: []
+  healthScript: {fileID: 1786750955}
   death:
     name: Death
     damage: 30
-    duration: 0
+    damageType: 0
+    durationDoT: 19
     range: 0
     isAoE: 1
     radiusAoE: 5
-    isDoT: 0
-    damageDoT: 0
-    tickTimeDoT: 0
+    isDoT: 1
+    damageDoT: 2
+    damageTypeDoT: 0
+    tickTimeDoT: 2
     recharge: 0
     lastUsed: 0
+    lastUsedDoT: 0
     superBarValue: 0
     bonusChance: 0
     animationNames: []
@@ -41139,13 +41152,13 @@ MonoBehaviour:
     lights:
     - {fileID: 1248810825}
     - {fileID: 367827947}
-    buffs: []
-    debuffs: []
     entity: {fileID: 1786750948}
     bamModel: {fileID: 0}
     powModel: {fileID: 0}
     kabamModel: {fileID: 0}
     bonusPoints: {fileID: 0}
+    damageModelDoT: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
+      type: 2}
   dead: 0
   attacks: []
   vision:

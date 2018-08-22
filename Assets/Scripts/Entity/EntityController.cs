@@ -15,7 +15,7 @@ namespace USComics_Entity
         public string entityName = "";
         public GameObject healthPanel;
         public List<AbstractBuff> buffs = new List<AbstractBuff>();
-        public List<AbstractDebuff> debuffs = new List<AbstractDebuff>();
+        public Health healthScript;
         public Attack death;
         public bool dead;
         public Attack[] attacks;
@@ -35,101 +35,73 @@ namespace USComics_Entity
 
         // Scripts
         protected MovementTransitionManager movementTransitionManagerScript;
-        protected Health healthScript;
         protected SimpleMovementModule simpleMovementScript;
         protected ClimbMovementModule climbMovementScript;
         protected MessageManager messageManagerScript;
         protected DebugConsole debugConsoleScript;
 
-        // Use this for initialization
-        void Start()
-        {
-            SetupEntity();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
+        void Start() { SetupEntity(); }
+        void Update() { }
         public virtual bool IsPlayer() { return false; }
 
-        public void ShowHealth()
-        {
+        public void ShowHealth() {
             Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
-            for (int loop = 0; loop < childComponents.Length; loop++)
-            {
-                childComponents[loop].enabled = true;
-            }
+            for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = true; }
         }
 
-        public void HideHealth()
-        {
+        public void HideHealth() {
             Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
-            for (int loop = 0; loop < childComponents.Length; loop++)
-            {
-                childComponents[loop].enabled = false;
-            }
+            for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = false; }
         }
 
-        public float GetMaxAttackRange()
-        {
+        public void AddBuff(AbstractBuff buff) { buffs.Add(buff); }
+        public void RemoveBuff(AbstractBuff buff) { buffs.Remove(buff); }
+        public void RemoveExpiredBuffs() { for (int loop = buffs.Count - 1; loop >= 0; loop--) { if (buffs[loop].Expired) RemoveBuff(buffs[loop]); }}
+
+        public float GetMaxAttackRange() {
             float rangeRadius = 0.0f;
-            for (int loop = 0; loop < attacks.Length; loop++)
-            {
+            for (int loop = 0; loop < attacks.Length; loop++) {
                 Attack attackInfo = attacks[loop];
                 if (attackInfo.range > rangeRadius) rangeRadius = attackInfo.range;
             }
             return rangeRadius;
         }
 
-        public Collider[] GetEnemiesInSight(bool useHeightDifference = true)
-        {
+        public Collider[] GetEnemiesInSight(bool useHeightDifference = true) {
             Collider[] enemies = Environment.GetEnemiesInSight(entity.transform, vision.detectionRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
             return enemies;
         }
 
-        public Collider[] GetEnemiesInRange(bool useHeightDifference = true)
-        {
-            Debug.Log("entity.transform=" + entity.transform.ToString());
-            Debug.Log("GetMaxAttackRange()=" + GetMaxAttackRange());
-            Debug.Log("vision.detectionAngle=" + vision.detectionAngle);
-            Debug.Log("vision.heightOffset=" + vision.heightOffset);
-            Debug.Log("vision.maxHeightDifference=" + vision.maxHeightDifference);
+        public Collider[] GetEnemiesInRange(bool useHeightDifference = true) {
             Collider[] enemies = Environment.GetEnemiesInRange(entity.transform, GetMaxAttackRange(), vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
-            Debug.Log("enemies.Length=" + enemies.Length);
             return enemies;
         }
-        public GameObject NearestInRange(bool useHeightDifference = true)
-        {
+        public GameObject NearestInRange(bool useHeightDifference = true) {
             Collider[] enemies = GetEnemiesInRange(useHeightDifference);
             if (0 == enemies.Length) return null;
             GameObject[] enemiesGO = DirectionUtilities.GetGameObjects(enemies);
             return DirectionUtilities.GetNearestObject(transform.position, enemiesGO);
         }
 
-        public void Targetted(EntityController targettedBy)
-        {
-        }
-        public void Attacked(EntityController attackedBy, Attack attack)
-        {
+        public void Targetted(EntityController targettedBy) { }
+        public void Attacked(EntityController attackedBy, Attack attack) {
             if (dead) return;
             healthScript.health -= attack.damage;
             if (0 >= healthScript.health) DoDeath(attackedBy);
         }
 
-        public void ClearAttackTimers()
-        {
-            for (int loop = 0; loop < attacks.Length; loop++)
-            {
+        public void ClearAttackTimers() {
+            for (int loop = 0; loop < attacks.Length; loop++) {
                 Attack attackInfo = attacks[loop];
                 attackInfo.lastUsed = 0;
             }
         }
 
-        public void DoDeath(EntityController whoKilledMe)
-        {
+        public void UpdateBuffs() {
+            RemoveExpiredBuffs();
+            foreach (AbstractBuff buff in buffs) {  buff.Buff(this); }
+        }
+        public void DoDeath(EntityController whoKilledMe) {
             dead = true;
             healthScript.health = 0;
             HideHealth();

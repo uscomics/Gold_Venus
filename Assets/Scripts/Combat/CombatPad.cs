@@ -23,10 +23,6 @@ namespace USComics_Combat
         private Rect blockRect;
         private Rect jumpkickRect;
         private Rect superRect;
-        private float deltaPunch = 13;
-        private float deltaBlock = 13;
-        private float deltaKick = 1.0f;
-        private float deltaJumpkick = 0.5f;
         private GameObject combatPanel;
         private GameObject superBar;
         private ProgressBarBehaviour ProgressBarBehaviourScript;
