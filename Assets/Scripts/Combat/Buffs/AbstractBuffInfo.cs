@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using USComics_Entity;
 
-namespace USComics_Combat
-{
-	[System.Serializable]
-	public abstract class AbstractBuffInfo : ScriptableObject {
-		public abstract AbstractBuff GetBuff();
+namespace USComics_Combat {
+	public abstract class AbstractBuffInfo : MonoBehaviour {
+		void Start() { }
+		void Update() { }
+	    public abstract AbstractBuff GetBuff();	
 	}
-}
+}	

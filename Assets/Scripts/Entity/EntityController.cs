@@ -43,7 +43,7 @@ namespace USComics_Entity {
         protected DynamicObjectManager DynamicObjectManagerScript;
 
         void Start() { SetupEntity(); }
-        void Update() { }
+        void Update() { UpdateBuffs(); }
         private void OnTriggerEnter(Collider other) {
             GameObject go = DirectionUtilities.GetGameObject(other);
             if (go.CompareTag("Pickup")) {
@@ -53,31 +53,24 @@ namespace USComics_Entity {
                 Destroy(go);
             }
         }
-
         public virtual bool IsPlayer() { return false; }
-
         public void ShowHealth() {
             Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
             for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = true; }
         }
-
         public void HideHealth() {
             Renderer[] childComponents = healthPanel.GetComponentsInChildren<Renderer>();
             for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = false; }
         }
-
         public void AddHealth(float amount) {
             healthScript.AddHealth(amount);
         }
-
         public void AddLife() {
             healthScript.AddLife();
         }
-
         public void AddBuff(AbstractBuff buff) { buffs.Add(buff); }
         public void RemoveBuff(AbstractBuff buff) { buffs.Remove(buff); }
         public void RemoveExpiredBuffs() { for (int loop = buffs.Count - 1; loop >= 0; loop--) { if (buffs[loop].Expired) RemoveBuff(buffs[loop]); }}
-
         public float GetMaxAttackRange() {
             float rangeRadius = 0.0f;
             for (int loop = 0; loop < attacks.Length; loop++) {
@@ -86,7 +79,6 @@ namespace USComics_Entity {
             }
             return rangeRadius;
         }
-
         public Collider[] GetEnemiesInSight(bool useHeightDifference = true) {
             Collider[] enemies = Environment.GetEnemiesInSight(entity.transform, vision.detectionRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
             return enemies;
@@ -125,9 +117,12 @@ namespace USComics_Entity {
             dead = true;
             healthScript.health = 0;
             HideHealth();
-            if (null != death) death.DoAttack(whoKilledMe);
+            if (null != death) {
+                death.entity = entity;
+                death.DoAttack(whoKilledMe);
+            }
             if (null != deathSpawn) DynamicObjectManagerScript.Clone(deathSpawn, deathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
-            if (this == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
+            if (entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
         }
 
 #if UNITY_EDITOR

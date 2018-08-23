@@ -27,7 +27,7 @@ namespace USComics_Environment
         RAGDOLL = 20,
         WATER_GEOMETRY = 21,
         TERRAIN = 22,
-        ENEMIES = 23,
+        ENEMY = 23,
         CAMERAS = 24,
         PROPS = 25,
         AVOID = 26,
@@ -60,7 +60,7 @@ namespace USComics_Environment
         public static int RAGDOLL = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.RAGDOLL));
         public static int WATER_GEOMETRY = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.WATER_GEOMETRY));
         public static int TERRAIN = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.TERRAIN));
-        public static int ENEMIES = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.ENEMIES));
+        public static int ENEMY = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.ENEMY));
         public static int CAMERAS = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.CAMERAS));
         public static int PROPS = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.PROPS));
         public static int AVOID = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.AVOID));
@@ -91,12 +91,12 @@ namespace USComics_Environment
 
         public static Collider[] GetEnemiesInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
-            return GetEntitiesInSight(LayerMaskValues.ENEMIES, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
+            return GetEntitiesInSight(LayerMaskValues.ENEMY, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
         }
 
         public static Collider[] GetEnemiesInRange(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
-            return GetEntitiesInRange(LayerMaskValues.ENEMIES, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
+            return GetEntitiesInRange(LayerMaskValues.ENEMY, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
         }
 
         public static Collider[] GetPlayersInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)

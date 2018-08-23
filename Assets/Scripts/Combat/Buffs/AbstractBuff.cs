@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using USComics_Entity;
 
-namespace USComics_Combat
-{
+namespace USComics_Combat {
     [System.Serializable]
     public abstract class AbstractBuff {
         public float StartTime { get; set;  }
         public bool Expired { get; set;  }
         public EntityController Target { get; set;  }
         public EntityController Attacker { get; set;  }
- 
         public AbstractBuff() { SetupBuff(); }
         public AbstractBuff(AbstractBuff buff) {
             SetupBuff();

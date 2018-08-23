@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using USComics;
 using USComics_Debug;
 using USComics_Combat;
 using USComics_Movement;
