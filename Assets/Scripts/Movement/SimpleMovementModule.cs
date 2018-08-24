@@ -94,7 +94,6 @@ namespace USComics_Movement
         public override void StopModule()
         {
             moduleActive = false;
-            if (speedBar.activeSelf) speedBar.SetActive(false);
             MovementPadScript.HideMovementUI();
         }
 

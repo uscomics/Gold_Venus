@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135502429642251166}
   - component: {fileID: 114683811123244288}
   - component: {fileID: 114965193804067384}
-  - component: {fileID: 54103480487968036}
+  - component: {fileID: 54881997023190982}
   m_Layer: 28
   m_Name: Heart
   m_TagString: Pickup
@@ -124,8 +124,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1783616775912564}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.04, z: 2.83}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.846, z: 2.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4601715454786784}
@@ -176,7 +176,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1392839291065478}
   m_Mesh: {fileID: 4300002, guid: c33c22430c8f3460ebcb551eab271db5, type: 3}
---- !u!54 &54103480487968036
+--- !u!54 &54881997023190982
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,5 +303,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.06
+  m_Radius: 0.36
   m_Center: {x: 0, y: 0, z: 0}

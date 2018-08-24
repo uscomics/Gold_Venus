@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135358652222212892}
   - component: {fileID: 114371314340792320}
   - component: {fileID: 114428884256545960}
-  - component: {fileID: 54024368983319088}
+  - component: {fileID: 54945352076906384}
   m_Layer: 28
   m_Name: Health
   m_TagString: Pickup
@@ -98,8 +98,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1630187221574380}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.83, z: 3.25}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.196, z: 3.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4903258745581900}
@@ -176,7 +176,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1119195465975986}
   m_Mesh: {fileID: 4300000, guid: 5fad1d9a76419dc47a0d0f7759cd12a4, type: 3}
---- !u!54 &54024368983319088
+--- !u!54 &54945352076906384
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -279,7 +279,8 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   sound: {fileID: 8300000, guid: 3ed3c01222d4e004293d1c92aec05427, type: 3}
   health: 30
-  pointsModel: {fileID: 0}
+  pointsModel: {fileID: 1792688928077836, guid: b7afbcb50b0439f4696135ee4db5cfa3,
+    type: 2}
 --- !u!114 &114428884256545960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -305,5 +306,5 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1.36
+  m_Radius: 0.7
   m_Center: {x: 0, y: 0, z: 0}

@@ -1,4 +1,5 @@
 .vs/
+.idea/
 /Library
 /obj
 /Temp
@@ -18,6 +19,10 @@ Assets/Sounds/Hits_Explosive_Finishers_pack_1/
 Assets/Sounds/Magic\ Spells\ v1.0
 Assets/Sounds/Punch\ Swing\ &\ Hit\ Sounds
 Assets/100BestEffectPack/
+Assets/Plugins/
+Assets/Soldiers Pack/
+Assets/_DLNK/
+Assets/ootii/
 
 *.a
 Assembly-CSharp-Editor.csproj
@@ -39,4 +44,7 @@ Assets/MORPH3D.meta
 Assets/VirtualJoystickTexture_Vol1.meta
 Assets/Sounds/Hits_Explosive_Finishers_pack_1.meta
 Assets/100BestEffectPack.meta
-
+Assets/Plugins.meta
+Assets/Soldiers Pack.meta
+Assets/ootii.meta
+Assets/_DLNK.meta
