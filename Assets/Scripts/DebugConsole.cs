@@ -4,11 +4,8 @@ using UnityEngine;
 using TMPro;
 using USComics_Movement;
 
-namespace USComics_Debug
-{
-
-    public class DebugConsole : MonoBehaviour
-    {
+namespace USComics_Debug {
+    public class DebugConsole : MonoBehaviour {
         public TextMeshProUGUI currentMove;
         public TextMeshProUGUI previousMove;
         public TextMeshProUGUI speed;
@@ -19,17 +16,8 @@ namespace USComics_Debug
         public TextMeshProUGUI other5;
         public TextMeshProUGUI other6;
 
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        void Start() { }
+        void Update() { }
 
         public void SetCurrentMove(Move inMovementType) { currentMove.text = "Current Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }
         public void SetPreviousMove(Move inMovementType) { previousMove.text = "Previous Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }

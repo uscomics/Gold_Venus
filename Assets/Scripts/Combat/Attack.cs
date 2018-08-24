@@ -247,17 +247,17 @@ namespace USComics_Combat
             bonus = Random.Range(1, 101);
             if (bonus <= bamBonusChance) {
                 EntityControllerScript.ClearAttackTimers();
-                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED);
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED, 2);
                 DynamicObjectManagerScript.Clone(bamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
             else if (bonus <= powBonusChance) {
-                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS);
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS, 2);
                 DynamicObjectManagerScript.Clone(powModel, target.transform.position, 0.0f, 0.0f, 0.0f);
                 DynamicObjectManagerScript.Clone(bonusPoints, target.transform.position, 0.0f, 180.0f, 0.0f);
                 attack.damage += 2;
             } else {
                 CombatPadScript.IncrementSuperBar(5);
-                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS);
+                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS, 2);
                 DynamicObjectManagerScript.Clone(kabamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
         }

@@ -15,6 +15,17 @@ namespace USComics_Entity
         void Start()
         {
             SetupEntity();
+            int msg = Random.Range(1, 11);
+            if (1 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_MOVE, 7);
+            else if (2 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_CLIMB, 7);
+            else if (3 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_SNEAK, 7);
+            else if (4 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_RUN, 7);
+            else if (5 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_WALK, 7);
+            else if (6 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_STOP, 7);
+            else if (7 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_CONTROL_CAMERA, 7);
+            else if (8 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_SUPER_BAR, 7);
+            else if (9 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_ATTACK, 7);
+            else if (10 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_ATTACK_CONTROLS, 7);
         }
 
         void Update()

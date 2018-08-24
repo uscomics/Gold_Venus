@@ -41,6 +41,8 @@ TagManager:
   - Pickup
   - ClimbPad
   - SpeedBarPanel
+  - CameraController
+  - ImageMessageCanvas
   layers:
   - Default
   - TransparentFX

@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using USComics_Debug;
 
-namespace USComics_Movement
-{
-    public class MovementPad : MonoBehaviour
-    {
+namespace USComics_Movement {
+    public class MovementPad : MonoBehaviour {
         public DirectionType CurrentDirection { get; set; }
         public Image movementPadStop;
         public Image movementPadNorth;
@@ -33,8 +31,7 @@ namespace USComics_Movement
         private CanvasGroup SpeedBarCanvasGroupScript;
 
         // Use this for initialization
-        void Start()
-        {
+        void Start() {
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
             if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
@@ -90,11 +87,10 @@ namespace USComics_Movement
             float westWidth = eastWidth;
             float westHeight = eastHeight;
             westRect = new Rect(westLeft, westBottom, westWidth, westHeight);
-    }
-
-    // Update is called once per frame
-    void Update()
-        {
+        }
+    
+        // Update is called once per frame
+        void Update() {
             DirectionType direction = GetDirection();
             if (DirectionType.None != direction) {
                 CurrentDirection = direction;
@@ -127,8 +123,7 @@ namespace USComics_Movement
             SetMovementPadImage(direction);
         }
 
-        private DirectionType GetDirection()
-        {
+        private DirectionType GetDirection() {
             DirectionType direction = KeyboardScript.GetDirection();
             if (DirectionType.None != direction) return direction;
             if (!Input.GetMouseButtonDown(0)) { return DirectionType.None; }
@@ -140,17 +135,13 @@ namespace USComics_Movement
             else if (southRect.Contains(mousePosition)) { direction = DirectionType.South; }
             else if (eastRect.Contains(mousePosition)) { direction = DirectionType.East; }
             else if (westRect.Contains(mousePosition)) { direction = DirectionType.West; }
-            else
-            {
+            else {
                 float diameterX = padRect.width / 2;
                 float diameterY = padRect.height / 2;
-                if (mousePosition.x < padRect.x + diameterX)
-                {
+                if (mousePosition.x < padRect.x + diameterX)  {
                     if (mousePosition.y < padRect.y + diameterY) { direction = DirectionType.SW; }
                     else { direction = DirectionType.NW; }
-                }
-                else
-                {
+                } else {
                     if (mousePosition.y < padRect.y + diameterY) { direction = DirectionType.SE; }
                     else { direction = DirectionType.NE; }
                 }
@@ -158,8 +149,7 @@ namespace USComics_Movement
             return direction;
         }
 
-        private void SetMovementPadImage(DirectionType direction)
-        {
+        private void SetMovementPadImage(DirectionType direction) {
             if (DirectionType.North == direction) movementPadImage.sprite = movementPadNorth.sprite;
             else if (DirectionType.South == direction) movementPadImage.sprite = movementPadSouth.sprite;
             else if (DirectionType.East == direction) movementPadImage.sprite = movementPadEast.sprite;

@@ -170,7 +170,6 @@ namespace USComics_Entity {
             initialHelthPanelRotation = healthPanel.transform.eulerAngles;
             CurrentEnemy = null;
             dead = false;
-            messageManagerScript.ShowMessage("Hello World!");
             return true;
         }
 #endif
