@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using USComics_Debug;
 using USComics_Entity;
 using USComics_Dynamic;
@@ -10,30 +7,12 @@ using USComics_Movement;
 using USComics_Environment;
 using USComics_Message_Manager;
 
-namespace USComics_Combat
-{
+namespace USComics_Combat {
     [System.Serializable]
-    public class Attack
-    {
+    public class Attack {
         public string name;
-        public float damage;
-        public DamageType damageType;
-        public float range;
-        public bool isAoE;
-        public float radiusAoE;
-        public bool isDoT;
-        public float damageDoT;
-        public DamageType damageTypeDoT;
-        public float durationDoT;
-        public float tickTimeDoT;
-        public float lastTickDoT;
-        public GameObject damageModelDoT;
-        public float recharge;
-        public float lastUsed;
-        public int superBarValue;
-        public int bonusChance;
+        public AttackInfo AttackInfo;
         public string[] animationNames;
-        public GameObject pointsObject;
         public AudioSource audioSource1;
         public AudioSource audioSource2;
         public AudioClip sound1;
@@ -45,10 +24,6 @@ namespace USComics_Combat
         public bool ForceFromCenter;                    // Set to true for an explosion-like (radial) force, or false for a linear force.
         public AbstractBuffInfo[] targetBuffs;
         public GameObject entity;
-        public GameObject bamModel;
-        public GameObject powModel;
-        public GameObject kabamModel;
-        public GameObject bonusPoints;
 
         private EntityController EntityControllerScript;
         private GameObject healthPanel;
@@ -61,54 +36,32 @@ namespace USComics_Combat
         private DynamicObjectManager DynamicObjectManagerScript;
         private DebugConsole debugConsoleScript;
         private bool isSetup;
-        private int bamBonusChance;
-        private int powBonusChance;
 
         public Attack() { }
-        public Attack(Attack attackInfo) {
-            name = attackInfo.name;
-            damage = attackInfo.damage;
-            damageType = attackInfo.damageType;
-            range = attackInfo.range;
-            isAoE = attackInfo.isAoE;
-            radiusAoE = attackInfo.radiusAoE;
-            isDoT = attackInfo.isDoT;
-            damageDoT = attackInfo.damageDoT;
-            damageTypeDoT = attackInfo.damageTypeDoT;
-            durationDoT = attackInfo.durationDoT;
-            tickTimeDoT = attackInfo.tickTimeDoT;
-            lastTickDoT = attackInfo.lastTickDoT;
-            damageModelDoT = attackInfo.damageModelDoT;
-            recharge = attackInfo.recharge;
-            lastUsed = attackInfo.lastUsed;
-            superBarValue = attackInfo.superBarValue;
-            bonusChance = attackInfo.bonusChance;
-            animationNames = attackInfo.animationNames;
-            pointsObject = attackInfo.pointsObject;
-            audioSource1 = attackInfo.audioSource1;
-            audioSource2 = attackInfo.audioSource2;
-            sound1 = attackInfo.sound1;
-            sound2 = attackInfo.sound2;
-            particleSystems = attackInfo.particleSystems;
-            lights = attackInfo.lights;
-            ForceVector = attackInfo.ForceVector;
-            ForceMode = attackInfo.ForceMode;
-            ForceFromCenter = attackInfo.ForceFromCenter;
-            targetBuffs = attackInfo.targetBuffs;
-            entity = attackInfo.entity;
-            bamModel = attackInfo.bamModel;
-            powModel = attackInfo.powModel;
-            kabamModel = attackInfo.kabamModel;
-            bonusPoints = attackInfo.bonusPoints;
+        public Attack(Attack @from) {
+            name = @from.name;
+            AttackInfo = new AttackInfo(@from.AttackInfo);
+            animationNames = @from.animationNames;
+            audioSource1 = @from.audioSource1;
+            audioSource2 = @from.audioSource2;
+            sound1 = @from.sound1;
+            sound2 = @from.sound2;
+            particleSystems = @from.particleSystems;
+            lights = @from.lights;
+            ForceVector = @from.ForceVector;
+            ForceMode = @from.ForceMode;
+            ForceFromCenter = @from.ForceFromCenter;
+            targetBuffs = @from.targetBuffs;
+            entity = @from.entity;
         }
         public bool IsUseable(GameObject[] objs)  { return IsCharged() && AnyInRange(objs); }
         public bool IsCharged() {
-            if (0 == lastUsed) return true;
-            return lastUsed + recharge <= Time.time;
+            if (0 == AttackInfo.LastUsed) return true;
+            return AttackInfo.LastUsed + AttackInfo.Recharge <= Time.time;
         }
         public bool InRange(GameObject obj) {
             if (!isSetup) SetupAttack();
-            return DirectionUtilities.GetDistance(entity.transform, obj.transform) <= range;
+            return DirectionUtilities.GetDistance(entity.transform, obj.transform) <= AttackInfo.Range;
         }
         public bool AnyInRange(GameObject[] objs) {
             for (int loop = 0; loop < objs.Length; loop++) {
@@ -127,20 +80,25 @@ namespace USComics_Combat
             if (!isSetup) SetupAttack();
             Attack clone = new Attack(this);
             clone = ApplyBuffsToAttack(clone);
-            lastUsed = Time.time;
-            if (!isAoE) {
+            AttackInfo.LastUsed = Time.time;
+            if (!AttackInfo.Damage.IsAoE) {
                 target.Attacked(EntityControllerScript, clone);
                 PlayAll(clone, target);
             } else {
                 Collider[] targets;
-                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
-                else { targets = Environment.GetPlayersInSight(entity.transform, clone.radiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(entity.transform, clone.AttackInfo.Damage.RadiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                else { targets = Environment.GetPlayersInSight(entity.transform, clone.AttackInfo.Damage.RadiusAoE, 360.0f, 0.0f, 4.0f, false); }
                 for (int loop = 0; loop < targets.Length; loop++) {
                     EntityController entityController = targets[loop].GetComponent<EntityController>();
                     if (null != entityController) entityController.Attacked(EntityControllerScript, clone);
                     if (0 == loop) PlayAll(clone, entityController);
                 }
             }
+        }
+        public void StopAll() {
+            StopSounds();
+            StopParticleSystems();
+            StopLights();
         }
         private Attack ApplyBuffsToAttack(Attack attack) {
             if (null == EntityControllerScript || null == EntityControllerScript.buffs) return attack;
@@ -161,7 +119,7 @@ namespace USComics_Combat
             }
         }
         private void ApplyDoTToTarget(Attack attack, EntityController target) {
-            if (!attack.isDoT) return;
+            if (!attack.AttackInfo.Damage.IsDoT) return;
             DamageDoTEntity dot = new DamageDoTEntity();
             dot.FromAttack(this, EntityControllerScript, target);
             target.AddBuff(dot);
@@ -174,15 +132,10 @@ namespace USComics_Combat
             PlayParticleSystems();
             PlayLights();
             SpawnPoints(target);
-            CalculateBonus(attack, target);
+            EntityControllerScript.AttackBonus.CalculateBonus(attack, EntityControllerScript, target);
             ApplyDoTToTarget(attack, target);
             ApplyBuffsToTarget(target);
-            ApplyForce(EntityControllerScript.transform, radiusAoE);
-        }
-        private void StopAll() {
-            StopSounds();
-            StopParticleSystems();
-            StopLights();
+            ApplyForce(EntityControllerScript.transform, AttackInfo.Damage.RadiusAoE);
         }
         private void PlaySounds() {
             if (null == audioSource1) return;
@@ -218,8 +171,8 @@ namespace USComics_Combat
         private void PlayLights() { foreach (var light in lights) { if (null != light) light.enabled = true; }}
         private void StopLights() { foreach (var light in lights) { if (null != light) light.enabled = false; }}
         private void SpawnPoints(EntityController target) {
-            if (null == pointsObject) return;
-            DynamicObjectManagerScript.Clone(pointsObject, target.transform.position, 0.0f, 180.0f, 0.0f);
+            if (null == AttackInfo.Damage.PointsObject) return;
+            DynamicObjectManagerScript.Clone(AttackInfo.Damage.PointsObject, target.transform.position, 0.0f, 180.0f, 0.0f);
         }
         private void ApplyForce(Transform transform, float radius) {
             if (ForceVector == Vector3.zero) return;
@@ -239,26 +192,6 @@ namespace USComics_Combat
             foreach (var target in targets) {
                 if (ForceFromCenter) target.AddForceAtPosition(ForceVector, transform.position, ForceMode);
                 else target.AddForce(ForceVector, ForceMode);
-            }
-        }
-        private void CalculateBonus(Attack attack, EntityController target) {
-            int bonus = Random.Range(1, 101);
-            if (bonus > bonusChance) return;
-            bonus = Random.Range(1, 101);
-            if (bonus <= bamBonusChance) {
-                EntityControllerScript.ClearAttackTimers();
-                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED, 2);
-                DynamicObjectManagerScript.Clone(bamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
-            }
-            else if (bonus <= powBonusChance) {
-                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS, 2);
-                DynamicObjectManagerScript.Clone(powModel, target.transform.position, 0.0f, 0.0f, 0.0f);
-                DynamicObjectManagerScript.Clone(bonusPoints, target.transform.position, 0.0f, 180.0f, 0.0f);
-                attack.damage += 2;
-            } else {
-                CombatPadScript.IncrementSuperBar(5);
-                messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS, 2);
-                DynamicObjectManagerScript.Clone(kabamModel, target.transform.position, 0.0f, 0.0f, 0.0f);
             }
         }
         private bool SetupAttack() {
@@ -282,7 +215,7 @@ namespace USComics_Combat
             if (null == Anim) { Debug.LogWarning("Attack.SetupAttack: Anim is null."); }
             if (null == messageManagerScript) { Debug.LogError("Attack.SetupAttack: messageManagerScript is null."); }
             if (null == healthPanel) { Debug.LogError("Attack.SetupAttack: healthPanel is null."); }
-            if (null == debugConsole) { Debug.LogError("Attack.SetupAttack: debugConsole is null."); }
+            if (null == debugConsoleScript) { Debug.LogError("Attack.SetupAttack: debugConsoleScript is null."); }
             if (null == DynamicObjectManagerScript) { Debug.LogError("Attack.SetupAttack: DynamicObjectManagerScript is null."); }
             if (null == combatPanel) { Debug.LogError("Attack.SetupAttack: combatPanel is null."); }
             if (null == superBar) { Debug.LogError("Attack.SetupAttack: superBar is null."); }
@@ -292,23 +225,15 @@ namespace USComics_Combat
             if (null == entity) { return false; }
             if (null == messageManagerScript) { return false; }
             if (null == healthPanel) { return false; }
-            if (null == debugConsole) { return false; }
+            if (null == debugConsoleScript) { return false; }
             if (null == DynamicObjectManagerScript) { return false; }
             if (null == combatPanel) { return false; }
             if (null == superBar) { return false; }
             if (null == CombatPadScript) { return false; }
             if (null == KeyboardScript) { return false; }
 
-            bamBonusChance = 33;
-            powBonusChance = 66;
             isSetup = true;
             return true;
         }
     }
-
-    [System.Serializable]
-    public enum AttackType { Punch, Kick, Jumpkick, Block, BlockBreak, BlockHitReact, Knockdown, Super, None };
-
-    [System.Serializable]
-    public enum DamageType { Blunt, Fire, Cold, Acid, Poison };
 }

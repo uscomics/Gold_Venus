@@ -13804,6 +13804,35 @@ CanvasGroup:
   m_CorrespondingSourceObject: {fileID: 225723273818421230, guid: a19b10838215746458d23476cbfd9236,
     type: 2}
   m_PrefabInternal: {fileID: 2138670766}
+--- !u!1 &808769593
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 808769594}
+  m_Layer: 9
+  m_Name: Particle Emitters And Lights
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &808769594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 808769593}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 907191494}
+  m_Father: {fileID: 1819718044}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &844139632
 GameObject:
   m_ObjectHideFlags: 0
@@ -23326,7 +23355,7 @@ GameObject:
   - component: {fileID: 907191494}
   - component: {fileID: 907191493}
   m_Layer: 0
-  m_Name: Super Effect
+  m_Name: Super PELs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23352,15 +23381,15 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 907191492}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.184, z: 0}
+  m_LocalPosition: {x: 0, y: -0.18400002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1947299468}
   - {fileID: 1460061228}
   - {fileID: 45715384}
   - {fileID: 360815275}
-  m_Father: {fileID: 1686292635}
-  m_RootOrder: 4
+  m_Father: {fileID: 808769594}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915709585
 GameObject:
@@ -23558,6 +23587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -23567,7 +23597,6 @@ MonoBehaviour:
   AngleX: 0
   AngleY: 180
   AngleZ: 0
-  FXName: Alarm
   AnimationNames: []
   AudioSource1: {fileID: 534669906}
   AudioSource2: {fileID: 0}
@@ -23593,6 +23622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee907e10fee7a2d45a03142948c76408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -33546,6 +33576,74 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &1167333760
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1167333761}
+  - component: {fileID: 1167333762}
+  m_Layer: 9
+  m_Name: Punch FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1167333761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1167333760}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1819718044}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1167333762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1167333760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Punch
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Transform: {fileID: 0}
+  Radius: 0
+  AngleX: 0
+  AngleY: 180
+  AngleZ: 0
+  AnimationNames:
+  - PunchRightUppercut
+  - PunchLeftCross
+  - PunchRightDownward
+  - PunchLeftUppercut
+  AudioSource1: {fileID: 1686292641}
+  AudioSource2: {fileID: 0}
+  Sound1: {fileID: 8300000, guid: 589b39b94d818154ba8c07091e2f940e, type: 3}
+  Sound2: {fileID: 0}
+  ParticleSystems: []
+  Lights: []
+  Spawn:
+  - {fileID: 1649217636019058, guid: dc2e35f0558178344843896688e76f8c, type: 2}
+  SpawnFirst: 0
+  DynamicObjectManagerScript: {fileID: 331129937}
+  ForceVector: {x: 0, y: 0, z: 0}
+  ForceMode: 1
+  ForceFromCenter: 0
 --- !u!1 &1175262092
 GameObject:
   m_ObjectHideFlags: 0
@@ -33907,6 +34005,71 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.30666935, y: -0.012902871, z: 0.0011918023}
     m_Extent: {x: 0.24899435, y: 0.1439947, z: 0.1145357}
   m_DirtyAABB: 0
+--- !u!1 &1222869280
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1222869281}
+  - component: {fileID: 1222869282}
+  m_Layer: 9
+  m_Name: Jumpkick FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1222869281
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222869280}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1819718044}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1222869282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1222869280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Jumpkick
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Transform: {fileID: 0}
+  Radius: 0
+  AngleX: 0
+  AngleY: 180
+  AngleZ: 0
+  AnimationNames:
+  - KickRoundhouse
+  AudioSource1: {fileID: 1686292641}
+  AudioSource2: {fileID: 0}
+  Sound1: {fileID: 8300000, guid: fd9be99018cd46443b68536783f042ae, type: 3}
+  Sound2: {fileID: 0}
+  ParticleSystems: []
+  Lights: []
+  Spawn:
+  - {fileID: 1270610200852952, guid: 565211c5db22d78419d7132045908794, type: 2}
+  SpawnFirst: 0
+  DynamicObjectManagerScript: {fileID: 331129937}
+  ForceVector: {x: 0, y: 0, z: 0}
+  ForceMode: 1
+  ForceFromCenter: 0
 --- !u!1001 &1248810823
 Prefab:
   m_ObjectHideFlags: 0
@@ -34087,6 +34250,75 @@ Transform:
   m_Father: {fileID: 149744015}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1252869433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1252869434}
+  - component: {fileID: 1252869435}
+  m_Layer: 9
+  m_Name: Super FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1252869434
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1252869433}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1819718044}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1252869435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1252869433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Super
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Transform: {fileID: 0}
+  Radius: 0
+  AngleX: 0
+  AngleY: 180
+  AngleZ: 0
+  AnimationNames:
+  - LeapingPunch
+  AudioSource1: {fileID: 534669906}
+  AudioSource2: {fileID: 1686292641}
+  Sound1: {fileID: 8300000, guid: 19b3f14e218a068489edb8e1a250424e, type: 3}
+  Sound2: {fileID: 8300000, guid: cb0b89d385bd857439afa4fcfd293b87, type: 3}
+  ParticleSystems:
+  - {fileID: 1947299470}
+  - {fileID: 1460061230}
+  - {fileID: 45715386}
+  Lights:
+  - {fileID: 360815276}
+  Spawn:
+  - {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d, type: 2}
+  SpawnFirst: 0
+  DynamicObjectManagerScript: {fileID: 331129937}
+  ForceVector: {x: 0, y: 0, z: 0}
+  ForceMode: 1
+  ForceFromCenter: 0
 --- !u!1 &1259934668
 GameObject:
   m_ObjectHideFlags: 0
@@ -34285,6 +34517,71 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.21945775, y: -0.016071081, z: 0.01535292}
     m_Extent: {x: 0.32832068, y: 0.16259831, z: 0.16132332}
   m_DirtyAABB: 0
+--- !u!1 &1303722744
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1303722745}
+  - component: {fileID: 1303722746}
+  m_Layer: 9
+  m_Name: Kick FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1303722745
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1303722744}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1819718044}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1303722746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1303722744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Kick
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Transform: {fileID: 0}
+  Radius: 0
+  AngleX: 0
+  AngleY: 180
+  AngleZ: 0
+  AnimationNames:
+  - KickForwardRoundhouse
+  AudioSource1: {fileID: 1686292641}
+  AudioSource2: {fileID: 0}
+  Sound1: {fileID: 8300000, guid: 3fcdaeec05a248340a367470ea1b9456, type: 3}
+  Sound2: {fileID: 0}
+  ParticleSystems: []
+  Lights: []
+  Spawn:
+  - {fileID: 1312167694092086, guid: 07ca1692a80ac814798abbd6cd82371f, type: 2}
+  SpawnFirst: 0
+  DynamicObjectManagerScript: {fileID: 331129937}
+  ForceVector: {x: 0, y: 0, z: 0}
+  ForceMode: 1
+  ForceFromCenter: 0
 --- !u!1 &1308551149
 GameObject:
   m_ObjectHideFlags: 0
@@ -41537,7 +41834,7 @@ Transform:
   - {fileID: 2038328293}
   - {fileID: 213733070}
   - {fileID: 2019441209}
-  - {fileID: 907191494}
+  - {fileID: 1819718044}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -41559,24 +41856,25 @@ MonoBehaviour:
   healthScript: {fileID: 0}
   death:
     name: 
-    damage: 0
-    damageType: 0
-    range: 0
-    isAoE: 0
-    radiusAoE: 0
-    isDoT: 0
-    damageDoT: 0
-    damageTypeDoT: 0
-    durationDoT: 0
-    tickTimeDoT: 0
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 0}
-    recharge: 0
-    lastUsed: 0
-    superBarValue: 0
-    bonusChance: 0
+    AttackInfo:
+      Damage:
+        DamagePoints: 0
+        PointsObject: {fileID: 0}
+        DamageType: 0
+        IsAoE: 0
+        RadiusAoE: 0
+        IsDoT: 0
+        DamagePointsDoT: 0
+        DamageTypeDoT: 0
+        DurationDoT: 0
+        TickTimeDoT: 0
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 0}
+      Range: 0
+      Recharge: 0
+      LastUsed: 0
+      SuperBarValue: 0
     animationNames: []
-    pointsObject: {fileID: 0}
     audioSource1: {fileID: 0}
     audioSource2: {fileID: 0}
     sound1: {fileID: 0}
@@ -41588,37 +41886,44 @@ MonoBehaviour:
     ForceFromCenter: 0
     targetBuffs: []
     entity: {fileID: 0}
-    bamModel: {fileID: 0}
-    powModel: {fileID: 0}
-    kabamModel: {fileID: 0}
-    bonusPoints: {fileID: 0}
   deathSpawn: {fileID: 0}
   dead: 0
+  AttackBonus:
+    BonusChance: 3
+    BAMModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
+    POWModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
+    KABAMModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
+      type: 2}
+    BonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
+      type: 2}
+    BAMBonusChance: 33
+    POWBonusChance: 66
   attacks:
   - name: Punch
-    damage: 1
-    damageType: 0
-    range: 1.5
-    isAoE: 0
-    radiusAoE: 0
-    isDoT: 0
-    damageDoT: 0
-    damageTypeDoT: 0
-    durationDoT: 0
-    tickTimeDoT: 0
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 0}
-    recharge: 0
-    lastUsed: 0
-    superBarValue: 3
-    bonusChance: 4
+    AttackInfo:
+      Damage:
+        DamagePoints: 1
+        PointsObject: {fileID: 1649217636019058, guid: dc2e35f0558178344843896688e76f8c,
+          type: 2}
+        DamageType: 0
+        IsAoE: 0
+        RadiusAoE: 0
+        IsDoT: 0
+        DamagePointsDoT: 0
+        DamageTypeDoT: 0
+        DurationDoT: 0
+        TickTimeDoT: 0
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 0}
+      Range: 1.5
+      Recharge: 0
+      LastUsed: 0
+      SuperBarValue: 3
     animationNames:
     - PunchRightUppercut
     - PunchLeftCross
     - PunchRightDownward
     - PunchLeftUppercut
-    pointsObject: {fileID: 1649217636019058, guid: dc2e35f0558178344843896688e76f8c,
-      type: 2}
     audioSource1: {fileID: 1686292641}
     audioSource2: {fileID: 0}
     sound1: {fileID: 8300000, guid: 589b39b94d818154ba8c07091e2f940e, type: 3}
@@ -41630,33 +41935,28 @@ MonoBehaviour:
     ForceFromCenter: 0
     targetBuffs: []
     entity: {fileID: 1686292629}
-    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
-    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
-    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
-      type: 2}
-    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
-      type: 2}
   - name: Kick
-    damage: 3
-    damageType: 0
-    range: 1.5
-    isAoE: 0
-    radiusAoE: 0
-    isDoT: 0
-    damageDoT: 0
-    damageTypeDoT: 0
-    durationDoT: 0
-    tickTimeDoT: 0
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 0}
-    recharge: 2
-    lastUsed: 0
-    superBarValue: 4
-    bonusChance: 5
+    AttackInfo:
+      Damage:
+        DamagePoints: 3
+        PointsObject: {fileID: 1312167694092086, guid: 07ca1692a80ac814798abbd6cd82371f,
+          type: 2}
+        DamageType: 0
+        IsAoE: 0
+        RadiusAoE: 0
+        IsDoT: 0
+        DamagePointsDoT: 0
+        DamageTypeDoT: 0
+        DurationDoT: 0
+        TickTimeDoT: 0
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 0}
+      Range: 1.5
+      Recharge: 3
+      LastUsed: 0
+      SuperBarValue: 4
     animationNames:
     - KickForwardRoundhouse
-    pointsObject: {fileID: 1312167694092086, guid: 07ca1692a80ac814798abbd6cd82371f,
-      type: 2}
     audioSource1: {fileID: 1686292641}
     audioSource2: {fileID: 0}
     sound1: {fileID: 8300000, guid: 3fcdaeec05a248340a367470ea1b9456, type: 3}
@@ -41668,32 +41968,27 @@ MonoBehaviour:
     ForceFromCenter: 0
     targetBuffs: []
     entity: {fileID: 1686292629}
-    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
-    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
-    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
-      type: 2}
-    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
-      type: 2}
   - name: Block
-    damage: 0
-    damageType: 0
-    range: 1.5
-    isAoE: 0
-    radiusAoE: 0
-    isDoT: 0
-    damageDoT: 0
-    damageTypeDoT: 0
-    durationDoT: 0
-    tickTimeDoT: 0
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 0}
-    recharge: 1
-    lastUsed: 0
-    superBarValue: 0
-    bonusChance: 0
+    AttackInfo:
+      Damage:
+        DamagePoints: 0
+        PointsObject: {fileID: 0}
+        DamageType: 0
+        IsAoE: 0
+        RadiusAoE: 0
+        IsDoT: 0
+        DamagePointsDoT: 0
+        DamageTypeDoT: 0
+        DurationDoT: 0
+        TickTimeDoT: 0
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 0}
+      Range: 1.5
+      Recharge: 1
+      LastUsed: 0
+      SuperBarValue: 0
     animationNames:
     - Block
-    pointsObject: {fileID: 0}
     audioSource1: {fileID: 1686292641}
     audioSource2: {fileID: 0}
     sound1: {fileID: 8300000, guid: baf24b9c66c2f4c87ad733010a9fdb39, type: 3}
@@ -41705,31 +42000,28 @@ MonoBehaviour:
     ForceFromCenter: 0
     targetBuffs: []
     entity: {fileID: 1686292629}
-    bamModel: {fileID: 0}
-    powModel: {fileID: 0}
-    kabamModel: {fileID: 0}
-    bonusPoints: {fileID: 0}
   - name: Jumpkick
-    damage: 10
-    damageType: 0
-    range: 1.5
-    isAoE: 0
-    radiusAoE: 0
-    isDoT: 0
-    damageDoT: 0
-    damageTypeDoT: 0
-    durationDoT: 0
-    tickTimeDoT: 0
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 0}
-    recharge: 6
-    lastUsed: 0
-    superBarValue: 5
-    bonusChance: 5
+    AttackInfo:
+      Damage:
+        DamagePoints: 10
+        PointsObject: {fileID: 1270610200852952, guid: 565211c5db22d78419d7132045908794,
+          type: 2}
+        DamageType: 0
+        IsAoE: 0
+        RadiusAoE: 0
+        IsDoT: 0
+        DamagePointsDoT: 0
+        DamageTypeDoT: 0
+        DurationDoT: 0
+        TickTimeDoT: 0
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 0}
+      Range: 1.5
+      Recharge: 6
+      LastUsed: 0
+      SuperBarValue: 6
     animationNames:
     - KickRoundhouse
-    pointsObject: {fileID: 1270610200852952, guid: 565211c5db22d78419d7132045908794,
-      type: 2}
     audioSource1: {fileID: 1686292641}
     audioSource2: {fileID: 0}
     sound1: {fileID: 8300000, guid: fd9be99018cd46443b68536783f042ae, type: 3}
@@ -41742,33 +42034,28 @@ MonoBehaviour:
     ForceFromCenter: 0
     targetBuffs: []
     entity: {fileID: 1686292629}
-    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
-    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
-    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
-      type: 2}
-    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
-      type: 2}
   - name: Super
-    damage: 30
-    damageType: 0
-    range: 1.5
-    isAoE: 0
-    radiusAoE: 0
-    isDoT: 0
-    damageDoT: 0
-    damageTypeDoT: 0
-    durationDoT: 0
-    tickTimeDoT: 0
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 0}
-    recharge: 0
-    lastUsed: 0
-    superBarValue: 0
-    bonusChance: 5
+    AttackInfo:
+      Damage:
+        DamagePoints: 30
+        PointsObject: {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
+          type: 2}
+        DamageType: 0
+        IsAoE: 0
+        RadiusAoE: 0
+        IsDoT: 0
+        DamagePointsDoT: 0
+        DamageTypeDoT: 0
+        DurationDoT: 0
+        TickTimeDoT: 0
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 0}
+      Range: 1.5
+      Recharge: 0
+      LastUsed: 0
+      SuperBarValue: 0
     animationNames:
     - LeapingPunch
-    pointsObject: {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
-      type: 2}
     audioSource1: {fileID: 534669906}
     audioSource2: {fileID: 1686292641}
     sound1: {fileID: 8300000, guid: 19b3f14e218a068489edb8e1a250424e, type: 3}
@@ -41783,12 +42070,6 @@ MonoBehaviour:
     ForceFromCenter: 0
     targetBuffs: []
     entity: {fileID: 1686292629}
-    bamModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
-    powModel: {fileID: 1688976769252140, guid: b35171297411f1245bddfab019b932dd, type: 2}
-    kabamModel: {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239,
-      type: 2}
-    bonusPoints: {fileID: 1627156471715812, guid: f4af5c6a2bd2a5b4d8cb04ccff7a6cc3,
-      type: 2}
   vision:
     heightOffset: 0
     detectionRadius: 10
@@ -41930,6 +42211,70 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1700916600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1700916601}
+  - component: {fileID: 1700916602}
+  m_Layer: 9
+  m_Name: Block FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1700916601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1700916600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1819718044}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1700916602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1700916600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: Block
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Transform: {fileID: 0}
+  Radius: 0
+  AngleX: 0
+  AngleY: 180
+  AngleZ: 0
+  AnimationNames:
+  - Block
+  AudioSource1: {fileID: 1686292641}
+  AudioSource2: {fileID: 0}
+  Sound1: {fileID: 8300000, guid: baf24b9c66c2f4c87ad733010a9fdb39, type: 3}
+  Sound2: {fileID: 0}
+  ParticleSystems: []
+  Lights: []
+  Spawn: []
+  SpawnFirst: 0
+  DynamicObjectManagerScript: {fileID: 0}
+  ForceVector: {x: 0, y: 0, z: 0}
+  ForceMode: 1
+  ForceFromCenter: 0
 --- !u!1 &1701173763
 GameObject:
   m_ObjectHideFlags: 0
@@ -46945,26 +47290,27 @@ MonoBehaviour:
   healthScript: {fileID: 1786750955}
   death:
     name: Death
-    damage: 30
-    damageType: 0
-    range: 0
-    isAoE: 1
-    radiusAoE: 5
-    isDoT: 1
-    damageDoT: 2
-    damageTypeDoT: 4
-    durationDoT: 19
-    tickTimeDoT: 2
-    lastTickDoT: 0
-    damageModelDoT: {fileID: 1615427859346144, guid: c20c5355be581ab4d96a306ee75f4b6c,
-      type: 2}
-    recharge: 0
-    lastUsed: 0
-    superBarValue: 0
-    bonusChance: 0
+    AttackInfo:
+      Damage:
+        DamagePoints: 30
+        PointsObject: {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
+          type: 2}
+        DamageType: 0
+        IsAoE: 1
+        RadiusAoE: 5
+        IsDoT: 1
+        DamagePointsDoT: 2
+        DamageTypeDoT: 4
+        DurationDoT: 19
+        TickTimeDoT: 2
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 1615427859346144, guid: c20c5355be581ab4d96a306ee75f4b6c,
+          type: 2}
+      Range: 0
+      Recharge: 0
+      LastUsed: 0
+      SuperBarValue: 0
     animationNames: []
-    pointsObject: {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d,
-      type: 2}
     audioSource1: {fileID: 1786750957}
     audioSource2: {fileID: 0}
     sound1: {fileID: 8300000, guid: 5a5648556a9658f4f93c084b70d66ae1, type: 3}
@@ -46989,12 +47335,16 @@ MonoBehaviour:
     targetBuffs:
     - {fileID: 0}
     entity: {fileID: 1786750948}
-    bamModel: {fileID: 0}
-    powModel: {fileID: 0}
-    kabamModel: {fileID: 0}
-    bonusPoints: {fileID: 0}
   deathSpawn: {fileID: 373371237}
   dead: 0
+  AttackBonus:
+    BonusChance: 0
+    BAMModel: {fileID: 0}
+    POWModel: {fileID: 0}
+    KABAMModel: {fileID: 0}
+    BonusPoints: {fileID: 0}
+    BAMBonusChance: 0
+    POWBonusChance: 0
   attacks: []
   vision:
     heightOffset: 0
@@ -47520,6 +47870,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 792526494}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1819718043
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1819718044}
+  m_Layer: 9
+  m_Name: FX
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1819718044
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1819718043}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1167333761}
+  - {fileID: 1303722745}
+  - {fileID: 1700916601}
+  - {fileID: 1222869281}
+  - {fileID: 1252869434}
+  - {fileID: 808769594}
+  m_Father: {fileID: 1686292635}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1844743225
 GameObject:

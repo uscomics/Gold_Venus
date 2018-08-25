@@ -27,5 +27,6 @@ namespace USComics_FX {
             Rigidbody r = GetComponent<Rigidbody>();
             r.angularVelocity = Vector3.zero;
         }
+        public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<RotateGameObject>(); }
     }
 }

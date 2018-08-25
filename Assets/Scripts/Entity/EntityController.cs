@@ -19,6 +19,7 @@ namespace USComics_Entity {
         public Attack death;
         public GameObject deathSpawn;
         public bool dead;
+        public AttackBonus AttackBonus;
         public Attack[] attacks;
         public Vision vision = new Vision();
         public int CombatEmoteChance;
@@ -75,7 +76,7 @@ namespace USComics_Entity {
             float rangeRadius = 0.0f;
             for (int loop = 0; loop < attacks.Length; loop++) {
                 Attack attackInfo = attacks[loop];
-                if (attackInfo.range > rangeRadius) rangeRadius = attackInfo.range;
+                if (attackInfo.AttackInfo.Range > rangeRadius) rangeRadius = attackInfo.AttackInfo.Range;
             }
             return rangeRadius;
         }
@@ -98,14 +99,14 @@ namespace USComics_Entity {
         public void Targetted(EntityController targettedBy) { }
         public void Attacked(EntityController attackedBy, Attack attack) {
             if (dead) return;
-            healthScript.health -= attack.damage;
+            healthScript.health -= attack.AttackInfo.Damage.DamagePoints;
             if (0 >= healthScript.health) DoDeath(attackedBy);
         }
 
         public void ClearAttackTimers() {
             for (int loop = 0; loop < attacks.Length; loop++) {
                 Attack attackInfo = attacks[loop];
-                attackInfo.lastUsed = 0;
+                attackInfo.AttackInfo.LastUsed = 0;
             }
         }
 

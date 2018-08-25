@@ -29,6 +29,7 @@ namespace USComics_FX {
         public override void Stop() {
             IsRunning = false;
         }
+        public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<DeactivateByTime>(); }
         public void ResetTime() { StartTime = Time.time; }
         public void ResetObjectsActivateState() { gameObject.SetActive(!Activate); }
     }

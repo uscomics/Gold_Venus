@@ -8,7 +8,6 @@ using USComics_Movement;
 
 namespace USComics_FX {
     public class FX : AbstractFX {
-        public string FXName;
         public string[] AnimationNames;     // If multiple animation names are given, one will be randomly selected every time.
         public AudioSource AudioSource1;    // Plays Sound1
         public AudioSource AudioSource2;    // Plays Sound2
@@ -44,6 +43,7 @@ namespace USComics_FX {
             StopParticleSystems();
             StopLights();
         }
+        public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<FX>(); }
         public void PlaySounds() {
             if (null == AudioSource1) return;
             if (null == Sound1) return;

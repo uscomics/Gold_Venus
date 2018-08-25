@@ -28,12 +28,12 @@ namespace USComics_Combat {
 		}
 		public override AbstractBuff Clone() { return new DamageDoTEntity(this); }
 		public void FromAttack(Attack attack, EntityController attacker, EntityController target) {
-			damage = attack.damageDoT;
-			duration = attack.durationDoT;
-			damageType = attack.damageType;
-			tickTime = attack.tickTimeDoT;
-			lastTick = attack.lastTickDoT;
-			damageModel = attack.damageModelDoT;
+			damage = attack.AttackInfo.Damage.DamagePointsDoT;
+			duration = attack.AttackInfo.Damage.DurationDoT;
+			damageType = attack.AttackInfo.Damage.DamageType;
+			tickTime = attack.AttackInfo.Damage.TickTimeDoT;
+			lastTick = attack.AttackInfo.Damage.LastTickDoT;
+			damageModel = attack.AttackInfo.Damage.PointsObjectDoT;
 			Attacker = attacker;
 			Target = target;
 		}

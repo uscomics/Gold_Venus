@@ -23,5 +23,6 @@ namespace USComics_FX {
             Rigidbody r = GetComponent<Rigidbody>();
             r.velocity = Vector3.zero * 0;
         }
+        public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<MoveByTime>(); }
     }
 }

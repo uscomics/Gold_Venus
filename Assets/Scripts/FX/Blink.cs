@@ -40,5 +40,6 @@ namespace USComics_FX {
 		}
 		public override bool IsPlaying() { return IsBlinkRunning; }
 		public override void Stop() { FX.Stop(); }
+		public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<Blink>(); }
 	}
 }

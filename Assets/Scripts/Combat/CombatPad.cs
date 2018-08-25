@@ -203,8 +203,8 @@ namespace USComics_Combat
             PlayerAttackIndex index = PlayerControllerScript.ConvertAttackTypeToPlayerAttackIndex(inAttack);
             if (PlayerAttackIndex.None == index) return;
             Attack attack = PlayerControllerScript.GetAttackAt(index);
-            if (null == attack || 0 == attack.superBarValue) return;
-            IncrementSuperBar(attack.superBarValue);
+            if (null == attack || 0 == attack.AttackInfo.SuperBarValue) return;
+            IncrementSuperBar(attack.AttackInfo.SuperBarValue);
         }
     }
 }
