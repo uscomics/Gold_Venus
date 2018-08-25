@@ -75,13 +75,13 @@ namespace USComics_Environment
     {
         public static Collider[] GetClimbables(Transform transform)
         {
-            Collider[] colliders = DirectionUtilities.GetObjectsInRadius(transform.position, 1.0f, "Climbable", LayerMaskValues.LEVEL);
+            Collider[] colliders = Direction.GetObjectsInRadius(transform.position, 1.0f, "Climbable", LayerMaskValues.LEVEL);
             List<Collider> results = new List<Collider>();
             for (int loop = 0; loop < colliders.Length; loop++)
             {
-                GameObject candidate = DirectionUtilities.GetGameObject(colliders[loop]);
-                if ((0 < DirectionUtilities.GetForwardOrBehind(transform, candidate.transform))
-                && (DirectionUtilities.AreParallel(transform.forward, candidate.transform.forward, 5.0f)))
+                GameObject candidate = Direction.GetGameObject(colliders[loop]);
+                if ((0 < Direction.GetForwardOrBehind(transform, candidate.transform))
+                && (Direction.AreParallel(transform.forward, candidate.transform.forward, 5.0f)))
                 {
                     results.Add(colliders[loop]);
                 }
@@ -111,13 +111,13 @@ namespace USComics_Environment
 
         public static Collider[] GetEntitiesInSight(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
         {
-            Collider[] colliders = DirectionUtilities.GetObjectsInRadius(transform.position, radius, mask);
+            Collider[] colliders = Direction.GetObjectsInRadius(transform.position, radius, mask);
             List<Collider> results = new List<Collider>();
             float halfDegrees = degrees / 2.0f;
             for (int loop1 = 0; loop1 < colliders.Length; loop1++)
             {
-                GameObject candidate = DirectionUtilities.GetGameObject(colliders[loop1]);
-                if (halfDegrees <= DirectionUtilities.GetAngle(transform, candidate.transform)) continue;
+                GameObject candidate = Direction.GetGameObject(colliders[loop1]);
+                if (halfDegrees <= Direction.GetAngle(transform, candidate.transform)) continue;
                 Vector3 eyePos = candidate.transform.position + Vector3.up * heightOffset;
                 Vector3 toPlayer = transform.position - eyePos;
 
@@ -137,10 +137,10 @@ namespace USComics_Environment
             float halfDegrees = degrees / 2.0f;
             for (int loop = 0; loop < colliders.Length; loop++)
             {
-                GameObject candidate = DirectionUtilities.GetGameObject(colliders[loop]);
+                GameObject candidate = Direction.GetGameObject(colliders[loop]);
                 EntityController entity = candidate.GetComponent<EntityController>();
                 if (null == entity || entity.dead) continue;
-                if (0 < DirectionUtilities.GetForwardOrBehind(transform, candidate.transform))
+                if (0 < Direction.GetForwardOrBehind(transform, candidate.transform))
                 {
                     results.Add(colliders[loop]);
                 }

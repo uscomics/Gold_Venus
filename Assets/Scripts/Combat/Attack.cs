@@ -61,7 +61,7 @@ namespace USComics_Combat {
         }
         public bool InRange(GameObject obj) {
             if (!isSetup) SetupAttack();
-            return DirectionUtilities.GetDistance(entity.transform, obj.transform) <= AttackInfo.Range;
+            return Direction.GetDistance(entity.transform, obj.transform) <= AttackInfo.Range;
         }
         public bool AnyInRange(GameObject[] objs) {
             for (int loop = 0; loop < objs.Length; loop++) {
@@ -176,16 +176,16 @@ namespace USComics_Combat {
         }
         private void ApplyForce(Transform transform, float radius) {
             if (ForceVector == Vector3.zero) return;
-            Collider[] targets = DirectionUtilities.GetObjectsInRadius(transform.position, radius, LayerMaskValues.PLAYER | LayerMaskValues.ENEMY);
+            Collider[] targets = Direction.GetObjectsInRadius(transform.position, radius, LayerMaskValues.PLAYER | LayerMaskValues.ENEMY);
             ApplyForce(transform, targets);
         }
         private void ApplyForce(Transform transform, Collider[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, DirectionUtilities.GetGameObjects(targets));
+            ApplyForce(transform, Direction.GetGameObjects(targets));
         }
         private void ApplyForce(Transform transform, GameObject[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, DirectionUtilities.GetRigidbodies(targets));
+            ApplyForce(transform, Direction.GetRigidbodies(targets));
         }
         private void ApplyForce(Transform transform, Rigidbody[] targets) {
             if (ForceVector == Vector3.zero) return;

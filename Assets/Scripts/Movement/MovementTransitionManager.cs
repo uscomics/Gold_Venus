@@ -56,17 +56,4 @@ namespace USComics_Movement
             return true;
         }
     }
-
-    [System.Serializable]
-    class MovementModulesTransition
-    {
-        public AbstractMovementModule From { get; set; }
-        public AbstractMovementModule To { get; set; }
-
-        public MovementModulesTransition(AbstractMovementModule from, AbstractMovementModule to)
-        {
-            From = from;
-            To = to;
-        }
-    }
 }

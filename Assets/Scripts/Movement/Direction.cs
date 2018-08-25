@@ -5,23 +5,11 @@ using USComics_Movement;
 using USComics_Environment;
 
 namespace USComics_Movement {
-    [System.Serializable]
-    public enum DirectionType { None, North, East, South, West, NW, NE, SW, SE, Stop };
-
-    public class GameObjectAndDistance {
-        public GameObjectAndDistance(GameObject inGameObject, float inDistance) {
-            gameObject = inGameObject;
-            distance = inDistance;
-        }
-        public GameObject gameObject;
-        public float distance;
-    }
-
-    public class DirectionUtilities {
+    public class Direction {
         public static GameObject GetGameObject(Collider collider) { return collider.gameObject; }
         public static GameObject[] GetGameObjects(Collider[] colliders) {
             List<GameObject> results = new List<GameObject>();
-            for (int loop = 0; loop < colliders.Length; loop++) results.Add(DirectionUtilities.GetGameObject(colliders[loop]));
+            for (int loop = 0; loop < colliders.Length; loop++) results.Add(Direction.GetGameObject(colliders[loop]));
             return results.ToArray();
         }
         public static Rigidbody[] GetRigidbodies(GameObject[] gameObjects) {
@@ -36,7 +24,7 @@ namespace USComics_Movement {
         }
         public static Transform[] GetTransforms(Collider[] colliders) {
             List<Transform> results = new List<Transform>();
-            for (int loop = 0; loop < colliders.Length; loop++) results.Add(DirectionUtilities.GetGameObject(colliders[loop]).transform);
+            for (int loop = 0; loop < colliders.Length; loop++) results.Add(Direction.GetGameObject(colliders[loop]).transform);
             return results.ToArray();
         }
         public static Transform[] GetTransforms(GameObject[] objects) {
@@ -74,14 +62,14 @@ namespace USComics_Movement {
             List<GameObjectAndDistance> ObjectsAndDistances = new List<GameObjectAndDistance>();
             for (int loop1 = 0; loop1 < objects.Length; loop1++) {
                 GameObject obj = objects[loop1];
-                float distance = DirectionUtilities.GetDistance(transform, obj.transform);
+                float distance = Direction.GetDistance(transform, obj.transform);
                 GameObjectAndDistance gameObjectAndDistance = new GameObjectAndDistance(obj, distance);
                 ObjectsAndDistances.Add(gameObjectAndDistance);
             }
             return ObjectsAndDistances.ToArray();
         }
         public static GameObjectAndDistance[] SortByDistance(Transform transform, GameObject[] objects) {
-            GameObjectAndDistance[] results = DirectionUtilities.GetDistances(transform, objects);
+            GameObjectAndDistance[] results = Direction.GetDistances(transform, objects);
             for (int loop = 0; loop < results.Length; loop++) {
                 for (int loop2 = 0; loop2 < results.Length - 1; loop2++) {
                     if (results[loop2].distance > results[loop2 + 1].distance) {

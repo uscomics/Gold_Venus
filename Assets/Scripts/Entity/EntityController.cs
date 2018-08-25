@@ -46,7 +46,7 @@ namespace USComics_Entity {
         void Start() { SetupEntity(); }
         void Update() { UpdateBuffs(); }
         private void OnTriggerEnter(Collider other) {
-            GameObject go = DirectionUtilities.GetGameObject(other);
+            GameObject go = Direction.GetGameObject(other);
             if (go.CompareTag("Pickup")) {
                 AbstractPickup pickup = go.GetComponent<AbstractPickup>();
                 if (null == pickup) return;
@@ -92,8 +92,8 @@ namespace USComics_Entity {
         public GameObject NearestInRange(bool useHeightDifference = true) {
             Collider[] enemies = GetEnemiesInRange(useHeightDifference);
             if (0 == enemies.Length) return null;
-            GameObject[] enemiesGO = DirectionUtilities.GetGameObjects(enemies);
-            return DirectionUtilities.GetNearestObject(transform.position, enemiesGO);
+            GameObject[] enemiesGO = Direction.GetGameObjects(enemies);
+            return Direction.GetNearestObject(transform.position, enemiesGO);
         }
 
         public void Targetted(EntityController targettedBy) { }

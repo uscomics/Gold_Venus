@@ -5,8 +5,7 @@ using USComics_Debug;
 
 namespace USComics_Movement
 {
-    public class SimpleMovementModule : AbstractMovementModule
-    {
+    public class SimpleMovementModule : AbstractMovementModule {
         public Move CurrentMove { get; set; }
         public Move PreviousMove { get; set; }
         public Vector3 CurrentVector { get; set; }
@@ -53,9 +52,9 @@ namespace USComics_Movement
 
 
             CurrentMove = new Move(DirectionType.None, (float)MovementType.Standing);
-            CurrentVector = DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
+            CurrentVector = Direction.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
             PreviousMove = new Move(DirectionType.None, (float)MovementType.Standing);
-            PreviousVector = DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
+            PreviousVector = Direction.ConvertDirectionToVector(DirectionType.None, Vector3.zero);
             moduleActive = false;
             MovementTransitionManagerScript.Register(this);
         }
@@ -115,7 +114,7 @@ namespace USComics_Movement
 
             Vector3 tempVector = PreviousVector;
             PreviousVector = CurrentVector;
-            CurrentVector = DirectionUtilities.ConvertDirectionToVector(direction, tempVector);
+            CurrentVector = Direction.ConvertDirectionToVector(direction, tempVector);
             PreviousMove = CurrentMove;
             CurrentMove = new Move(direction, speed);
             UpdateAnimation(speed);
@@ -147,50 +146,5 @@ namespace USComics_Movement
         {
             Anim.Play("Run");
         }
-    }
-    [System.Serializable]
-    public enum MovementType
-    {
-        Sneaking,
-        Walking,
-        Running,
-        Standing,
-        None
-    }
-
-    [System.Serializable]
-    public class MovementSpeed
-    {
-        public const float SNEAK_SPEED = 1.0f;
-        public const float WALK_SPEED = 5.0f;
-        public const float RUN_SPEED = 10.0f;
-        public const float STANDING_SPEED = 0.0f;
-        public static float GetSpeed(MovementType movementType)
-        {
-            if (MovementType.Sneaking == movementType) return MovementSpeed.SNEAK_SPEED;
-            if (MovementType.Walking == movementType) return MovementSpeed.WALK_SPEED;
-            if (MovementType.Running == movementType) return MovementSpeed.RUN_SPEED;
-            if (MovementType.Standing == movementType) return MovementSpeed.STANDING_SPEED;
-            return 0.0f;
-        }
-        public static MovementType GetMovementType(float speed)
-        {
-            if (MovementSpeed.SNEAK_SPEED > speed) return MovementType.Standing;
-            if (MovementSpeed.WALK_SPEED > speed) return MovementType.Sneaking;
-            if (MovementSpeed.RUN_SPEED > speed) return MovementType.Walking;
-            return MovementType.Running;
-        }
-    }
-
-    [System.Serializable]
-    public class Move
-    {
-        public Move(DirectionType directionType, float speed)
-        {
-            Direction = directionType;
-            Speed = speed;
-        }
-        public DirectionType Direction { get; set; }
-        public float Speed { get; set; }
     }
 }

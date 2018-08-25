@@ -105,7 +105,7 @@ namespace USComics_Combat
             if (0 == enemies.Length) HideCombatUI();
             else
             {
-                GameObject[] enemiesGO= DirectionUtilities.GetGameObjects(enemies);
+                GameObject[] enemiesGO= Direction.GetGameObjects(enemies);
                 ShowCombatUI();
                 Attack punch = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Punch];
                 Attack kick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Kick];

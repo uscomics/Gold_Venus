@@ -22,7 +22,7 @@ namespace USComics_FX {
         public ForceMode ForceMode = ForceMode.Impulse;
         public bool ForceFromCenter;        // Set to true for an explosion-like (radial) force, or false for a linear force.
         
-        public Collider[] GetTargets(Transform transform, float radius) { return DirectionUtilities.GetObjectsInRadius(transform.position, radius); }
+        public Collider[] GetTargets(Transform transform, float radius) { return Direction.GetObjectsInRadius(transform.position, radius); }
         public override IEnumerator Play() {
             if (SpawnFirst) SpawnModels(transform.position, AngleX, AngleY, AngleZ);
             Collider[] targets = GetTargets(Transform, Radius);
@@ -115,16 +115,16 @@ namespace USComics_FX {
         }
         public void ApplyForce(Transform transform, float radius) {
             if (ForceVector == Vector3.zero) return;
-            Collider[] targets = DirectionUtilities.GetObjectsInRadius(transform.position, radius);
+            Collider[] targets = Direction.GetObjectsInRadius(transform.position, radius);
             ApplyForce(transform, targets);
         }
         public void ApplyForce(Transform transform, Collider[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, DirectionUtilities.GetGameObjects(targets));
+            ApplyForce(transform, Direction.GetGameObjects(targets));
         }
         public void ApplyForce(Transform transform, GameObject[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, DirectionUtilities.GetRigidbodies(targets));
+            ApplyForce(transform, Direction.GetRigidbodies(targets));
         }
         public void ApplyForce(Transform transform, Rigidbody[] targets) {
             if (ForceVector == Vector3.zero) return;

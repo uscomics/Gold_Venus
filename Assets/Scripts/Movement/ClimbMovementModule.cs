@@ -54,9 +54,9 @@ namespace USComics_Movement
             if (null == debugConsoleScript) { return; }
 
             CurrentMove = new ClimbMove(DirectionType.None, ClimbType.None);
-            CurrentVector = ConvertForClimbing(DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero));
+            CurrentVector = ConvertForClimbing(Direction.ConvertDirectionToVector(DirectionType.None, Vector3.zero));
             PreviousMove = new ClimbMove(DirectionType.None, ClimbType.None);
-            PreviousVector = ConvertForClimbing(DirectionUtilities.ConvertDirectionToVector(DirectionType.None, Vector3.zero));
+            PreviousVector = ConvertForClimbing(Direction.ConvertDirectionToVector(DirectionType.None, Vector3.zero));
             Speed = 0.0f;
             moduleActive = false;
             movementTransitionManagerScript.Register(this);
@@ -142,7 +142,7 @@ namespace USComics_Movement
 
             Vector3 tempVector = PreviousVector;
             PreviousVector = CurrentVector;
-            CurrentVector = ConvertForClimbing(DirectionUtilities.ConvertDirectionToVector(direction, tempVector));
+            CurrentVector = ConvertForClimbing(Direction.ConvertDirectionToVector(direction, tempVector));
             PreviousMove = CurrentMove;
             CurrentMove = new ClimbMove(direction, climbType);
             UpdateAnimation(climbType);
@@ -161,38 +161,5 @@ namespace USComics_Movement
         {
             Anim.Play("EdgeGrab_Idle");
         }
-    }
-
-    [System.Serializable]
-    public enum ClimbType
-    {
-        Climbing,
-        Idle,
-        None
-    }
-
-    [System.Serializable]
-    public class ClimbSpeed
-    {
-        public const float CLIMB_SPEED = 1.0f;
-        public const float IDLE_SPEED = 0.0f;
-        public static float GetSpeed(ClimbType climbType)
-        {
-            if (ClimbType.Climbing == climbType) return ClimbSpeed.CLIMB_SPEED;
-            if (ClimbType.Idle == climbType) return ClimbSpeed.IDLE_SPEED;
-            return 0.0f;
-        }
-    }
-
-    [System.Serializable]
-    public class ClimbMove
-    {
-        public ClimbMove(DirectionType directionType, ClimbType climbType)
-        {
-            Direction = directionType;
-            Climb = climbType;
-        }
-        public DirectionType Direction { get; set; }
-        public ClimbType Climb { get; set; }
     }
 }
