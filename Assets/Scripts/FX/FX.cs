@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using USComics_Dynamic;
 using USComics_Movement;
 
 namespace USComics_FX {
-    public class FX : MonoBehaviour {
+    public class FX : AbstractFX {
         public string FXName;
         public string[] AnimationNames;     // If multiple animation names are given, one will be randomly selected every time.
         public AudioSource AudioSource1;    // Plays Sound1
@@ -21,21 +22,24 @@ namespace USComics_FX {
         public Vector3 ForceVector = Vector3.zero;  // Vector3.zero means no force
         public ForceMode ForceMode = ForceMode.Impulse;
         public bool ForceFromCenter;        // Set to true for an explosion-like (radial) force, or false for a linear force.
-
-        void Start() { }
-        void Update() { }
+        
         public Collider[] GetTargets(Transform transform, float radius) { return DirectionUtilities.GetObjectsInRadius(transform.position, radius); }
-        public void PlayAll(Transform transform, float radius, float angleX = 0.0f, float angleY = 180.0f, float angleZ = 0.0f) {
-            if (SpawnFirst) SpawnModels(transform.position, angleX, angleY, angleZ);
-            Collider[] targets = GetTargets(transform, radius);
+        public override IEnumerator Play() {
+            if (SpawnFirst) SpawnModels(transform.position, AngleX, AngleY, AngleZ);
+            Collider[] targets = GetTargets(Transform, Radius);
             PlaySounds();
             PlayAnimation(targets);
             PlayParticleSystems();
             PlayLights();
             ApplyForce(transform, targets);
-            if (!SpawnFirst) SpawnModels(transform.position, angleX, angleY, angleZ);
+            if (!SpawnFirst) SpawnModels(Transform.position, AngleX, AngleY, AngleZ);
+            yield break;
         }
-        public void StopAll() {
+        public override bool IsPlaying() {
+            Collider[] targets = GetTargets(Transform, Radius);
+            return IsSoundPlaying() || IsAnimationPlaying(targets) || AreParticleSystemsPlaying();
+        }
+        public override void Stop() {
             StopSounds();
             StopParticleSystems();
             StopLights();
@@ -51,6 +55,12 @@ namespace USComics_FX {
             }
             AudioSource2.PlayOneShot(Sound2);
         }
+        public bool IsSoundPlaying() {
+            bool result = false;
+            if (null != AudioSource1) result = AudioSource1.isPlaying;
+            if (null != AudioSource2) result |= AudioSource2.isPlaying;
+            return result;
+        }
         public void StopSounds() {
             if (null != AudioSource1 && AudioSource1.isPlaying) AudioSource1.Stop();
             if (null != AudioSource2 && AudioSource2.isPlaying) AudioSource2.Stop();
@@ -65,22 +75,36 @@ namespace USComics_FX {
                 animator.Play(AnimationNames[randomAniation]);
             }
         }
-
+        public bool IsAnimationPlaying(Collider[] targets) {
+            if (null == AnimationNames || 0 == AnimationNames.Length) return false;
+            foreach (var target in targets) {
+                Animator animator = target.GetComponent<Animator>();
+                if (animator.GetCurrentAnimatorStateInfo(0).length > animator.GetCurrentAnimatorStateInfo(0).normalizedTime) return true;
+            }
+            return false;
+        }
         public void PlayParticleSystems() {
             if (null == ParticleSystems) return;
             foreach (var particleSystem in ParticleSystems) { if (null != particleSystem) particleSystem.Play(); }
         }
-
+        public bool AreParticleSystemsPlaying() {
+            if (null == ParticleSystems) return false;
+            foreach (var particleSystem in ParticleSystems) { if (null != particleSystem && particleSystem.isPlaying) return true; }
+            return false;
+        }
         public void StopParticleSystems() {
             if (null == ParticleSystems) return;
             foreach (var particleSystem in ParticleSystems) { if (null != particleSystem) particleSystem.Stop(); }
         }
-
         public void PlayLights() {
             if (null == Lights) return;
             foreach (var light in Lights) { if (null != light) light.enabled = true; }
         }
-
+        public bool AreLightsPlaying() {
+            if (null == Lights) return false;
+            foreach (var light in Lights) { if (null != light && light.enabled) return true; }
+            return false;
+        }
         public void StopLights() {
             if (null == Lights) return;
             foreach (var light in Lights) { if (null != light) light.enabled = false; }

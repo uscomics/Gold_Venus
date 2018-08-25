@@ -23558,6 +23558,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Transform: {fileID: 0}
+  Radius: 0
+  AngleX: 0
+  AngleY: 180
+  AngleZ: 0
   FXName: Alarm
   AnimationNames: []
   AudioSource1: {fileID: 534669906}
@@ -23584,15 +23593,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee907e10fee7a2d45a03142948c76408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlinkTimeOn: 2
-  BlinkTimeOff: 1
-  BlinkCount: 3
-  FX: {fileID: 916261000}
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 1
   Transform: {fileID: 916260999}
   Radius: 5
   AngleX: 0
   AngleY: 180
   AngleZ: 0
+  BlinkTimeOn: 2
+  BlinkTimeOff: 1
+  BlinkCount: 3
+  FX: {fileID: 916261000}
 --- !u!1 &919940353
 GameObject:
   m_ObjectHideFlags: 0

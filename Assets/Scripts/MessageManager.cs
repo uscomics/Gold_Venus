@@ -13,7 +13,7 @@ namespace USComics_Message_Manager {
         public static string MSG_HOW_TO_SNEAK = "Use Shift key or Speed Bar to sneak.";
         public static string MSG_HOW_TO_RUN = "Use Return or Enter key or Speed Bar to run.";
         public static string MSG_HOW_TO_WALK = "Use Esc or Speed Bar to walk.";
-        public static string MSG_HOW_TO_STOP = "Use Backspace or delete keys or Speed Bar to Stop.";
+        public static string MSG_HOW_TO_STOP = "Use Backspace or Delete keys, Speed Bar, or Movement Pad to Stop.";
         public static string MSG_HOW_TO_ATTACK = "Use the Attack Buttons or the 1, 2, 3, 4, and 9 keys to attack. The 9 key is your Super attack.";
         public static string MSG_ATTACK_CONTROLS = "Your attack controls will appear whenever an enemy is in sight.";
         public static string MSG_CONTROL_CAMERA = "Use Left and Right Mouse Buttons and Scroll Wheel to control the camera.";
@@ -74,9 +74,7 @@ namespace USComics_Message_Manager {
             MessageCanvasGroup.alpha = 1;
             MessageCanvasGroup.interactable = true;
             MessageCanvasGroup.blocksRaycasts = true;
-            if (null != MessageSound) {
-                AudioSource.PlayOneShot(MessageSound);
-            }
+            if (null != MessageSound) { AudioSource.PlayOneShot(MessageSound); }
         }
 
         void HideMessage() {
@@ -85,9 +83,7 @@ namespace USComics_Message_Manager {
             MessageCanvasGroup.blocksRaycasts = false;
             Visible = false;
             StartTime = 0;
-            if (0 == MessageQueue.Count) {
-                return;
-            }
+            if (0 == MessageQueue.Count) { return; }
             QueuedMessage msg = MessageQueue.Dequeue();
             ShowMessage(msg.message, msg.lifetime);
         }
@@ -109,9 +105,7 @@ namespace USComics_Message_Manager {
             ImageMessageCanvasGroup.alpha = 1;
             ImageMessageCanvasGroup.interactable = true;
             ImageMessageCanvasGroup.blocksRaycasts = true;
-            if (null != MessageSound) {
-                AudioSource.PlayOneShot(MessageSound);
-            }
+            if (null != MessageSound) {  AudioSource.PlayOneShot(MessageSound); }
         }
 
         void HideImageMessage() {
@@ -120,9 +114,7 @@ namespace USComics_Message_Manager {
             ImageMessageCanvasGroup.blocksRaycasts = false;
             Visible = false;
             StartTime = 0;
-            if (0 == ImageMessageQueue.Count) {
-                return;
-            }
+            if (0 == ImageMessageQueue.Count) { return; }
             QueuedMessage msg = ImageMessageQueue.Dequeue();
             ShowImageMessage(msg.message, msg.lifetime);
         }
