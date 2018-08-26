@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using USComics_Dynamic;
 using USComics_Movement;
+using USComics_Environment;
 
 namespace USComics_FX {
     public class FX : AbstractFX {
@@ -21,8 +19,13 @@ namespace USComics_FX {
         public Vector3 ForceVector = Vector3.zero;  // Vector3.zero means no force
         public ForceMode ForceMode = ForceMode.Impulse;
         public bool ForceFromCenter;        // Set to true for an explosion-like (radial) force, or false for a linear force.
+        public Transform Transform;
+        public float Radius;
+        public float AngleX = 0.0f;
+        public float AngleY = 180.0f;
+        public float AngleZ = 0.0f;
         
-        public Collider[] GetTargets(Transform transform, float radius) { return Direction.GetObjectsInRadius(transform.position, radius); }
+        public Collider[] GetTargets(Transform transform, float radius) { return Environment.GetObjectsInRadius(transform.position, radius); }
         public override IEnumerator Play() {
             if (SpawnFirst) SpawnModels(transform.position, AngleX, AngleY, AngleZ);
             Collider[] targets = GetTargets(Transform, Radius);
@@ -115,16 +118,16 @@ namespace USComics_FX {
         }
         public void ApplyForce(Transform transform, float radius) {
             if (ForceVector == Vector3.zero) return;
-            Collider[] targets = Direction.GetObjectsInRadius(transform.position, radius);
+            Collider[] targets = Environment.GetObjectsInRadius(transform.position, radius);
             ApplyForce(transform, targets);
         }
         public void ApplyForce(Transform transform, Collider[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, Direction.GetGameObjects(targets));
+            ApplyForce(transform, GameObjectUtilities.GetGameObjects(targets));
         }
         public void ApplyForce(Transform transform, GameObject[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, Direction.GetRigidbodies(targets));
+            ApplyForce(transform, GameObjectUtilities.GetRigidbodies(targets));
         }
         public void ApplyForce(Transform transform, Rigidbody[] targets) {
             if (ForceVector == Vector3.zero) return;

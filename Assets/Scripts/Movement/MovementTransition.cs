@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace USComics_Movement {
+﻿namespace USComics_Movement {
     [System.Serializable]
     class MovementModulesTransition  {
         public AbstractMovementModule From { get; set; }

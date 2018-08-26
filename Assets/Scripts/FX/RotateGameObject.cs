@@ -3,19 +3,19 @@ using System.Collections;
 
 namespace USComics_FX {
     public class RotateGameObject : AbstractFX {
-        public bool rotateX = true;
-        public bool rotateY = false;
-        public bool rotateZ = false;
-        public float speed = 5.0f;
+        public bool RotateX = true;
+        public bool RotateY = false;
+        public bool RotateZ = false;
+        public float Speed = 5.0f;
 
         private bool IsRunning;
 
         public override IEnumerator Play() {
             IsRunning = true;         
             Rigidbody r = GetComponent<Rigidbody>();
-            float x = (rotateX) ? r.angularVelocity.x + speed : r.angularVelocity.x;
-            float y = (rotateY) ? r.angularVelocity.y + speed : r.angularVelocity.y;
-            float z = (rotateZ) ? r.angularVelocity.z + speed : r.angularVelocity.z;
+            float x = (RotateX) ? r.angularVelocity.x + Speed : r.angularVelocity.x;
+            float y = (RotateY) ? r.angularVelocity.y + Speed : r.angularVelocity.y;
+            float z = (RotateZ) ? r.angularVelocity.z + Speed : r.angularVelocity.z;
             r.angularVelocity = new Vector3(x, y, z);
             yield break;
         }

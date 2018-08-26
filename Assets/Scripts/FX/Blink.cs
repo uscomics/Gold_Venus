@@ -21,11 +21,6 @@ namespace USComics_FX {
 			BlinkCounter = 0;
 			while (-1 == BlinkCount || BlinkCounter < BlinkCount) {
 				if (!IsBlinkOn) {
-					FX.Transform = Transform;
-					FX.Radius = Radius;
-					FX.AngleX = AngleX;
-					FX.AngleY = AngleY;
-					FX.AngleZ = AngleZ;
 					IsBlinkOn = true;
 					yield return StartCoroutine(FX.Play());
 					yield return new WaitForSeconds(BlinkTimeOn);

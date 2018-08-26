@@ -292,6 +292,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d46148685f7a13449e7d1d5e02337a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
   PlayOnStart: 1
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -301,10 +302,10 @@ MonoBehaviour:
   AngleX: 0
   AngleY: 180
   AngleZ: 0
-  rotateX: 0
-  rotateY: 1
-  rotateZ: 0
-  speed: 5
+  RotateX: 0
+  RotateY: 1
+  RotateZ: 0
+  Speed: 5
 --- !u!135 &135358652222212892
 SphereCollider:
   m_ObjectHideFlags: 1

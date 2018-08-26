@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using USComics_Movement;
+using USComics_Environment;
 
 namespace USComics_FX {
 	public class Force : AbstractFX {
@@ -18,10 +19,10 @@ namespace USComics_FX {
 		public override IEnumerator Play() {
 			playing = true;
 			if (null != ForceTransform) {
-				if (null != RigidbodyTargets) ApplyForce(ForceTransform, RigidbodyTargets);
-				else if (null != GameObjectTargets) ApplyForce(ForceTransform, GameObjectTargets);
-				else if (null != ColliderTargets) ApplyForce(ForceTransform, ColliderTargets);
-				else ApplyForce(ForceTransform, TargetRadius);
+				if (null != RigidbodyTargets && 0 < RigidbodyTargets.Length) { ApplyForce(ForceTransform, RigidbodyTargets); }
+				else if (null != GameObjectTargets && 0 < GameObjectTargets.Length) { ApplyForce(ForceTransform, GameObjectTargets); }
+				else if (null != ColliderTargets && 0 < ColliderTargets.Length) { ApplyForce(ForceTransform, ColliderTargets); }
+				else { ApplyForce(ForceTransform, TargetRadius); }
 			}
 			playing = false;
 			yield break;
@@ -32,16 +33,16 @@ namespace USComics_FX {
 		public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<Force>(); }
 		public void ApplyForce(Transform transform, float radius) {
 			if (ForceVector == Vector3.zero) return;
-			Collider[] targets = Direction.GetObjectsInRadius(transform.position, radius);
+			Collider[] targets = Environment.GetObjectsInRadius(transform.position, radius);
 			ApplyForce(transform, targets);
 		}
 		public void ApplyForce(Transform transform, Collider[] targets) {
 			if (ForceVector == Vector3.zero) return; 
-			ApplyForce(transform, Direction.GetGameObjects(targets));
+			ApplyForce(transform, GameObjectUtilities.GetGameObjects(targets));
 		}
 		public void ApplyForce(Transform transform, GameObject[] targets) {
 			if (ForceVector == Vector3.zero) return; 
-			ApplyForce(transform, Direction.GetRigidbodies(targets));
+			ApplyForce(transform, GameObjectUtilities.GetRigidbodies(targets));
 		}
 		public void ApplyForce(Transform transform, Rigidbody[] targets) {
 			if (ForceVector == Vector3.zero) return;

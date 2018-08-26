@@ -5,6 +5,10 @@ namespace USComics_FX {
 	public class Lights : AbstractFX {
 		public Light[] Light;
 
+		void Start() {
+			Stop();
+			if (PlayOnStart) StartCoroutine(Play());
+		}
 		public override IEnumerator Play() {
 			if (null != Light) {
 				foreach (var l in Light) { if (null != l) l.enabled = true; }

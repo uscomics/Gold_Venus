@@ -6,7 +6,7 @@ namespace USComics_FX {
 	public class Spawn : AbstractFX {
 		public GameObject[] Models;
 		public DynamicObjectManager DynamicObjectManagerScript;
-		public Vector3 position;
+		public Vector3 Position;
 		public float AngleX;
 		public float AngleY;
 		public float AngleZ;
@@ -16,7 +16,7 @@ namespace USComics_FX {
 		public override IEnumerator Play() {
 			if (null != Models) {
 				playing = true;
-				foreach (var model in Models) { if (null != model) DynamicObjectManagerScript.Clone(model, position, AngleX, AngleY, AngleZ); }
+				foreach (var model in Models) { if (null != model) DynamicObjectManagerScript.Clone(model, Position, AngleX, AngleY, AngleZ); }
 				playing = false;
 			}
 			yield break;

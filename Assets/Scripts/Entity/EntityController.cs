@@ -11,8 +11,8 @@ using USComics_Pickups;
 
 namespace USComics_Entity {
     public class EntityController : MonoBehaviour {
+        public string Name;
         public GameObject entity;
-        public string entityName;
         public GameObject healthPanel;
         public List<AbstractBuff> buffs = new List<AbstractBuff>();
         public Health healthScript;
@@ -46,7 +46,7 @@ namespace USComics_Entity {
         void Start() { SetupEntity(); }
         void Update() { UpdateBuffs(); }
         private void OnTriggerEnter(Collider other) {
-            GameObject go = Direction.GetGameObject(other);
+            GameObject go = GameObjectUtilities.GetGameObject(other);
             if (go.CompareTag("Pickup")) {
                 AbstractPickup pickup = go.GetComponent<AbstractPickup>();
                 if (null == pickup) return;
@@ -86,14 +86,14 @@ namespace USComics_Entity {
         }
 
         public Collider[] GetEnemiesInRange(bool useHeightDifference = true) {
-            Collider[] enemies = Environment.GetEnemiesInRange(entity.transform, GetMaxAttackRange(), vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Collider[] enemies = Environment.GetEnemiesInFront(entity.transform, GetMaxAttackRange(), vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
             return enemies;
         }
         public GameObject NearestInRange(bool useHeightDifference = true) {
             Collider[] enemies = GetEnemiesInRange(useHeightDifference);
             if (0 == enemies.Length) return null;
-            GameObject[] enemiesGO = Direction.GetGameObjects(enemies);
-            return Direction.GetNearestObject(transform.position, enemiesGO);
+            GameObject[] enemiesGO = GameObjectUtilities.GetGameObjects(enemies);
+            return Environment.GetNearestObject(transform.position, enemiesGO);
         }
 
         public void Targetted(EntityController targettedBy) { }
@@ -156,11 +156,11 @@ namespace USComics_Entity {
             GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
             if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
 
-            if (null == entityRigidBody) { Debug.LogError("EntityController.SetupEntity: entityRigidBody is null."); }
-            if (null == messageManagerScript) { Debug.LogError("EntityController.SetupEntity: messageManager is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("EntityController.SetupEntity: debugConsoleScript is null."); }
-            if (null == healthScript) { Debug.LogError("EntityController.SetupEntity: healthScript is null."); }
-            if (null == DynamicObjectManagerScript) { Debug.LogError("EntityController.SetupEntity: DynamicObjectManagerScript is null."); }
+            if (null == entityRigidBody) { Debug.LogError("EntityController.SetupEntity: " + Name + ": entityRigidBody is null."); }
+            if (null == messageManagerScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": messageManager is null."); }
+            if (null == debugConsoleScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": debugConsoleScript is null."); }
+            if (null == healthScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": healthScript is null."); }
+            if (null == DynamicObjectManagerScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": DynamicObjectManagerScript is null."); }
 
             if (null == entityRigidBody) { return false; }
             if (null == messageManagerScript) { return false; }

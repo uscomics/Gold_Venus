@@ -176,16 +176,16 @@ namespace USComics_Combat {
         }
         private void ApplyForce(Transform transform, float radius) {
             if (ForceVector == Vector3.zero) return;
-            Collider[] targets = Direction.GetObjectsInRadius(transform.position, radius, LayerMaskValues.PLAYER | LayerMaskValues.ENEMY);
+            Collider[] targets = Environment.GetObjectsInRadius(transform.position, radius, LayerMaskValues.PLAYER | LayerMaskValues.ENEMY);
             ApplyForce(transform, targets);
         }
         private void ApplyForce(Transform transform, Collider[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, Direction.GetGameObjects(targets));
+            ApplyForce(transform, GameObjectUtilities.GetGameObjects(targets));
         }
         private void ApplyForce(Transform transform, GameObject[] targets) {
             if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, Direction.GetRigidbodies(targets));
+            ApplyForce(transform, GameObjectUtilities.GetRigidbodies(targets));
         }
         private void ApplyForce(Transform transform, Rigidbody[] targets) {
             if (ForceVector == Vector3.zero) return;
