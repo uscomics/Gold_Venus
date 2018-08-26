@@ -10,13 +10,13 @@ namespace USComics_FX {
 		public float BlinkTimeOff;
 		public int BlinkCount;		// -1 to blink forever.
 		public AbstractFX FX;
-		public bool IsBlinkRunning { get; protected set; }
 		
 		private bool IsBlinkOn;
 		private int BlinkCounter;
+		private bool Playing;
 
 		public override IEnumerator Play() {
-			IsBlinkRunning = true;
+			Playing = true;
 			IsBlinkOn = false;
 			BlinkCounter = 0;
 			while (-1 == BlinkCount || BlinkCounter < BlinkCount) {
@@ -31,10 +31,10 @@ namespace USComics_FX {
 					yield return new WaitForSeconds(BlinkTimeOff);
 				}
 			}
-			IsBlinkRunning = false;
+			Playing = false;
 		}
-		public override bool IsPlaying() { return IsBlinkRunning; }
-		public override void Stop() { FX.Stop(); }
+		public override bool IsPlaying() { return Playing; }
+		public override void Stop() { FX.Stop(); Playing = false; }
 		public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<Blink>(); }
 	}
 }

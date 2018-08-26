@@ -29,7 +29,7 @@ namespace USComics_FX {
             yield break;
         }
         public override bool IsPlaying() { return Playing;}
-        public override void Stop() { Attack.StopAll(); }
+        public override void Stop() { Attack.StopAll(); Playing = false; }
         public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<AttackAdapter>(); }
         
         protected GameObject[] GetEntitiesInRange() {

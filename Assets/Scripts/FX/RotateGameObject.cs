@@ -8,10 +8,10 @@ namespace USComics_FX {
         public bool RotateZ = false;
         public float Speed = 5.0f;
 
-        private bool IsRunning;
+        private bool Playing;
 
         public override IEnumerator Play() {
-            IsRunning = true;         
+            Playing = true;         
             Rigidbody r = GetComponent<Rigidbody>();
             float x = (RotateX) ? r.angularVelocity.x + Speed : r.angularVelocity.x;
             float y = (RotateY) ? r.angularVelocity.y + Speed : r.angularVelocity.y;
@@ -20,10 +20,10 @@ namespace USComics_FX {
             yield break;
         }
         public override bool IsPlaying() {
-            return IsRunning;
+            return Playing;
         }
         public override void Stop() {
-            IsRunning = false;
+            Playing = false;
             Rigidbody r = GetComponent<Rigidbody>();
             r.angularVelocity = Vector3.zero;
         }

@@ -11,17 +11,17 @@ namespace USComics_FX {
 		public float AngleY;
 		public float AngleZ;
 
-		private bool playing;
+		private bool Playing;
 
 		public override IEnumerator Play() {
 			if (null != Models) {
-				playing = true;
+				Playing = true;
 				foreach (var model in Models) { if (null != model) DynamicObjectManagerScript.Clone(model, Position, AngleX, AngleY, AngleZ); }
-				playing = false;
+				Playing = false;
 			}
 			yield break;
 		}
-		public override bool IsPlaying() { return playing; }
+		public override bool IsPlaying() { return Playing; }
 		public override void Stop() { }
 		public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<Spawn>(); }
 	}

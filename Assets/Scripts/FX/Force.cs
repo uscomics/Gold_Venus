@@ -14,22 +14,22 @@ namespace USComics_FX {
 		public GameObject[] GameObjectTargets;
 		public Rigidbody[] RigidbodyTargets;
 
-		private bool playing;
+		private bool Playing;
 
 		public override IEnumerator Play() {
-			playing = true;
+			Playing = true;
 			if (null != ForceTransform) {
 				if (null != RigidbodyTargets && 0 < RigidbodyTargets.Length) { ApplyForce(ForceTransform, RigidbodyTargets); }
 				else if (null != GameObjectTargets && 0 < GameObjectTargets.Length) { ApplyForce(ForceTransform, GameObjectTargets); }
 				else if (null != ColliderTargets && 0 < ColliderTargets.Length) { ApplyForce(ForceTransform, ColliderTargets); }
 				else { ApplyForce(ForceTransform, TargetRadius); }
 			}
-			playing = false;
+			Playing = false;
 			yield break;
 		}
 
-		public override bool IsPlaying() { return playing;}
-		public override void Stop() { }
+		public override bool IsPlaying() { return Playing;}
+		public override void Stop() { Playing = false; }
 		public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<Force>(); }
 		public void ApplyForce(Transform transform, float radius) {
 			if (ForceVector == Vector3.zero) return;

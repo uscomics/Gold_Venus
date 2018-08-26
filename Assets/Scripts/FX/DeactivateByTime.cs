@@ -8,14 +8,14 @@ namespace USComics_FX {
         public bool FlipAndRepeat;
 
         private float StartTime;
-        private bool IsRunning;
+        private bool Playing;
 
         void Start() {
             StartTime = Time.time;
             if (PlayOnStart) StartCoroutine(Play());
         }
         public override IEnumerator Play() {
-            IsRunning = true;         
+            Playing = true;         
             if (Time.time >= StartTime + Lifetime) { gameObject.SetActive(Activate); }
             if (FlipAndRepeat) {
                 Activate = !Activate;
@@ -23,11 +23,9 @@ namespace USComics_FX {
             }
             yield break;
         }
-        public override bool IsPlaying() {
-            return IsRunning;
-        }
+        public override bool IsPlaying() { return Playing; }
         public override void Stop() {
-            IsRunning = false;
+            Playing = false;
         }
         public override AbstractFX CreateNew(GameObject parent) { return parent.AddComponent<DeactivateByTime>(); }
         public void ResetTime() { StartTime = Time.time; }
