@@ -17959,6 +17959,7 @@ Transform:
   - {fileID: 289236207}
   - {fileID: 1037190689}
   - {fileID: 1277381643}
+  - {fileID: 1810766986}
   m_Father: {fileID: 792526494}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17984,6 +17985,7 @@ MonoBehaviour:
   - {fileID: 289236208}
   - {fileID: 1037190690}
   - {fileID: 1277381644}
+  - {fileID: 1810766987}
 --- !u!114 &639081314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59098,6 +59100,58 @@ Transform:
   m_Father: {fileID: 2038328293}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1810766985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1810766986}
+  - component: {fileID: 1810766987}
+  m_Layer: 23
+  m_Name: FX4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1810766986
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1810766985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 639081312}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1810766987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1810766985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c2fbbd257b3f24aa7d79a58a7b15a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  PlayOnTrigger: 0
+  Targets:
+  - {fileID: 1686292632}
+  AnimationNames:
+  - PunchRightUppercut
+  - PunchLeftCross
+  - PunchRightDownward
+  - PunchLeftUppercut
 --- !u!1 &1816375017
 GameObject:
   m_ObjectHideFlags: 0
