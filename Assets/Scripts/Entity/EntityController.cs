@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using USComics;
 using USComics_Debug;
 using USComics_Combat;
 using USComics_Dynamic;
@@ -81,12 +82,12 @@ namespace USComics_Entity {
             return rangeRadius;
         }
         public Collider[] GetEnemiesInSight(bool useHeightDifference = true) {
-            Collider[] enemies = Environment.GetEnemiesInSight(entity.transform, vision.detectionRadius, vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Collider[] enemies = Environment.GetEnemiesInSight(entity.transform, vision.DetectionRadius, vision.DetectionAngle, vision.HeightOffset, vision.MaxHeightDifference, useHeightDifference);
             return enemies;
         }
 
         public Collider[] GetEnemiesInRange(bool useHeightDifference = true) {
-            Collider[] enemies = Environment.GetEnemiesInFront(entity.transform, GetMaxAttackRange(), vision.detectionAngle, vision.heightOffset, vision.maxHeightDifference, useHeightDifference);
+            Collider[] enemies = Environment.GetEnemiesInFront(entity.transform, GetMaxAttackRange(), vision.DetectionAngle, vision.HeightOffset, vision.MaxHeightDifference, useHeightDifference);
             return enemies;
         }
         public GameObject NearestInRange(bool useHeightDifference = true) {
@@ -134,15 +135,15 @@ namespace USComics_Entity {
             Color c2 = new Color(1.0f, 0, 0f, 0.4f);
 
             UnityEditor.Handles.color = c;
-            Vector3 rotatedForward = Quaternion.Euler(0, -vision.detectionAngle * 0.5f, 0) * transform.forward;
-            UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, vision.detectionAngle, vision.detectionRadius);
+            Vector3 rotatedForward = Quaternion.Euler(0, -vision.DetectionAngle * 0.5f, 0) * transform.forward;
+            UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, vision.DetectionAngle, vision.DetectionRadius);
 
             UnityEditor.Handles.color = c2;
-            rotatedForward = Quaternion.Euler(0, -vision.detectionAngle * 0.5f, 0) * transform.forward;
-            UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, vision.detectionAngle, GetMaxAttackRange());
+            rotatedForward = Quaternion.Euler(0, -vision.DetectionAngle * 0.5f, 0) * transform.forward;
+            UnityEditor.Handles.DrawSolidArc(transform.position, Vector3.up, rotatedForward, vision.DetectionAngle, GetMaxAttackRange());
 
             Gizmos.color = new Color(1.0f, 1.0f, 0.0f, 1.0f);
-            Gizmos.DrawWireSphere(transform.position + Vector3.up * vision.heightOffset, 0.2f);
+            Gizmos.DrawWireSphere(transform.position + Vector3.up * vision.HeightOffset, 0.2f);
         }
 
         protected virtual bool SetupEntity()
@@ -174,16 +175,6 @@ namespace USComics_Entity {
             return true;
         }
 #endif
-    }
-
-    [System.Serializable]
-    public class Vision
-    {
-        public float heightOffset = 0.0f;
-        public float detectionRadius = 10;
-        [Range(0.0f, 360.0f)]
-        public float detectionAngle = 270;
-        public float maxHeightDifference = 4.0f;
     }
 }
 

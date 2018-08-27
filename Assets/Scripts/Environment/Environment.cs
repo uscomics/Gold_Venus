@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using USComics;
 using USComics_Entity;
 using USComics_Movement;
 
@@ -57,7 +58,6 @@ namespace USComics_Environment {
         public static Collider[] GetEntitiesInFront(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             Collider[] colliders = Environment.GetEntitiesInSight(mask, transform, radius, degrees, heightOffset, maxHeightDifference, useHeightDifference);
             List<Collider> results = new List<Collider>();
-            float halfDegrees = degrees / 2.0f;
             for (int loop = 0; loop < colliders.Length; loop++) {
                 GameObject candidate = GameObjectUtilities.GetGameObject(colliders[loop]);
                 EntityController entity = candidate.GetComponent<EntityController>();

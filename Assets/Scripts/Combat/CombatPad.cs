@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
+using USComics;
 using USComics_Debug;
 using USComics_Entity;
 using USComics_Movement;

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using USComics;
 using USComics_Debug;
 using USComics_Entity;
 using USComics_Dynamic;

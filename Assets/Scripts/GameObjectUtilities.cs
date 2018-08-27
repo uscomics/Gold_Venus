@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using USComics_Movement;
-using USComics_Environment;
 
-namespace USComics_Movement {
+namespace USComics {
     public class GameObjectUtilities {
         public static GameObject GetGameObject(Collider collider) { return collider.gameObject; }
         public static GameObject[] GetGameObjects(Collider[] colliders) {
