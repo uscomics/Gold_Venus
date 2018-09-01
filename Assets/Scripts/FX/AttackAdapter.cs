@@ -19,7 +19,7 @@ namespace USComics_FX {
                 foreach (var target in targets) {
                     if (null != target) {
                         EntityController targetEntityController = target.GetComponent<EntityController>();
-                        Attack.entity = Attacker;
+                        Attack.Attacker = Attacker;
                         if (null != targetEntityController) Attack.DoAttack(targetEntityController);
                     }
                 }

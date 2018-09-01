@@ -113,17 +113,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 736c475d37104ed4a9494c73604c2bdf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
   PlayOnStart: 1
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
-  speed: 1
-  direction: {x: 0, y: 1, z: 0}
+  Speed: 1
+  Direction: {x: 0, y: 1, z: 0}
 --- !u!114 &114483524146396724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,16 +143,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d46148685f7a13449e7d1d5e02337a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name: 
   PlayOnStart: 1
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
-  rotateX: 0
-  rotateY: 1
-  rotateZ: 0
-  speed: 6
+  RotateX: 0
+  RotateY: 1
+  RotateZ: 0
+  Speed: 5

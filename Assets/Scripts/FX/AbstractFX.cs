@@ -16,6 +16,7 @@ namespace USComics_FX {
 		void OnCollisionEnter(Collision collision) { if (PlayOnCollision) StartCoroutine(Play()); }
 		void OnTriggerEnter(Collider other) { if (PlayOnTrigger) StartCoroutine(Play()); }
 		public abstract IEnumerator Play();
+		public void PlayCoroutine() { StartCoroutine(Play()); }
 		public abstract bool IsPlaying();
 		public abstract void Stop();
 		public abstract AbstractFX CreateNew(GameObject parent);

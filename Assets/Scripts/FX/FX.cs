@@ -27,7 +27,8 @@ namespace USComics_FX {
         public bool ForceFromCenter;        // Set to true for an explosion-like (radial) force, or false for a linear force.
         public Transform ForceTransform;
         public float ForceRadius;
- 
+        public GameObject OptionalTarget;
+
         private Animations _animations;
         private Sound _sound1;
         private Sound _sound2;
@@ -36,9 +37,10 @@ namespace USComics_FX {
         private Spawn _spawn;
         private Force _force;
 
-        void Start() {
+        void Start() { InitFX(); }
+        public void InitFX() {
             if (null == Parent) {
-                Debug.LogError("FX.Start: Parent is null.");
+                Debug.LogError("FX.Start: " + Name + ": Parent is null.");
                 return;
             }
             if (null != AnimationNames && 0 < AnimationNames.Length) {
@@ -75,12 +77,14 @@ namespace USComics_FX {
             }
             if (null != ForceTransform) {
                 _force = Parent.AddComponent<Force>();
+                _force.Origin = ForceTransform;
                 _force.ForceVector = this.ForceVector;
                 _force.ForceMode = ForceMode;
                 _force.ForceFromCenter = ForceFromCenter;
                 _force.Vision.DetectionRadius = ForceRadius;
             }
             if (PlayOnStart) StartCoroutine(Play());
+
         }
 
         public override IEnumerator Play() {
@@ -110,7 +114,8 @@ namespace USComics_FX {
         public void StopAnimation() { if (null != _animations) _animations.Stop(); }
         public void PlaySounds() {
             if (null != _sound1) StartCoroutine(_sound1.Play());
-            if (null != _sound2) StartCoroutine(_sound2.Play());
+            if (null != _sound2) 
+                StartCoroutine(_sound2.Play());
         }
         public bool IsSoundPlaying() {
             if (null != _sound1 && _sound1.IsPlaying()) return true;
@@ -127,7 +132,14 @@ namespace USComics_FX {
         public void PlayLights() { if (null != _lights) StartCoroutine(_lights.Play()); }
         public bool AreLightsPlaying() { return null != _lights && _lights.IsPlaying(); }
         public void StopLights() { if (null != _lights) _lights.Stop(); }
-        public void SpawnModels()  { if (null != _spawn) StartCoroutine(_spawn.Play()); }
+        public void SpawnModels() {
+            if (null != _spawn) {
+                Vector3 position = Parent.transform.position;
+                if (null != OptionalTarget) position = OptionalTarget.transform.position;
+                _spawn.Position = SpawnPosition + position;
+                StartCoroutine(_spawn.Play());
+            }
+        }
         public bool AreModelsSpawning() { return null != _spawn && _spawn.IsPlaying(); }
         public void StopSpawn() { if (null != _spawn) _spawn.Stop(); }
         public void ApplyForce()  { if (null != _force) StartCoroutine(_force.Play()); }

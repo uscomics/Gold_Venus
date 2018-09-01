@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using USComics;
+using USComics_FX;
 using USComics_Debug;
 using USComics_Entity;
 using USComics_Dynamic;
@@ -11,49 +12,31 @@ using USComics_Message_Manager;
 namespace USComics_Combat {
     [System.Serializable]
     public class Attack {
-        public string name;
+        public string Name;
+        public GameObject Attacker;
         public AttackInfo AttackInfo;
-        public string[] animationNames;
-        public AudioSource audioSource1;
-        public AudioSource audioSource2;
-        public AudioClip sound1;
-        public AudioClip sound2;
-        public ParticleSystem[] particleSystems;
-        public Light[] lights;
-        public Vector3 ForceVector = Vector3.zero;      // Vector3.zero means no force
-        public ForceMode ForceMode = ForceMode.Impulse;
-        public bool ForceFromCenter;                    // Set to true for an explosion-like (radial) force, or false for a linear force.
-        public AbstractBuffInfo[] targetBuffs;
-        public GameObject entity;
+        public AttackFXInfo FXInfo = new AttackFXInfo();
+        public AbstractBuffInfo[] TargetBuffs;
 
-        private EntityController EntityControllerScript;
-        private GameObject healthPanel;
-        private Animator Anim;
-        private MessageManager messageManagerScript;
-        private GameObject combatPanel;
-        private GameObject superBar;
-        private CombatPad CombatPadScript;
-        private Keyboard KeyboardScript;
-        private DynamicObjectManager DynamicObjectManagerScript;
-        private DebugConsole debugConsoleScript;
-        private bool isSetup;
+        private EntityController _entityControllerScript;
+        private GameObject _healthPanel;
+        private MessageManager _messageManagerScript;
+        private GameObject _combatPanel;
+        private GameObject _superBar;
+        private CombatPad _combatPadScript;
+        private Keyboard _keyboardScript;
+        private DynamicObjectManager _dynamicObjectManagerScript;
+        private DebugConsole _debugConsoleScript;
+        private FX _fx;
+        private bool _isSetup;
 
         public Attack() { }
-        public Attack(Attack @from) {
-            name = @from.name;
-            AttackInfo = new AttackInfo(@from.AttackInfo);
-            animationNames = @from.animationNames;
-            audioSource1 = @from.audioSource1;
-            audioSource2 = @from.audioSource2;
-            sound1 = @from.sound1;
-            sound2 = @from.sound2;
-            particleSystems = @from.particleSystems;
-            lights = @from.lights;
-            ForceVector = @from.ForceVector;
-            ForceMode = @from.ForceMode;
-            ForceFromCenter = @from.ForceFromCenter;
-            targetBuffs = @from.targetBuffs;
-            entity = @from.entity;
+        public Attack(Attack from) {
+            Name = from.Name;
+            AttackInfo = new AttackInfo(from.AttackInfo);
+            TargetBuffs = from.TargetBuffs;
+            Attacker = from.Attacker;
+            _fx = from._fx;
         }
         public bool IsUseable(GameObject[] objs)  { return IsCharged() && AnyInRange(objs); }
         public bool IsCharged() {
@@ -61,8 +44,8 @@ namespace USComics_Combat {
             return AttackInfo.LastUsed + AttackInfo.Recharge <= Time.time;
         }
         public bool InRange(GameObject obj) {
-            if (!isSetup) SetupAttack();
-            return Direction.GetDistance(entity.transform, obj.transform) <= AttackInfo.Range;
+            if (!_isSetup) SetupAttack();
+            return Direction.GetDistance(Attacker.transform, obj.transform) <= AttackInfo.Range;
         }
         public bool AnyInRange(GameObject[] objs) {
             for (int loop = 0; loop < objs.Length; loop++) {
@@ -78,162 +61,117 @@ namespace USComics_Combat {
             return result.ToArray();
         }
         public void DoAttack(EntityController target) {
-            if (!isSetup) SetupAttack();
+            if (!_isSetup) SetupAttack();
             Attack clone = new Attack(this);
             clone = ApplyBuffsToAttack(clone);
             AttackInfo.LastUsed = Time.time;
             if (!AttackInfo.Damage.IsAoE) {
-                target.Attacked(EntityControllerScript, clone);
+                target.Attacked(_entityControllerScript, clone);
                 PlayAll(clone, target);
             } else {
                 Collider[] targets;
-                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(entity.transform, clone.AttackInfo.Damage.RadiusAoE, 360.0f, 0.0f, 4.0f, false); }
-                else { targets = Environment.GetPlayersInSight(entity.transform, clone.AttackInfo.Damage.RadiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                if (!target.IsPlayer()) { targets = Environment.GetEnemiesInSight(Attacker.transform, clone.AttackInfo.Damage.RadiusAoE, 360.0f, 0.0f, 4.0f, false); }
+                else { targets = Environment.GetPlayersInSight(Attacker.transform, clone.AttackInfo.Damage.RadiusAoE, 360.0f, 0.0f, 4.0f, false); }
                 for (int loop = 0; loop < targets.Length; loop++) {
-                    EntityController entityController = targets[loop].GetComponent<EntityController>();
-                    if (null != entityController) entityController.Attacked(EntityControllerScript, clone);
-                    if (0 == loop) PlayAll(clone, entityController);
+                    EntityController targetEntityController = targets[loop].GetComponent<EntityController>();
+                    if (null != targetEntityController) targetEntityController.Attacked(_entityControllerScript, clone);
+                    if (0 == loop) PlayAll(clone, targetEntityController);
                 }
             }
         }
+
         public void StopAll() {
-            StopSounds();
-            StopParticleSystems();
-            StopLights();
+            if (null != _fx) _fx.Stop(); 
+            
         }
         private Attack ApplyBuffsToAttack(Attack attack) {
-            if (null == EntityControllerScript || null == EntityControllerScript.buffs) return attack;
-            for (int loop = 0; loop < EntityControllerScript.buffs.Count; loop++) {
-                attack = EntityControllerScript.buffs[loop].Buff(attack);
+            if (null == _entityControllerScript || null == _entityControllerScript.Buffs) return attack;
+            for (int loop = 0; loop < _entityControllerScript.Buffs.Count; loop++) {
+                attack = _entityControllerScript.Buffs[loop].Buff(attack);
             }
             return attack;
         }
         private void ApplyBuffsToTarget(EntityController target) {
-            if (null == targetBuffs) return;
-            for (int loop = 0; loop < targetBuffs.Length; loop++) {
-                AbstractBuffInfo buffInfo = targetBuffs[loop];
+            if (null == TargetBuffs) return;
+            for (int loop = 0; loop < TargetBuffs.Length; loop++) {
+                AbstractBuffInfo buffInfo = TargetBuffs[loop];
                 if (null == buffInfo) continue;
                 AbstractBuff buff = buffInfo.GetBuff();
                 buff.Target = target;
-                buff.Attacker = EntityControllerScript;
+                buff.Attacker = _entityControllerScript;
                 target.AddBuff(buff);
             }
         }
         private void ApplyDoTToTarget(Attack attack, EntityController target) {
             if (!attack.AttackInfo.Damage.IsDoT) return;
             DamageDoTEntity dot = new DamageDoTEntity();
-            dot.FromAttack(this, EntityControllerScript, target);
+            dot.FromAttack(this, _entityControllerScript, target);
             target.AddBuff(dot);
         }
         private void PlayAll(Attack attack, EntityController target) {
-            if (!isSetup) SetupAttack();
-            PlaySounds();
-            PlayAnimation();
+            if (!_isSetup) SetupAttack();
+            if (null != _fx) {
+                _fx.OptionalTarget = target.Entity;
+                _fx.PlayCoroutine();
+            }
             PlayEmote();
-            PlayParticleSystems();
-            PlayLights();
-            SpawnPoints(target);
-            EntityControllerScript.AttackBonus.CalculateBonus(attack, EntityControllerScript, target);
+            if (null != attack.AttackInfo.Damage.PointsObject) {
+                _dynamicObjectManagerScript.Clone(attack.AttackInfo.Damage.PointsObject, target.Entity.transform.position + (target.Entity.transform.up * 1.2f), 0.0f, 180.0f, 0.0f);
+            }
+            _entityControllerScript.AttackBonus.CalculateBonus(attack, _entityControllerScript, target);
             ApplyDoTToTarget(attack, target);
             ApplyBuffsToTarget(target);
-            ApplyForce(EntityControllerScript.transform, AttackInfo.Damage.RadiusAoE);
-        }
-        private void PlaySounds() {
-            if (null == audioSource1) return;
-            if (null == sound1) return;
-            audioSource1.PlayOneShot(sound1);
-            if (null == sound2) return;
-            if (null == audioSource2) {
-                Debug.LogError("Need two audio sources to play two audio clips.");
-                return;
-            }
-            audioSource2.PlayOneShot(sound2);
-        }
-        private void StopSounds() {
-            if (null != audioSource1 && audioSource1.isPlaying) audioSource1.Stop();
-            if (null != audioSource2 && audioSource2.isPlaying) audioSource2.Stop();
         }
         private void PlayEmote() {
-            if (null == EntityControllerScript.CombatEmoteSource) return;
-            if (0 == EntityControllerScript.CombatEmoteSounds.Length) return;
+            if (null == _entityControllerScript.CombatEmoteSource) return;
+            if (0 == _entityControllerScript.CombatEmoteSounds.Length) return;
             int chance = Random.Range(1, 101);
-            if (chance > EntityControllerScript.CombatEmoteChance) return;
-            int randomEmote = Random.Range(0, EntityControllerScript.CombatEmoteSounds.Length);
-            EntityControllerScript.CombatEmoteSource.PlayOneShot(EntityControllerScript.CombatEmoteSounds[randomEmote]);
-        }
-        private void PlayAnimation() {
-            if (null == Anim) return;
-            if (0 == animationNames.Length) return;
-            int randomAniation = Random.Range(0, animationNames.Length);
-            Anim.Play(animationNames[randomAniation]);
-        }
-        private void PlayParticleSystems() { foreach (var particleSystem in particleSystems) { if (null != particleSystem) particleSystem.Play(); }}
-        private void StopParticleSystems() { foreach (var particleSystem in particleSystems) { if (null != particleSystem) particleSystem.Stop(); }}
-        private void PlayLights() { foreach (var light in lights) { if (null != light) light.enabled = true; }}
-        private void StopLights() { foreach (var light in lights) { if (null != light) light.enabled = false; }}
-        private void SpawnPoints(EntityController target) {
-            if (null == AttackInfo.Damage.PointsObject) return;
-            DynamicObjectManagerScript.Clone(AttackInfo.Damage.PointsObject, target.transform.position, 0.0f, 180.0f, 0.0f);
-        }
-        private void ApplyForce(Transform transform, float radius) {
-            if (ForceVector == Vector3.zero) return;
-            Collider[] targets = Environment.GetObjectsInRadius(transform.position, radius, LayerMaskValues.PLAYER | LayerMaskValues.ENEMY);
-            ApplyForce(transform, targets);
-        }
-        private void ApplyForce(Transform transform, Collider[] targets) {
-            if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, GameObjectUtilities.GetGameObjects(targets));
-        }
-        private void ApplyForce(Transform transform, GameObject[] targets) {
-            if (ForceVector == Vector3.zero) return; 
-            ApplyForce(transform, GameObjectUtilities.GetRigidbodies(targets));
-        }
-        private void ApplyForce(Transform transform, Rigidbody[] targets) {
-            if (ForceVector == Vector3.zero) return;
-            foreach (var target in targets) {
-                if (ForceFromCenter) target.AddForceAtPosition(ForceVector, transform.position, ForceMode);
-                else target.AddForce(ForceVector, ForceMode);
-            }
+            if (chance > _entityControllerScript.CombatEmoteChance) return;
+            int randomEmote = Random.Range(0, _entityControllerScript.CombatEmoteSounds.Length);
+            _entityControllerScript.CombatEmoteSource.PlayOneShot(_entityControllerScript.CombatEmoteSounds[randomEmote]);
         }
         private bool SetupAttack() {
-            if (null != entity) EntityControllerScript = entity.GetComponent<EntityController>();
-            if (null != entity) Anim = entity.GetComponent<Animator>();
+            if (null != Attacker) _entityControllerScript = Attacker.GetComponent<EntityController>();
+            if (null != Attacker) _fx = Attacker.AddComponent<FX>();
+            if (null != _fx) {
+                FXInfo.CopyTo(_fx);
+                _fx.InitFX();
+            }
             GameObject messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
-            if (null != messageCanvas) messageManagerScript = messageCanvas.GetComponent<MessageManager>();
-            healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
+            if (null != messageCanvas) _messageManagerScript = messageCanvas.GetComponent<MessageManager>();
+            _healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
             GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
+            if (null != debugConsole) _debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
-            if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
-            combatPanel = GameObject.FindWithTag("CombatPanel") as GameObject;
-            if (null != combatPanel) CombatPadScript = combatPanel.GetComponent<CombatPad>();
-            superBar = GameObject.FindWithTag("SuperBar") as GameObject;
+            if (null != dynamicObjects) _dynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
+            _combatPanel = GameObject.FindWithTag("CombatPanel") as GameObject;
+            if (null != _combatPanel) _combatPadScript = _combatPanel.GetComponent<CombatPad>();
+            _superBar = GameObject.FindWithTag("SuperBar") as GameObject;
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
-            if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
+            if (null != movementPad) _keyboardScript = movementPad.GetComponent<Keyboard>();
 
-            if (null == entity) { Debug.LogError("Attack.SetupAttack: entity is null."); }
-            if (null == EntityControllerScript) { Debug.LogError("Attack.SetupAttack: EntityControllerScript is null."); }
-            if (null == Anim) { Debug.LogWarning("Attack.SetupAttack: Anim is null."); }
-            if (null == messageManagerScript) { Debug.LogError("Attack.SetupAttack: messageManagerScript is null."); }
-            if (null == healthPanel) { Debug.LogError("Attack.SetupAttack: healthPanel is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("Attack.SetupAttack: debugConsoleScript is null."); }
-            if (null == DynamicObjectManagerScript) { Debug.LogError("Attack.SetupAttack: DynamicObjectManagerScript is null."); }
-            if (null == combatPanel) { Debug.LogError("Attack.SetupAttack: combatPanel is null."); }
-            if (null == superBar) { Debug.LogError("Attack.SetupAttack: superBar is null."); }
-            if (null == CombatPadScript) { Debug.LogError("Attack.SetupAttack: CombatPadScript is null."); }
-            if (null == KeyboardScript) { Debug.LogError("Attack.SetupAttack: KeyboardScript is null."); }
+            if (null == Attacker) { Debug.LogError("Attack.SetupAttack: Attacker is null."); }
+            if (null == _entityControllerScript) { Debug.LogError("Attack.SetupAttack: _entityControllerScript is null."); }
+            if (null == _messageManagerScript) { Debug.LogError("Attack.SetupAttack: _messageManagerScript is null."); }
+            if (null == _healthPanel) { Debug.LogError("Attack.SetupAttack: _healthPanel is null."); }
+            if (null == _debugConsoleScript) { Debug.LogError("Attack.SetupAttack: _debugConsoleScript is null."); }
+            if (null == _dynamicObjectManagerScript) { Debug.LogError("Attack.SetupAttack: _dynamicObjectManagerScript is null."); }
+            if (null == _combatPanel) { Debug.LogError("Attack.SetupAttack: _combatPanel is null."); }
+            if (null == _superBar) { Debug.LogError("Attack.SetupAttack: _superBar is null."); }
+            if (null == _combatPadScript) { Debug.LogError("Attack.SetupAttack: _combatPadScript is null."); }
+            if (null == _keyboardScript) { Debug.LogError("Attack.SetupAttack: _keyboardScript is null."); }
 
-            if (null == entity) { return false; }
-            if (null == messageManagerScript) { return false; }
-            if (null == healthPanel) { return false; }
-            if (null == debugConsoleScript) { return false; }
-            if (null == DynamicObjectManagerScript) { return false; }
-            if (null == combatPanel) { return false; }
-            if (null == superBar) { return false; }
-            if (null == CombatPadScript) { return false; }
-            if (null == KeyboardScript) { return false; }
+            if (null == Attacker) { return false; }
+            if (null == _messageManagerScript) { return false; }
+            if (null == _healthPanel) { return false; }
+            if (null == _debugConsoleScript) { return false; }
+            if (null == _dynamicObjectManagerScript) { return false; }
+            if (null == _combatPanel) { return false; }
+            if (null == _superBar) { return false; }
+            if (null == _combatPadScript) { return false; }
+            if (null == _keyboardScript) { return false; }
 
-            isSetup = true;
+            _isSetup = true;
             return true;
         }
     }

@@ -265,6 +265,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 3023965}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!198 &17560462 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800006, guid: f55f0defa3c68c1498d7f9cae620bc19,
+    type: 2}
+  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1001 &22070169
 Prefab:
   m_ObjectHideFlags: 0
@@ -15687,7 +15692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2484a3ef37595da499fe7da1fdb3dd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Cylindar (1) FX1
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -16156,6 +16161,11 @@ Transform:
   m_Father: {fileID: 1211680971}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &373473473 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800002, guid: f55f0defa3c68c1498d7f9cae620bc19,
+    type: 2}
+  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1 &379046020
 GameObject:
   m_ObjectHideFlags: 0
@@ -16860,6 +16870,11 @@ Transform:
   m_Father: {fileID: 115289989}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &481025848 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19880220, guid: f55f0defa3c68c1498d7f9cae620bc19,
+    type: 2}
+  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1 &481973233
 GameObject:
   m_ObjectHideFlags: 0
@@ -17985,7 +18000,7 @@ MonoBehaviour:
   - {fileID: 289236208}
   - {fileID: 1037190690}
   - {fileID: 1277381644}
-  - {fileID: 1810766987}
+  - {fileID: 1810766988}
 --- !u!114 &639081314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18017,12 +18032,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106b752c522794445b5157042c9c0269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Capsule
-  entity: {fileID: 639081311}
-  healthPanel: {fileID: 1650718516}
-  healthScript: {fileID: 639081314}
-  death:
-    name: 
+  Name: Cylinder (1)
+  Entity: {fileID: 639081311}
+  HealthPanel: {fileID: 115289988}
+  HealthScript: {fileID: 639081314}
+  DeathAttack:
+    Name: 
+    Attacker: {fileID: 0}
     AttackInfo:
       Damage:
         DamagePoints: 0
@@ -18041,20 +18057,31 @@ MonoBehaviour:
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames: []
-    audioSource1: {fileID: 0}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 0}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 0}
-  deathSpawn: {fileID: 0}
-  dead: 0
+    FXInfo:
+      Parent: {fileID: 0}
+      AnimationNames: []
+      AnimationEntity: {fileID: 0}
+      AudioSource1: {fileID: 0}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 0}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 180
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 1
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  DeathSpawn: {fileID: 0}
+  Dead: 0
   AttackBonus:
     BonusChance: 0
     BAMModel: {fileID: 0}
@@ -18063,12 +18090,12 @@ MonoBehaviour:
     BonusPoints: {fileID: 0}
     BAMBonusChance: 0
     POWBonusChance: 0
-  attacks: []
-  vision:
-    heightOffset: 0
-    detectionRadius: 10
-    detectionAngle: 360
-    maxHeightDifference: 4
+  Attacks: []
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
   CombatEmoteChance: 0
   CombatEmoteSounds: []
   CombatEmoteSource: {fileID: 0}
@@ -18911,6 +18938,11 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.26570266, y: -0.01733844, z: 0.0067303926}
     m_Extent: {x: 0.2814998, y: 0.1441177, z: 0.124742374}
   m_DirtyAABB: 0
+--- !u!198 &725404920 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800004, guid: f55f0defa3c68c1498d7f9cae620bc19,
+    type: 2}
+  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1 &727683685
 GameObject:
   m_ObjectHideFlags: 0
@@ -19473,6 +19505,11 @@ MonoBehaviour:
   imageClicked: {fileID: 114055432308044074, guid: 1fc46b74b3a35b84eb6ab2a568edb9d5,
     type: 2}
   attackType: 3
+--- !u!108 &852536836 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 10800000, guid: f55f0defa3c68c1498d7f9cae620bc19,
+    type: 2}
+  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1 &853279843
 GameObject:
   m_ObjectHideFlags: 0
@@ -29290,12 +29327,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d070dad981e6ec4a8f75fbbce0f05f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Bomb FX
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
+  Parent: {fileID: 916260995}
   AnimationNames: []
+  AnimationEntity: {fileID: 0}
   AudioSource1: {fileID: 534669906}
   AudioSource2: {fileID: 0}
   Sound1: {fileID: 8300000, guid: ccea439431429a541bed42929bdea4a4, type: 3}
@@ -29304,16 +29343,18 @@ MonoBehaviour:
   - {fileID: 1778556691}
   Lights: []
   Spawn: []
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnAngleX: 0
+  SpawnAngleY: 180
+  SpawnAngleZ: 0
   SpawnFirst: 0
-  DynamicObjectManagerScript: {fileID: 0}
+  SpawnDynamicObjectManagerScript: {fileID: 0}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  Transform: {fileID: 916260999}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
+  ForceTransform: {fileID: 0}
+  ForceRadius: 0
+  OptionalTarget: {fileID: 0}
 --- !u!114 &916261001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34308,7 +34349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2484a3ef37595da499fe7da1fdb3dd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Cylindar (1) FX2
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -44048,11 +44089,13 @@ MonoBehaviour:
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
+  Parent: {fileID: 1686292629}
   AnimationNames:
   - PunchRightUppercut
   - PunchLeftCross
   - PunchRightDownward
   - PunchLeftUppercut
+  AnimationEntity: {fileID: 1686292632}
   AudioSource1: {fileID: 1686292641}
   AudioSource2: {fileID: 0}
   Sound1: {fileID: 8300000, guid: 589b39b94d818154ba8c07091e2f940e, type: 3}
@@ -44061,16 +44104,18 @@ MonoBehaviour:
   Lights: []
   Spawn:
   - {fileID: 1649217636019058, guid: dc2e35f0558178344843896688e76f8c, type: 2}
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnAngleX: 0
+  SpawnAngleY: 180
+  SpawnAngleZ: 0
   SpawnFirst: 0
-  DynamicObjectManagerScript: {fileID: 331129937}
+  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
+  ForceTransform: {fileID: 0}
+  ForceRadius: 0
+  OptionalTarget: {fileID: 0}
 --- !u!1 &1175262092
 GameObject:
   m_ObjectHideFlags: 0
@@ -44552,8 +44597,10 @@ MonoBehaviour:
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
+  Parent: {fileID: 1686292629}
   AnimationNames:
   - KickRoundhouse
+  AnimationEntity: {fileID: 1686292632}
   AudioSource1: {fileID: 1686292641}
   AudioSource2: {fileID: 0}
   Sound1: {fileID: 8300000, guid: fd9be99018cd46443b68536783f042ae, type: 3}
@@ -44562,16 +44609,18 @@ MonoBehaviour:
   Lights: []
   Spawn:
   - {fileID: 1270610200852952, guid: 565211c5db22d78419d7132045908794, type: 2}
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnAngleX: 0
+  SpawnAngleY: 180
+  SpawnAngleZ: 0
   SpawnFirst: 0
-  DynamicObjectManagerScript: {fileID: 331129937}
+  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
+  ForceTransform: {fileID: 0}
+  ForceRadius: 0
+  OptionalTarget: {fileID: 0}
 --- !u!1001 &1248810823
 Prefab:
   m_ObjectHideFlags: 0
@@ -44691,36 +44740,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 400008, guid: f55f0defa3c68c1498d7f9cae620bc19,
     type: 2}
   m_PrefabInternal: {fileID: 1248810823}
---- !u!108 &1248810825 stripped
-Light:
-  m_CorrespondingSourceObject: {fileID: 10800000, guid: f55f0defa3c68c1498d7f9cae620bc19,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248810823}
---- !u!198 &1248810826 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19800000, guid: f55f0defa3c68c1498d7f9cae620bc19,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248810823}
---- !u!198 &1248810827 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19800002, guid: f55f0defa3c68c1498d7f9cae620bc19,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248810823}
---- !u!198 &1248810828 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19800004, guid: f55f0defa3c68c1498d7f9cae620bc19,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248810823}
---- !u!198 &1248810829 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19880220, guid: f55f0defa3c68c1498d7f9cae620bc19,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248810823}
---- !u!198 &1248810830 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 19800006, guid: f55f0defa3c68c1498d7f9cae620bc19,
-    type: 2}
-  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1 &1249268652
 GameObject:
   m_ObjectHideFlags: 0
@@ -44797,8 +44816,10 @@ MonoBehaviour:
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
+  Parent: {fileID: 1686292629}
   AnimationNames:
   - LeapingPunch
+  AnimationEntity: {fileID: 1686292632}
   AudioSource1: {fileID: 534669906}
   AudioSource2: {fileID: 1686292641}
   Sound1: {fileID: 8300000, guid: 19b3f14e218a068489edb8e1a250424e, type: 3}
@@ -44811,16 +44832,18 @@ MonoBehaviour:
   - {fileID: 360815276}
   Spawn:
   - {fileID: 1422329782802186, guid: 5ad7a256fcbfb124daad28ee7e2d006d, type: 2}
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnAngleX: 0
+  SpawnAngleY: 180
+  SpawnAngleZ: 0
   SpawnFirst: 0
-  DynamicObjectManagerScript: {fileID: 331129937}
+  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
+  ForceTransform: {fileID: 0}
+  ForceRadius: 0
+  OptionalTarget: {fileID: 0}
 --- !u!1 &1259934668
 GameObject:
   m_ObjectHideFlags: 0
@@ -44893,7 +44916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2484a3ef37595da499fe7da1fdb3dd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Cylindar (1) FX3
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -45112,8 +45135,10 @@ MonoBehaviour:
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
+  Parent: {fileID: 1686292629}
   AnimationNames:
   - KickForwardRoundhouse
+  AnimationEntity: {fileID: 1686292632}
   AudioSource1: {fileID: 1686292641}
   AudioSource2: {fileID: 0}
   Sound1: {fileID: 8300000, guid: 3fcdaeec05a248340a367470ea1b9456, type: 3}
@@ -45122,16 +45147,18 @@ MonoBehaviour:
   Lights: []
   Spawn:
   - {fileID: 1312167694092086, guid: 07ca1692a80ac814798abbd6cd82371f, type: 2}
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnAngleX: 0
+  SpawnAngleY: 180
+  SpawnAngleZ: 0
   SpawnFirst: 0
-  DynamicObjectManagerScript: {fileID: 331129937}
+  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
+  ForceTransform: {fileID: 0}
+  ForceRadius: 0
+  OptionalTarget: {fileID: 0}
 --- !u!1 &1308551149
 GameObject:
   m_ObjectHideFlags: 0
@@ -52815,12 +52842,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ca92864d8a02a469088ace08f3ee84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  entity: {fileID: 1686292629}
-  healthPanel: {fileID: 2019441208}
-  healthScript: {fileID: 0}
-  death:
-    name: 
+  Name: Gold Venus
+  Entity: {fileID: 1686292629}
+  HealthPanel: {fileID: 2019441208}
+  HealthScript: {fileID: 1686292631}
+  DeathAttack:
+    Name: 
+    Attacker: {fileID: 0}
     AttackInfo:
       Damage:
         DamagePoints: 0
@@ -52839,20 +52867,31 @@ MonoBehaviour:
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames: []
-    audioSource1: {fileID: 0}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 0}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 0}
-  deathSpawn: {fileID: 0}
-  dead: 0
+    FXInfo:
+      Parent: {fileID: 0}
+      AnimationNames: []
+      AnimationEntity: {fileID: 0}
+      AudioSource1: {fileID: 0}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 0}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 180
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 1
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  DeathSpawn: {fileID: 0}
+  Dead: 0
   AttackBonus:
     BonusChance: 3
     BAMModel: {fileID: 1893133098092984, guid: 8ba95ba7dfcc189458237569c93c7bcf, type: 2}
@@ -52863,8 +52902,9 @@ MonoBehaviour:
       type: 2}
     BAMBonusChance: 33
     POWBonusChance: 66
-  attacks:
-  - name: Punch
+  Attacks:
+  - Name: Punch
+    Attacker: {fileID: 1686292629}
     AttackInfo:
       Damage:
         DamagePoints: 1
@@ -52884,23 +52924,35 @@ MonoBehaviour:
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 3
-    animationNames:
-    - PunchRightUppercut
-    - PunchLeftCross
-    - PunchRightDownward
-    - PunchLeftUppercut
-    audioSource1: {fileID: 1686292641}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: 589b39b94d818154ba8c07091e2f940e, type: 3}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 1686292629}
-  - name: Kick
+    FXInfo:
+      Parent: {fileID: 1686292629}
+      AnimationNames:
+      - PunchRightUppercut
+      - PunchLeftCross
+      - PunchRightDownward
+      - PunchLeftUppercut
+      AnimationEntity: {fileID: 1686292632}
+      AudioSource1: {fileID: 1686292641}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 8300000, guid: 589b39b94d818154ba8c07091e2f940e, type: 3}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 0
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 0
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  - Name: Kick
+    Attacker: {fileID: 1686292629}
     AttackInfo:
       Damage:
         DamagePoints: 3
@@ -52920,20 +52972,32 @@ MonoBehaviour:
       Recharge: 3
       LastUsed: 0
       SuperBarValue: 4
-    animationNames:
-    - KickForwardRoundhouse
-    audioSource1: {fileID: 1686292641}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: 3fcdaeec05a248340a367470ea1b9456, type: 3}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 1686292629}
-  - name: Block
+    FXInfo:
+      Parent: {fileID: 1686292629}
+      AnimationNames:
+      - KickForwardRoundhouse
+      AnimationEntity: {fileID: 1686292632}
+      AudioSource1: {fileID: 1686292641}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 8300000, guid: 3fcdaeec05a248340a367470ea1b9456, type: 3}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 0
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 0
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  - Name: Block
+    Attacker: {fileID: 1686292629}
     AttackInfo:
       Damage:
         DamagePoints: 0
@@ -52948,24 +53012,36 @@ MonoBehaviour:
         TickTimeDoT: 0
         LastTickDoT: 0
         PointsObjectDoT: {fileID: 0}
-      Range: 1.5
-      Recharge: 1
+      Range: 1
+      Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames:
-    - Block
-    audioSource1: {fileID: 1686292641}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: baf24b9c66c2f4c87ad733010a9fdb39, type: 3}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 1686292629}
-  - name: Jumpkick
+    FXInfo:
+      Parent: {fileID: 1686292629}
+      AnimationNames:
+      - Block
+      AnimationEntity: {fileID: 1686292632}
+      AudioSource1: {fileID: 1686292641}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 8300000, guid: baf24b9c66c2f4c87ad733010a9fdb39, type: 3}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 0
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 0
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  - Name: Jumpkick
+    Attacker: {fileID: 1686292629}
     AttackInfo:
       Damage:
         DamagePoints: 10
@@ -52984,22 +53060,33 @@ MonoBehaviour:
       Range: 1.5
       Recharge: 6
       LastUsed: 0
-      SuperBarValue: 6
-    animationNames:
-    - KickRoundhouse
-    audioSource1: {fileID: 1686292641}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: fd9be99018cd46443b68536783f042ae, type: 3}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights:
-    - {fileID: 360815276}
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 1686292629}
-  - name: Super
+      SuperBarValue: 5
+    FXInfo:
+      Parent: {fileID: 1686292629}
+      AnimationNames:
+      - KickRoundhouse
+      AnimationEntity: {fileID: 1686292632}
+      AudioSource1: {fileID: 1686292641}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 8300000, guid: fd9be99018cd46443b68536783f042ae, type: 3}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 0
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 0
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  - Name: Super
+    Attacker: {fileID: 1686292629}
     AttackInfo:
       Damage:
         DamagePoints: 30
@@ -53019,27 +53106,39 @@ MonoBehaviour:
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames:
-    - LeapingPunch
-    audioSource1: {fileID: 534669906}
-    audioSource2: {fileID: 1686292641}
-    sound1: {fileID: 8300000, guid: 19b3f14e218a068489edb8e1a250424e, type: 3}
-    sound2: {fileID: 8300000, guid: cb0b89d385bd857439afa4fcfd293b87, type: 3}
-    particleSystems:
-    - {fileID: 1947299470}
-    - {fileID: 1460061230}
-    - {fileID: 45715386}
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 1686292629}
-  vision:
-    heightOffset: 0
-    detectionRadius: 10
-    detectionAngle: 200
-    maxHeightDifference: 4
+    FXInfo:
+      Parent: {fileID: 1686292629}
+      AnimationNames:
+      - LeapingPunch
+      AnimationEntity: {fileID: 1686292632}
+      AudioSource1: {fileID: 534669906}
+      AudioSource2: {fileID: 1686292641}
+      Sound1: {fileID: 8300000, guid: 19b3f14e218a068489edb8e1a250424e, type: 3}
+      Sound2: {fileID: 8300000, guid: cb0b89d385bd857439afa4fcfd293b87, type: 3}
+      ParticleSystems:
+      - {fileID: 1947299470}
+      - {fileID: 1460061230}
+      - {fileID: 45715386}
+      Lights:
+      - {fileID: 360815276}
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 0
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 0
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
   CombatEmoteChance: 20
   CombatEmoteSounds:
   - {fileID: 8300000, guid: e392c24220f584716a9da9b4a5ed54db, type: 3}
@@ -53221,8 +53320,10 @@ MonoBehaviour:
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
+  Parent: {fileID: 1686292629}
   AnimationNames:
   - Block
+  AnimationEntity: {fileID: 1686292632}
   AudioSource1: {fileID: 1686292641}
   AudioSource2: {fileID: 0}
   Sound1: {fileID: 8300000, guid: baf24b9c66c2f4c87ad733010a9fdb39, type: 3}
@@ -53230,16 +53331,18 @@ MonoBehaviour:
   ParticleSystems: []
   Lights: []
   Spawn: []
+  SpawnPosition: {x: 0, y: 0, z: 0}
+  SpawnAngleX: 0
+  SpawnAngleY: 180
+  SpawnAngleZ: 0
   SpawnFirst: 0
-  DynamicObjectManagerScript: {fileID: 0}
+  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  Transform: {fileID: 0}
-  Radius: 0
-  AngleX: 0
-  AngleY: 180
-  AngleZ: 0
+  ForceTransform: {fileID: 0}
+  ForceRadius: 0
+  OptionalTarget: {fileID: 0}
 --- !u!1 &1701173763
 GameObject:
   m_ObjectHideFlags: 0
@@ -53429,7 +53532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a69e7e0d56b1644a891e520e19cb39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Test
+  Name: Test Sound
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -53447,7 +53550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d0ef73403a2faf4d804f926eee048f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Test
+  Name: Test Lights
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -53465,7 +53568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee6334504390084b84a0eb74c3d84a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Test
+  Name: Test Spawn
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -53488,7 +53591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2484a3ef37595da499fe7da1fdb3dd80, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Test
+  Name: Test Particles
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
@@ -53506,19 +53609,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38cd49ed0c3a908438c4018dcd1fd083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Test Force
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 1
+  Origin: {fileID: 0}
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
+  IsAoE: 0
+  TargetDetectionType: 1
   ForceVector: {x: 1, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 1
-  ForceTransform: {fileID: 1735126768}
-  TargetRadius: 1.5
-  ColliderTargets: []
-  GameObjectTargets: []
-  RigidbodyTargets: []
 --- !u!114 &1735126774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53530,15 +53636,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec117dfeb1d2ca4aaa29e697fc551a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Cylinder Attack
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 1
-  Attacker: {fileID: 1735126764}
+  Origin: {fileID: 0}
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
+  IsAoE: 0
   TargetDetectionType: 1
+  Attacker: {fileID: 1735126764}
   Attack:
-    name: 
+    Name: 
+    Attacker: {fileID: 1735126764}
     AttackInfo:
       Damage:
         DamagePoints: 10
@@ -53558,18 +53672,29 @@ MonoBehaviour:
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames: []
-    audioSource1: {fileID: 0}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 0}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 0}
+    FXInfo:
+      Parent: {fileID: 0}
+      AnimationNames: []
+      AnimationEntity: {fileID: 0}
+      AudioSource1: {fileID: 0}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 0}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 180
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 1
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
 --- !u!114 &1735126775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -53581,12 +53706,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106b752c522794445b5157042c9c0269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: Capsule
-  entity: {fileID: 1735126764}
-  healthPanel: {fileID: 244488468}
-  healthScript: {fileID: 1735126777}
-  death:
-    name: 
+  Name: Cylinder
+  Entity: {fileID: 1735126764}
+  HealthPanel: {fileID: 905881660}
+  HealthScript: {fileID: 1735126777}
+  DeathAttack:
+    Name: 
+    Attacker: {fileID: 0}
     AttackInfo:
       Damage:
         DamagePoints: 0
@@ -53605,20 +53731,31 @@ MonoBehaviour:
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames: []
-    audioSource1: {fileID: 0}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 0}
-    sound2: {fileID: 0}
-    particleSystems: []
-    lights: []
-    ForceVector: {x: 0, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 0
-    targetBuffs: []
-    entity: {fileID: 0}
-  deathSpawn: {fileID: 0}
-  dead: 0
+    FXInfo:
+      Parent: {fileID: 0}
+      AnimationNames: []
+      AnimationEntity: {fileID: 0}
+      AudioSource1: {fileID: 0}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 0}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 180
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 1
+      ForceFromCenter: 0
+      ForceTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
+  DeathSpawn: {fileID: 0}
+  Dead: 0
   AttackBonus:
     BonusChance: 0
     BAMModel: {fileID: 0}
@@ -53627,12 +53764,12 @@ MonoBehaviour:
     BonusPoints: {fileID: 0}
     BAMBonusChance: 0
     POWBonusChance: 0
-  attacks: []
-  vision:
-    heightOffset: 0
-    detectionRadius: 10
-    detectionAngle: 360
-    maxHeightDifference: 4
+  Attacks: []
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
   CombatEmoteChance: 0
   CombatEmoteSounds: []
   CombatEmoteSource: {fileID: 0}
@@ -58599,11 +58736,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Name: Evil Box
-  entity: {fileID: 1786750948}
-  healthPanel: {fileID: 3023965}
-  healthScript: {fileID: 1786750955}
-  death:
-    name: Death
+  Entity: {fileID: 1786750948}
+  HealthPanel: {fileID: 3023965}
+  HealthScript: {fileID: 1786750955}
+  DeathAttack:
+    Name: Death Attack
+    Attacker: {fileID: 1786750948}
     AttackInfo:
       Damage:
         DamagePoints: 30
@@ -58620,37 +58758,46 @@ MonoBehaviour:
         LastTickDoT: 0
         PointsObjectDoT: {fileID: 1615427859346144, guid: c20c5355be581ab4d96a306ee75f4b6c,
           type: 2}
-      Range: 0
+      Range: 5
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
-    animationNames: []
-    audioSource1: {fileID: 1786750957}
-    audioSource2: {fileID: 0}
-    sound1: {fileID: 8300000, guid: 5a5648556a9658f4f93c084b70d66ae1, type: 3}
-    sound2: {fileID: 0}
-    particleSystems:
-    - {fileID: 1248810830}
-    - {fileID: 1248810829}
-    - {fileID: 1248810828}
-    - {fileID: 1248810827}
-    - {fileID: 1248810826}
-    - {fileID: 859994250}
-    - {fileID: 1107329280}
-    - {fileID: 863984322}
-    - {fileID: 233388769}
-    - {fileID: 1020902130}
-    lights:
-    - {fileID: 1248810825}
-    - {fileID: 367827947}
-    ForceVector: {x: 7, y: 0, z: 0}
-    ForceMode: 1
-    ForceFromCenter: 1
-    targetBuffs:
-    - {fileID: 0}
-    entity: {fileID: 1786750948}
-  deathSpawn: {fileID: 373371237}
-  dead: 0
+    FXInfo:
+      Parent: {fileID: 1786750948}
+      AnimationNames: []
+      AnimationEntity: {fileID: 0}
+      AudioSource1: {fileID: 1786750957}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 8300000, guid: 174489539b180374c84f91c4a2fe93f7, type: 3}
+      Sound2: {fileID: 0}
+      ParticleSystems:
+      - {fileID: 17560462}
+      - {fileID: 481025848}
+      - {fileID: 725404920}
+      - {fileID: 373473473}
+      - {fileID: 2137803308}
+      - {fileID: 859994250}
+      - {fileID: 1107329280}
+      - {fileID: 863984322}
+      - {fileID: 233388769}
+      - {fileID: 1020902130}
+      Lights:
+      - {fileID: 852536836}
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 180
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      SpawnDynamicObjectManagerScript: {fileID: 0}
+      ForceVector: {x: 5, y: 0, z: 0}
+      ForceMode: 1
+      ForceFromCenter: 1
+      ForceTransform: {fileID: 1786750952}
+      ForceRadius: 5
+    TargetBuffs: []
+  DeathSpawn: {fileID: 0}
+  Dead: 0
   AttackBonus:
     BonusChance: 0
     BAMModel: {fileID: 0}
@@ -58659,12 +58806,12 @@ MonoBehaviour:
     BonusPoints: {fileID: 0}
     BAMBonusChance: 0
     POWBonusChance: 0
-  attacks: []
-  vision:
-    heightOffset: 0
-    detectionRadius: 10
-    detectionAngle: 270
-    maxHeightDifference: 4
+  Attacks: []
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
   CombatEmoteChance: 0
   CombatEmoteSounds: []
   CombatEmoteSource: {fileID: 0}
@@ -59108,7 +59255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1810766986}
-  - component: {fileID: 1810766987}
+  - component: {fileID: 1810766988}
   m_Layer: 23
   m_Name: FX4
   m_TagString: Untagged
@@ -59129,7 +59276,7 @@ Transform:
   m_Father: {fileID: 639081312}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1810766987
+--- !u!114 &1810766988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -59137,16 +59284,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1810766985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1c2fbbd257b3f24aa7d79a58a7b15a1, type: 3}
+  m_Script: {fileID: 11500000, guid: a1e9959d0c6e8164bba2d34ada94915c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
+  Name: TargetedAnimation
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
   PlayOnTrigger: 0
-  Targets:
-  - {fileID: 1686292632}
+  Origin: {fileID: 639081312}
+  Vision:
+    HeightOffset: 1
+    DetectionRadius: 20
+    DetectionAngle: 360
+    MaxHeightDifference: 4
+  IsAoE: 1
+  TargetDetectionType: 1
   AnimationNames:
   - PunchRightUppercut
   - PunchLeftCross
@@ -70268,6 +70421,11 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66263cf18b8f1c04fb7f7413df9a46f4, type: 2}
   m_IsPrefabAsset: 0
+--- !u!198 &2137803308 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 19800000, guid: f55f0defa3c68c1498d7f9cae620bc19,
+    type: 2}
+  m_PrefabInternal: {fileID: 1248810823}
 --- !u!1001 &2138670766
 Prefab:
   m_ObjectHideFlags: 0

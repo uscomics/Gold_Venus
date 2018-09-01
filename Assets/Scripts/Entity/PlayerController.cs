@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using USComics_Debug;
+﻿using UnityEngine;
 using USComics_Combat;
 using USComics_Movement;
 using USComics_Environment;
@@ -14,45 +10,45 @@ namespace USComics_Entity
     {
         void Start()
         {
-            SetupEntity();
+            Setup();
             int msg = Random.Range(1, 11);
-            if (1 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_MOVE, 7);
-            else if (2 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_CLIMB, 7);
-            else if (3 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_SNEAK, 7);
-            else if (4 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_RUN, 7);
-            else if (5 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_WALK, 7);
-            else if (6 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_STOP, 7);
-            else if (7 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_CONTROL_CAMERA, 7);
-            else if (8 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_SUPER_BAR, 7);
-            else if (9 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_ATTACK, 7);
-            else if (10 == msg) messageManagerScript.ShowImageMessage(Messages.MSG_ATTACK_CONTROLS, 7);
+            if (1 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_MOVE, 7);
+            else if (2 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_CLIMB, 7);
+            else if (3 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_SNEAK, 7);
+            else if (4 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_RUN, 7);
+            else if (5 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_WALK, 7);
+            else if (6 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_STOP, 7);
+            else if (7 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_CONTROL_CAMERA, 7);
+            else if (8 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_SUPER_BAR, 7);
+            else if (9 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_HOW_TO_ATTACK, 7);
+            else if (10 == msg) MessageManagerScript.ShowImageMessage(Messages.MSG_ATTACK_CONTROLS, 7);
         }
 
         void Update()
         {
-            if (initialUpdate)
+            if (InitialUpdate)
             {
-                simpleMovementScript.StartModule();
-                initialUpdate = false;
+                SimpleMovementScript.StartModule();
+                InitialUpdate = false;
             }
             UpdateBuffs();
-            if (simpleMovementScript.IsRunning())
+            if (SimpleMovementScript.IsRunning())
             {
-                Move currentMove = simpleMovementScript.CurrentMove;
-                Vector3 currentVector = simpleMovementScript.CurrentVector;
-                if (Vector3.zero != currentVector) entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
-                entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
+                Move currentMove = SimpleMovementScript.CurrentMove;
+                Vector3 currentVector = SimpleMovementScript.CurrentVector;
+                if (Vector3.zero != currentVector) Entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
+                Entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
                 if (DirectionType.Stop != currentMove.Direction) SetHealthPosition(currentMove.Direction);
-                debugConsoleScript.SetCurrentMove(currentMove);
-                debugConsoleScript.SetOther1("currentVector=" + currentVector);
+                DebugConsoleScript.SetCurrentMove(currentMove);
+                DebugConsoleScript.SetOther1("currentVector=" + currentVector);
             }
-            else if (climbMovementScript.IsRunning())
+            else if (ClimbMovementScript.IsRunning())
             {
-                ClimbMove currentMove = climbMovementScript.CurrentMove;
-                Vector3 currentVector = climbMovementScript.CurrentVector;
-                entity.transform.Translate(currentVector * ClimbSpeed.GetSpeed(currentMove.Climb) * Time.deltaTime, Space.World);
-                debugConsoleScript.SetCurrentMove(currentMove);
-                debugConsoleScript.SetOther1("currentVector=" + currentVector);
+                ClimbMove currentMove = ClimbMovementScript.CurrentMove;
+                Vector3 currentVector = ClimbMovementScript.CurrentVector;
+                Entity.transform.Translate(currentVector * ClimbSpeed.GetSpeed(currentMove.Climb) * Time.deltaTime, Space.World);
+                DebugConsoleScript.SetCurrentMove(currentMove);
+                DebugConsoleScript.SetOther1("currentVector=" + currentVector);
             }
         }
         public override bool IsPlayer() { return true; }
@@ -67,52 +63,52 @@ namespace USComics_Entity
             return PlayerAttackIndex.None;
         }
 
-        public Attack GetAttackAt(PlayerAttackIndex index) { return attacks[(int)index]; }
+        public Attack GetAttackAt(PlayerAttackIndex index) { return Attacks[(int)index]; }
 
-        protected override bool SetupEntity()
+        protected override bool Setup()
         {
-            base.SetupEntity();
-            entity = GameObject.FindWithTag("PlayerCharacter") as GameObject;
-            if (null != entity) movementTransitionManagerScript = entity.GetComponent<MovementTransitionManager>();
-            if (null != entity) simpleMovementScript = entity.GetComponent<SimpleMovementModule>();
-            if (null != entity) climbMovementScript = entity.GetComponent<ClimbMovementModule>();
+            base.Setup();
+            Entity = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+            if (null != Entity) MovementTransitionManagerScript = Entity.GetComponent<MovementTransitionManager>();
+            if (null != Entity) SimpleMovementScript = Entity.GetComponent<SimpleMovementModule>();
+            if (null != Entity) ClimbMovementScript = Entity.GetComponent<ClimbMovementModule>();
 
-            if (null == entity) { Debug.LogError("PlayerController.SetupEntity: playerCharacter is null."); }
-            if (null == movementTransitionManagerScript) { Debug.LogError("PlayerController.SetupEntity: MovementTransitionManagerScript is null."); }
-            if (null == simpleMovementScript) { Debug.LogError("PlayerController.SetupEntity: movementManagerScript is null."); }
-            if (null == climbMovementScript) { Debug.LogError("EntityController.SetupEntity: climbManagerScript is null."); }
+            if (null == Entity) { Debug.LogError("PlayerController.SetupEntity: playerCharacter is null."); }
+            if (null == MovementTransitionManagerScript) { Debug.LogError("PlayerController.SetupEntity: MovementTransitionManagerScript is null."); }
+            if (null == SimpleMovementScript) { Debug.LogError("PlayerController.SetupEntity: movementManagerScript is null."); }
+            if (null == ClimbMovementScript) { Debug.LogError("EntityController.SetupEntity: climbManagerScript is null."); }
 
-            if (null == entity) { return false; }
-            if (null == movementTransitionManagerScript) { return false; }
-            if (null == simpleMovementScript) { return false; }
-            if (null == climbMovementScript) { return false; }
+            if (null == Entity) { return false; }
+            if (null == MovementTransitionManagerScript) { return false; }
+            if (null == SimpleMovementScript) { return false; }
+            if (null == ClimbMovementScript) { return false; }
             return true;
         }
 
         private void OnCollisionEnter(Collision collision)
         {
-            Move currentMove = simpleMovementScript.CurrentMove;
-            if (collision.gameObject.CompareTag("Climbable")) climbableInRange = true;
-            if (climbableInRange)
+            Move currentMove = SimpleMovementScript.CurrentMove;
+            if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = true;
+            if (ClimbableInRange)
             {
-                if (!climbMovementScript.IsRunning())
+                if (!ClimbMovementScript.IsRunning())
                 {
-                    Collider[] climbables = Environment.GetClimbables(entity.transform);
+                    Collider[] climbables = Environment.GetClimbables(Entity.transform);
                     if (0 != climbables.Length)
                     {
-                        movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Simple, ModuleTypes.Climbing);
+                        MovementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Simple, ModuleTypes.Climbing);
                     }
                 }
                 else
                 {
-                    climbMovementScript.ForceStop();
-                    movementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
+                    ClimbMovementScript.ForceStop();
+                    MovementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Climbing, ModuleTypes.Simple);
 
                 }
             } else
             {
                 //Debug.Log("BANG! tag = " + collision.gameObject.tag);
-                if ((int)LayerValues.TERRAIN != collision.gameObject.layer) simpleMovementScript.ForceStop();
+                if ((int)LayerValues.TERRAIN != collision.gameObject.layer) SimpleMovementScript.ForceStop();
             }
         }
         private void OnCollisionStay(Collision collision)
@@ -121,26 +117,26 @@ namespace USComics_Entity
         }
         private void OnCollisionExit(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Climbable")) climbableInRange = false;
+            if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = false;
             // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
         }
 
         private bool PlayerCanClimb()
         {
-            Collider[] colliders = Environment.GetClimbables(entity.transform);
+            Collider[] colliders = Environment.GetClimbables(Entity.transform);
             return (0 < colliders.Length);
         }
 
         private void SetHealthPosition(DirectionType inDirection)
         {
-            healthPanel.transform.localRotation = Quaternion.identity;
-            if (DirectionType.South == inDirection) { healthPanel.transform.Rotate(Vector3.up, 180); }
-            else if (DirectionType.East == inDirection) { healthPanel.transform.Rotate(Vector3.up, 270); }
-            else if (DirectionType.West == inDirection) { healthPanel.transform.Rotate(Vector3.up, 90); }
-            else if (DirectionType.NW == inDirection) { healthPanel.transform.Rotate(Vector3.up, 45); }
-            else if (DirectionType.NE == inDirection) { healthPanel.transform.Rotate(Vector3.up, 315); }
-            else if (DirectionType.SW == inDirection) { healthPanel.transform.Rotate(Vector3.up, 135); }
-            else if (DirectionType.SE == inDirection) { healthPanel.transform.Rotate(Vector3.up, 225); }
+            HealthPanel.transform.localRotation = Quaternion.identity;
+            if (DirectionType.South == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 180); }
+            else if (DirectionType.East == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 270); }
+            else if (DirectionType.West == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 90); }
+            else if (DirectionType.NW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 45); }
+            else if (DirectionType.NE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 315); }
+            else if (DirectionType.SW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 135); }
+            else if (DirectionType.SE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 225); }
         }
 
 #if UNITY_EDITOR
@@ -150,14 +146,4 @@ namespace USComics_Entity
         }
 #endif
     }
-
-    [System.Serializable]
-    public enum PlayerAttackIndex {
-        None = -1,
-        Punch = 0,
-        Kick = 1,
-        Block = 2,
-        Jumpkick = 3,
-        Super = 4
-    };
 }

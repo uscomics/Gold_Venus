@@ -49,7 +49,7 @@ namespace USComics_Environment {
                 // If the enemy is too high or too low ignore him.
                 if (useHeightDifference && Mathf.Abs(toPlayer.y + heightOffset) > maxHeightDifference) continue;
                 EntityController entity = candidate.GetComponent<EntityController>();
-                if (null == entity || entity.dead) continue;
+                if (null == entity || entity.Dead) continue;
                 results.Add(colliders[loop1]);
             }
             return results.ToArray();
@@ -61,7 +61,7 @@ namespace USComics_Environment {
             for (int loop = 0; loop < colliders.Length; loop++) {
                 GameObject candidate = GameObjectUtilities.GetGameObject(colliders[loop]);
                 EntityController entity = candidate.GetComponent<EntityController>();
-                if (null == entity || entity.dead) continue;
+                if (null == entity || entity.Dead) continue;
                 if (0 < Direction.GetForwardOrBehind(transform, candidate.transform)) { results.Add(colliders[loop]); }
             }
             return results.ToArray();

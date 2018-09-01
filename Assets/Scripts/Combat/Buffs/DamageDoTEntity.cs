@@ -41,10 +41,10 @@ namespace USComics_Combat {
 		public override EntityController Buff(EntityController entity) {
 			if (Expired) return entity;
 			if ((0 != lastTick) && (Time.time - lastTick < tickTime)) return entity;
-			entity.healthScript.health -= damage;
+			entity.HealthScript.health -= damage;
 			SpawnPoints(entity);
-			if (0 >= entity.healthScript.health) {
-				entity.healthScript.health = 0;
+			if (0 >= entity.HealthScript.health) {
+				entity.HealthScript.health = 0;
 				entity.DoDeath(Attacker);
 			}
 			if (0 == StartTime) StartTime = Time.time;

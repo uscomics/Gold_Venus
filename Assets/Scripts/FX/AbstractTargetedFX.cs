@@ -6,7 +6,7 @@ using USComics_Environment;
 namespace USComics_FX {
     public abstract class AbstractTargetedFX : AbstractFX {
         public Transform Origin;
-        public Vision Vision;
+        public Vision Vision = new Vision();
         public bool IsAoE;
         public TargetDetectionType TargetDetectionType = TargetDetectionType.Player;
 

@@ -45,17 +45,17 @@ namespace USComics_Combat {
             if (bonus <= BAMBonusChance) {
                 attacker.ClearAttackTimers();
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_TIMERS_CLEARED, 2);
-                DynamicObjectManagerScript.Clone(BAMModel, target.transform.position, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(BAMModel, target.transform.position + Vector3.up, 0.0f, 0.0f, 0.0f);
             }
             else if (bonus <= POWBonusChance) {
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_DAMAGE_BONUS, 2);
-                DynamicObjectManagerScript.Clone(POWModel, target.transform.position, 0.0f, 0.0f, 0.0f);
-                DynamicObjectManagerScript.Clone(BonusPoints, target.transform.position, 0.0f, 180.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(POWModel, target.transform.position + Vector3.up, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(BonusPoints, target.transform.position + Vector3.up, 0.0f, 180.0f, 0.0f);
                 attack.AttackInfo.Damage.DamagePoints += 2;
             } else {
                 CombatPadScript.IncrementSuperBar(5);
                 messageManagerScript.ShowMessage(Messages.MSG_ATTACK_SUPER_BAR_BONUS, 2);
-                DynamicObjectManagerScript.Clone(KABAMModel, target.transform.position, 0.0f, 0.0f, 0.0f);
+                DynamicObjectManagerScript.Clone(KABAMModel, target.transform.position + Vector3.up, 0.0f, 0.0f, 0.0f);
             }
         }
         private bool SetupAttackInfo() {

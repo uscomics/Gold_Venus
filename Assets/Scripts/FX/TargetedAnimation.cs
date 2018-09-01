@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace USComics_FX {
-    public abstract class TargetedAnimation : AbstractTargetedFX {
+    public class TargetedAnimation : AbstractTargetedFX {
         public string[] AnimationNames;     // If multiple animation names are given, one will be randomly selected every time.
 
         public override IEnumerator Play() {

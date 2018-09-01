@@ -105,10 +105,10 @@ namespace USComics_Combat
             {
                 GameObject[] enemiesGO= GameObjectUtilities.GetGameObjects(enemies);
                 ShowCombatUI();
-                Attack punch = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Punch];
-                Attack kick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Kick];
-                Attack block = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Block];
-                Attack jumpkick = PlayerControllerScript.attacks[(int)PlayerAttackIndex.Jumpkick];
+                Attack punch = PlayerControllerScript.Attacks[(int)PlayerAttackIndex.Punch];
+                Attack kick = PlayerControllerScript.Attacks[(int)PlayerAttackIndex.Kick];
+                Attack block = PlayerControllerScript.Attacks[(int)PlayerAttackIndex.Block];
+                Attack jumpkick = PlayerControllerScript.Attacks[(int)PlayerAttackIndex.Jumpkick];
                 if (punch.IsUseable(enemiesGO)) punchButton.SetButtonStateOn();
                 else punchButton.SetButtonState(ButtonState.Disabled);
                 if (kick.IsUseable(enemiesGO)) kickButton.SetButtonStateOn();
@@ -182,8 +182,11 @@ namespace USComics_Combat
             PlayerAttackIndex index = PlayerControllerScript.ConvertAttackTypeToPlayerAttackIndex(inAttack);
             if (PlayerAttackIndex.None == index) return;
             Attack attack = PlayerControllerScript.GetAttackAt(index);
+            if (AttackType.Super == inAttack) {
+                int x = 1;
+            }
             if (null == attack) return;
-            if (null != PlayerControllerScript.CurrentEnemy && PlayerControllerScript.CurrentEnemy.dead) PlayerControllerScript.CurrentEnemy = null;
+            if (null != PlayerControllerScript.CurrentEnemy && PlayerControllerScript.CurrentEnemy.Dead) PlayerControllerScript.CurrentEnemy = null;
             if (null == PlayerControllerScript.CurrentEnemy)
             {
                 GameObject target = PlayerControllerScript.NearestInRange();
