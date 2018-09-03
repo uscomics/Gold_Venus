@@ -24,7 +24,7 @@ namespace USComics_Combat {
 		public Vector3 ForceVector = Vector3.zero; // Vector3.zero means no force
 		public ForceMode ForceMode = ForceMode.Impulse;
 		public bool ForceFromCenter; // Set to true for an explosion-like (radial) force, or false for a linear force.
-		public Transform ForceTransform;
+		public Transform ForceOriginTransform;
 		public float ForceRadius;
 
 		public void CopyTo(FX fx) {
@@ -46,7 +46,7 @@ namespace USComics_Combat {
 			fx.ForceVector = ForceVector;
 			fx.ForceMode = ForceMode;
 			fx.ForceFromCenter = ForceFromCenter;
-			fx.ForceTransform = ForceTransform;
+			fx.ForceOriginTransform = ForceOriginTransform;
 			fx.ForceRadius = ForceRadius;
 		}
 	}

@@ -25,7 +25,7 @@ namespace USComics_FX {
         public Vector3 ForceVector = Vector3.zero;  // Vector3.zero means no force
         public ForceMode ForceMode = ForceMode.Impulse;
         public bool ForceFromCenter;        // Set to true for an explosion-like (radial) force, or false for a linear force.
-        public Transform ForceTransform;
+        public Transform ForceOriginTransform;
         public float ForceRadius;
         public GameObject OptionalTarget;
 
@@ -75,9 +75,9 @@ namespace USComics_FX {
                 _spawn.AngleY = SpawnAngleY;
                 _spawn.AngleZ = SpawnAngleZ;
             }
-            if (null != ForceTransform) {
+            if (null != ForceOriginTransform) {
                 _force = Parent.AddComponent<Force>();
-                _force.Origin = ForceTransform;
+                _force.Origin = ForceOriginTransform;
                 _force.ForceVector = this.ForceVector;
                 _force.ForceMode = ForceMode;
                 _force.ForceFromCenter = ForceFromCenter;

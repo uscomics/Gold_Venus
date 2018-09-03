@@ -18077,7 +18077,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   DeathSpawn: {fileID: 0}
@@ -29352,7 +29352,7 @@ MonoBehaviour:
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  ForceTransform: {fileID: 0}
+  ForceOriginTransform: {fileID: 0}
   ForceRadius: 0
   OptionalTarget: {fileID: 0}
 --- !u!114 &916261001
@@ -44113,7 +44113,7 @@ MonoBehaviour:
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  ForceTransform: {fileID: 0}
+  ForceOriginTransform: {fileID: 0}
   ForceRadius: 0
   OptionalTarget: {fileID: 0}
 --- !u!1 &1175262092
@@ -44618,7 +44618,7 @@ MonoBehaviour:
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  ForceTransform: {fileID: 0}
+  ForceOriginTransform: {fileID: 0}
   ForceRadius: 0
   OptionalTarget: {fileID: 0}
 --- !u!1001 &1248810823
@@ -44841,7 +44841,7 @@ MonoBehaviour:
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  ForceTransform: {fileID: 0}
+  ForceOriginTransform: {fileID: 0}
   ForceRadius: 0
   OptionalTarget: {fileID: 0}
 --- !u!1 &1259934668
@@ -45156,7 +45156,7 @@ MonoBehaviour:
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  ForceTransform: {fileID: 0}
+  ForceOriginTransform: {fileID: 0}
   ForceRadius: 0
   OptionalTarget: {fileID: 0}
 --- !u!1 &1308551149
@@ -52887,7 +52887,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   DeathSpawn: {fileID: 0}
@@ -52948,7 +52948,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   - Name: Kick
@@ -52993,7 +52993,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   - Name: Block
@@ -53012,7 +53012,7 @@ MonoBehaviour:
         TickTimeDoT: 0
         LastTickDoT: 0
         PointsObjectDoT: {fileID: 0}
-      Range: 1
+      Range: 1.5
       Recharge: 0
       LastUsed: 0
       SuperBarValue: 0
@@ -53037,7 +53037,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   - Name: Jumpkick
@@ -53082,7 +53082,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   - Name: Super
@@ -53131,13 +53131,13 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   Vision:
     HeightOffset: 0
     DetectionRadius: 10
-    DetectionAngle: 360
+    DetectionAngle: 200
     MaxHeightDifference: 4
   CombatEmoteChance: 20
   CombatEmoteSounds:
@@ -53340,7 +53340,7 @@ MonoBehaviour:
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
-  ForceTransform: {fileID: 0}
+  ForceOriginTransform: {fileID: 0}
   ForceRadius: 0
   OptionalTarget: {fileID: 0}
 --- !u!1 &1701173763
@@ -53692,7 +53692,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
 --- !u!114 &1735126775
@@ -53751,7 +53751,7 @@ MonoBehaviour:
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
-      ForceTransform: {fileID: 0}
+      ForceOriginTransform: {fileID: 0}
       ForceRadius: 0
     TargetBuffs: []
   DeathSpawn: {fileID: 0}
@@ -58790,10 +58790,10 @@ MonoBehaviour:
       SpawnAngleZ: 0
       SpawnFirst: 0
       SpawnDynamicObjectManagerScript: {fileID: 0}
-      ForceVector: {x: 5, y: 0, z: 0}
+      ForceVector: {x: 6, y: 4, z: 0}
       ForceMode: 1
       ForceFromCenter: 1
-      ForceTransform: {fileID: 1786750952}
+      ForceOriginTransform: {fileID: 1786750952}
       ForceRadius: 5
     TargetBuffs: []
   DeathSpawn: {fileID: 0}
