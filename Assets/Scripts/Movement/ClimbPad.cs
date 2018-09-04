@@ -18,7 +18,6 @@ namespace USComics_Movement
         private Rect upRect;
         private Rect downRect;
         private Image climbPadImage;
-        private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
         private CanvasGroup ClimbPadCanvasGroupScript;
         private CanvasGroup ClimbingPanelCanvasGroupScript;
@@ -26,8 +25,6 @@ namespace USComics_Movement
         // Use this for initialization
         void Start()
         {
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject climbPad = GameObject.FindWithTag("ClimbPad") as GameObject;
             if (null != climbPad) ClimbPadCanvasGroupScript = climbPad.GetComponent<CanvasGroup>();
             if (null != climbPad) KeyboardScript = climbPad.GetComponent<Keyboard>();
@@ -35,12 +32,10 @@ namespace USComics_Movement
             GameObject climbingPanel = GameObject.FindWithTag("ClimbingPanel") as GameObject;
             if (null != climbingPanel) ClimbingPanelCanvasGroupScript = climbingPanel.GetComponent<CanvasGroup>();
 
-            if (null == debugConsoleScript) { Debug.LogError("ClimbPad.Start: debugConsoleScript is null."); }
             if (null == ClimbPadCanvasGroupScript) { Debug.LogError("ClimbPad.Start: ClimbPadCanvasGroupScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("ClimbPad.Start: KeyboardScript is null."); }
             if (null == ClimbingPanelCanvasGroupScript) { Debug.LogError("ClimbPad.Start: ClimbingPanelCanvasGroupScript is null."); }
 
-            if (null == debugConsoleScript) { return; }
             if (null == ClimbPadCanvasGroupScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == ClimbingPanelCanvasGroupScript) { return; }

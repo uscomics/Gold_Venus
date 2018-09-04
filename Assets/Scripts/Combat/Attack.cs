@@ -20,13 +20,10 @@ namespace USComics_Combat {
 
         private EntityController _entityControllerScript;
         private GameObject _healthPanel;
-        private MessageManager _messageManagerScript;
         private GameObject _combatPanel;
         private GameObject _superBar;
         private CombatPad _combatPadScript;
         private Keyboard _keyboardScript;
-        private DynamicObjectManager _dynamicObjectManagerScript;
-        private DebugConsole _debugConsoleScript;
         private FX _fx;
         private bool _isSetup;
 
@@ -116,7 +113,7 @@ namespace USComics_Combat {
             }
             PlayEmote();
             if (null != attack.AttackInfo.Damage.PointsObject) {
-                _dynamicObjectManagerScript.Clone(attack.AttackInfo.Damage.PointsObject, target.Entity.transform.position + (target.Entity.transform.up * 1.2f), 0.0f, 180.0f, 0.0f);
+                DynamicObjectManager.INSTANCE.Clone(attack.AttackInfo.Damage.PointsObject, target.Entity.transform.position + (target.Entity.transform.up * 1.2f), 0.0f, 180.0f, 0.0f);
             }
             _entityControllerScript.AttackBonus.CalculateBonus(attack, _entityControllerScript, target);
             ApplyDoTToTarget(attack, target);
@@ -137,13 +134,7 @@ namespace USComics_Combat {
                 FXInfo.CopyTo(_fx);
                 _fx.InitFX();
             }
-            GameObject messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
-            if (null != messageCanvas) _messageManagerScript = messageCanvas.GetComponent<MessageManager>();
             _healthPanel = GameObject.FindWithTag("HealthGameObject") as GameObject;
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) _debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
-            GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
-            if (null != dynamicObjects) _dynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
             _combatPanel = GameObject.FindWithTag("CombatPanel") as GameObject;
             if (null != _combatPanel) _combatPadScript = _combatPanel.GetComponent<CombatPad>();
             _superBar = GameObject.FindWithTag("SuperBar") as GameObject;
@@ -152,20 +143,14 @@ namespace USComics_Combat {
 
             if (null == Attacker) { Debug.LogError("Attack.SetupAttack: Attacker is null."); }
             if (null == _entityControllerScript) { Debug.LogError("Attack.SetupAttack: _entityControllerScript is null."); }
-            if (null == _messageManagerScript) { Debug.LogError("Attack.SetupAttack: _messageManagerScript is null."); }
             if (null == _healthPanel) { Debug.LogError("Attack.SetupAttack: _healthPanel is null."); }
-            if (null == _debugConsoleScript) { Debug.LogError("Attack.SetupAttack: _debugConsoleScript is null."); }
-            if (null == _dynamicObjectManagerScript) { Debug.LogError("Attack.SetupAttack: _dynamicObjectManagerScript is null."); }
             if (null == _combatPanel) { Debug.LogError("Attack.SetupAttack: _combatPanel is null."); }
             if (null == _superBar) { Debug.LogError("Attack.SetupAttack: _superBar is null."); }
             if (null == _combatPadScript) { Debug.LogError("Attack.SetupAttack: _combatPadScript is null."); }
             if (null == _keyboardScript) { Debug.LogError("Attack.SetupAttack: _keyboardScript is null."); }
 
             if (null == Attacker) { return false; }
-            if (null == _messageManagerScript) { return false; }
             if (null == _healthPanel) { return false; }
-            if (null == _debugConsoleScript) { return false; }
-            if (null == _dynamicObjectManagerScript) { return false; }
             if (null == _combatPanel) { return false; }
             if (null == _superBar) { return false; }
             if (null == _combatPadScript) { return false; }

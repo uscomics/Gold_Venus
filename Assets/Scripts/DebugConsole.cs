@@ -6,6 +6,8 @@ using USComics_Movement;
 
 namespace USComics_Debug {
     public class DebugConsole : MonoBehaviour {
+        public static DebugConsole INSTANCE;
+        
         public TextMeshProUGUI currentMove;
         public TextMeshProUGUI previousMove;
         public TextMeshProUGUI speed;
@@ -16,7 +18,7 @@ namespace USComics_Debug {
         public TextMeshProUGUI other5;
         public TextMeshProUGUI other6;
 
-        void Start() { }
+        void Start() { DebugConsole.INSTANCE = this; }
         void Update() { }
 
         public void SetCurrentMove(Move inMovementType) { currentMove.text = "Current Speed: " + inMovementType.Speed + ", Direction: " + inMovementType.Direction; }

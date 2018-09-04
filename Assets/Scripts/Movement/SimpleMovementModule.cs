@@ -17,7 +17,6 @@ namespace USComics_Movement
         private SpeedBar SpeedBarScript;
         private MovementPad MovementPadScript;
         private Keyboard KeyboardScript;
-        private DebugConsole debugConsoleScript;
         private bool moduleActive;
 
         // Use this for initialization
@@ -31,8 +30,6 @@ namespace USComics_Movement
             speedBar = GameObject.FindWithTag("SpeedBar") as GameObject;
             GameObject speedBarKnob = GameObject.FindWithTag("SpeedBarKnob") as GameObject;
             if (null != speedBarKnob) SpeedBarScript = speedBarKnob.GetComponent<SpeedBar>();
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
             if (null == Anim) { Debug.LogError("SimpleMovementModule.Start: Anim is null."); }
             if (null == MovementTransitionManagerScript) { Debug.LogError("SimpleMovementModule.Start: MovementTransitionManagerScript is null."); }
@@ -40,7 +37,6 @@ namespace USComics_Movement
             if (null == KeyboardScript) { Debug.LogError("SimpleMovementModule.Start: KeyboardScript is null."); }
             if (null == speedBar) { Debug.LogError("SimpleMovementModule.Start: speedBar is null."); }
             if (null == SpeedBarScript) { Debug.LogError("SimpleMovementModule.Start: SpeedBarScript is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("SimpleMovementModule.Start: debugConsoleScript is null."); }
 
             if (null == Anim) { return; }
             if (null == MovementTransitionManagerScript) { return; }
@@ -48,7 +44,6 @@ namespace USComics_Movement
             if (null == KeyboardScript) { return; }
             if (null == speedBar) { return; }
             if (null == SpeedBarScript) { return; }
-            if (null == debugConsoleScript) { return; }
 
 
             CurrentMove = new Move(DirectionType.None, (float)MovementType.Standing);
@@ -118,8 +113,8 @@ namespace USComics_Movement
             PreviousMove = CurrentMove;
             CurrentMove = new Move(direction, speed);
             UpdateAnimation(speed);
-            debugConsoleScript.SetCurrentMove(CurrentMove);
-            debugConsoleScript.SetPreviousMove(PreviousMove);
+            DebugConsole.INSTANCE.SetCurrentMove(CurrentMove);
+            DebugConsole.INSTANCE.SetPreviousMove(PreviousMove);
         }
 
         private void UpdateAnimation(float speed)

@@ -24,7 +24,6 @@ namespace USComics_Movement {
         private Rect eastRect;
         private Rect westRect;
         private Image movementPadImage;
-        private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
         private SpeedBar SpeedBarScript;
         private CanvasGroup MovementPadCanvasGroupScript;
@@ -32,8 +31,6 @@ namespace USComics_Movement {
 
         // Use this for initialization
         void Start() {
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) MovementPadCanvasGroupScript = movementPad.GetComponent<CanvasGroup>();
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
@@ -43,13 +40,11 @@ namespace USComics_Movement {
             GameObject speedBarPanel = GameObject.FindWithTag("SpeedBarPanel") as GameObject;
             if (null != speedBarPanel) SpeedBarCanvasGroupScript = speedBarPanel.GetComponent<CanvasGroup>();
 
-            if (null == debugConsoleScript) { Debug.LogError("MovementPad.Start: debugConsoleScript is null."); }
             if (null == MovementPadCanvasGroupScript) { Debug.LogError("MovementPad.Start: MovementPadCanvasGroupScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("MovementPad.Start: KeyboardScript is null."); }
             if (null == SpeedBarScript) { Debug.LogError("MovementPad.Start: SpeedBarScript is null."); }
             if (null == SpeedBarCanvasGroupScript) { Debug.LogError("MovementPad.Start: SpeedBarCanvasGroupScript is null."); }
 
-            if (null == debugConsoleScript) { return; }
             if (null == MovementPadCanvasGroupScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == SpeedBarScript) { return; }

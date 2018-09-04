@@ -15,8 +15,6 @@ namespace USComics_Combat {
 		public float lastTick;
 		public GameObject damageModel;
 
-		private DynamicObjectManager DynamicObjectManagerScript;
-
 		public DamageDoTEntity() { }
 		public DamageDoTEntity(DamageDoTEntity buff) : base(buff) {
 			damage = buff.damage;
@@ -41,10 +39,10 @@ namespace USComics_Combat {
 		public override EntityController Buff(EntityController entity) {
 			if (Expired) return entity;
 			if ((0 != lastTick) && (Time.time - lastTick < tickTime)) return entity;
-			entity.HealthScript.health -= damage;
+			entity.HealthScript.HealthPoints -= damage;
 			SpawnPoints(entity);
-			if (0 >= entity.HealthScript.health) {
-				entity.HealthScript.health = 0;
+			if (0 >= entity.HealthScript.HealthPoints) {
+				entity.HealthScript.HealthPoints = 0;
 				entity.DoDeath(Attacker);
 			}
 			if (0 == StartTime) StartTime = Time.time;
@@ -52,20 +50,10 @@ namespace USComics_Combat {
 			if (lastTick - StartTime >= duration) Expired = true;
 			return entity;
 		}
-		protected override bool SetupBuff() {
-			base.SetupBuff();
-			GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
-			if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
-			
-			if (null == DynamicObjectManagerScript) { Debug.LogError("DamageDoTEntity.SetupBuff: DynamicObjectManagerScript is null."); }
-			
-			if (null == DynamicObjectManagerScript) { return false; }
-			return true;
-		}
 		private void SpawnPoints(EntityController target)
 		{
 			if (null == damageModel) return;
-			DynamicObjectManagerScript.Clone(damageModel, target.transform.position + (target.transform.up * 2), 0.0f, 180.0f, 0.0f);
+			DynamicObjectManager.INSTANCE.Clone(damageModel, target.transform.position + (target.transform.up * 2), 0.0f, 180.0f, 0.0f);
 		}
 	}
 }

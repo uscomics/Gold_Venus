@@ -17951,7 +17951,6 @@ GameObject:
   - component: {fileID: 639081317}
   - component: {fileID: 639081316}
   - component: {fileID: 639081315}
-  - component: {fileID: 639081314}
   - component: {fileID: 639081313}
   m_Layer: 23
   m_Name: Cylinder (1)
@@ -18001,26 +18000,6 @@ MonoBehaviour:
   - {fileID: 1037190690}
   - {fileID: 1277381644}
   - {fileID: 1810766988}
---- !u!114 &639081314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 639081311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dd9e9cc61c694b4b8d122dc35bb8e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 1
-  lives: 1
-  healthBar: {fileID: 1650718516}
-  life1: {fileID: 481973233}
-  life2: {fileID: 473898208}
-  life3: {fileID: 146582560}
-  life4: {fileID: 1147258416}
-  life5: {fileID: 1072276644}
-  life6: {fileID: 51393545}
 --- !u!114 &639081315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18034,8 +18013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Cylinder (1)
   Entity: {fileID: 639081311}
-  HealthPanel: {fileID: 115289988}
-  HealthScript: {fileID: 639081314}
+  HealthScript: {fileID: 0}
   DeathAttack:
     Name: 
     Attacker: {fileID: 0}
@@ -18073,7 +18051,6 @@ MonoBehaviour:
       SpawnAngleY: 180
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
@@ -29348,7 +29325,6 @@ MonoBehaviour:
   SpawnAngleY: 180
   SpawnAngleZ: 0
   SpawnFirst: 0
-  SpawnDynamicObjectManagerScript: {fileID: 0}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
@@ -44109,7 +44085,6 @@ MonoBehaviour:
   SpawnAngleY: 180
   SpawnAngleZ: 0
   SpawnFirst: 0
-  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
@@ -44614,7 +44589,6 @@ MonoBehaviour:
   SpawnAngleY: 180
   SpawnAngleZ: 0
   SpawnFirst: 0
-  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
@@ -44837,7 +44811,6 @@ MonoBehaviour:
   SpawnAngleY: 180
   SpawnAngleZ: 0
   SpawnFirst: 0
-  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
@@ -45152,7 +45125,6 @@ MonoBehaviour:
   SpawnAngleY: 180
   SpawnAngleZ: 0
   SpawnFirst: 0
-  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
@@ -52755,15 +52727,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd9e9cc61c694b4b8d122dc35bb8e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  lives: 3
-  healthBar: {fileID: 252065127}
-  life1: {fileID: 1468886752}
-  life2: {fileID: 750166271}
-  life3: {fileID: 227835545}
-  life4: {fileID: 1769364655}
-  life5: {fileID: 308107373}
-  life6: {fileID: 1674634607}
+  HealthPanel: {fileID: 2019441208}
+  HealthPanelVisible: 1
+  LivesVisible: 1
+  HealthPoints: 100
+  Lives: 3
+  HealthBar: {fileID: 252065127}
+  Life1: {fileID: 1468886752}
+  Life2: {fileID: 750166271}
+  Life3: {fileID: 227835545}
+  Life4: {fileID: 1769364655}
+  Life5: {fileID: 308107373}
+  Life6: {fileID: 1674634607}
 --- !u!95 &1686292632
 Animator:
   serializedVersion: 3
@@ -52844,7 +52819,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Gold Venus
   Entity: {fileID: 1686292629}
-  HealthPanel: {fileID: 2019441208}
   HealthScript: {fileID: 1686292631}
   DeathAttack:
     Name: 
@@ -52883,7 +52857,6 @@ MonoBehaviour:
       SpawnAngleY: 180
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
@@ -52944,7 +52917,6 @@ MonoBehaviour:
       SpawnAngleY: 0
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
@@ -52989,7 +52961,6 @@ MonoBehaviour:
       SpawnAngleY: 0
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
@@ -53033,7 +53004,6 @@ MonoBehaviour:
       SpawnAngleY: 0
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
@@ -53078,7 +53048,6 @@ MonoBehaviour:
       SpawnAngleY: 0
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
@@ -53127,7 +53096,6 @@ MonoBehaviour:
       SpawnAngleY: 0
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 0
       ForceFromCenter: 0
@@ -53336,7 +53304,6 @@ MonoBehaviour:
   SpawnAngleY: 180
   SpawnAngleZ: 0
   SpawnFirst: 0
-  SpawnDynamicObjectManagerScript: {fileID: 331129937}
   ForceVector: {x: 0, y: 0, z: 0}
   ForceMode: 1
   ForceFromCenter: 0
@@ -53438,7 +53405,6 @@ GameObject:
   - component: {fileID: 1735126765}
   - component: {fileID: 1735126776}
   - component: {fileID: 1735126775}
-  - component: {fileID: 1735126777}
   - component: {fileID: 1735126769}
   - component: {fileID: 1735126770}
   - component: {fileID: 1735126771}
@@ -53575,7 +53541,6 @@ MonoBehaviour:
   PlayOnTrigger: 1
   Models:
   - {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239, type: 2}
-  DynamicObjectManagerScript: {fileID: 331129937}
   Position: {x: -2.69, y: 1, z: -2.07}
   AngleX: 0
   AngleY: 0
@@ -53688,7 +53653,6 @@ MonoBehaviour:
       SpawnAngleY: 180
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
@@ -53708,8 +53672,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Cylinder
   Entity: {fileID: 1735126764}
-  HealthPanel: {fileID: 905881660}
-  HealthScript: {fileID: 1735126777}
+  HealthScript: {fileID: 0}
   DeathAttack:
     Name: 
     Attacker: {fileID: 0}
@@ -53747,7 +53710,6 @@ MonoBehaviour:
       SpawnAngleY: 180
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 0, y: 0, z: 0}
       ForceMode: 1
       ForceFromCenter: 0
@@ -53788,26 +53750,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1735126777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1735126764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dd9e9cc61c694b4b8d122dc35bb8e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 1
-  lives: 1
-  healthBar: {fileID: 244488468}
-  life1: {fileID: 1615008855}
-  life2: {fileID: 1135546141}
-  life3: {fileID: 1640753088}
-  life4: {fileID: 563677931}
-  life5: {fileID: 780645458}
-  life6: {fileID: 204169310}
 --- !u!1 &1738977867
 GameObject:
   m_ObjectHideFlags: 0
@@ -58737,7 +58679,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Evil Box
   Entity: {fileID: 1786750948}
-  HealthPanel: {fileID: 3023965}
   HealthScript: {fileID: 1786750955}
   DeathAttack:
     Name: Death Attack
@@ -58789,7 +58730,6 @@ MonoBehaviour:
       SpawnAngleY: 180
       SpawnAngleZ: 0
       SpawnFirst: 0
-      SpawnDynamicObjectManagerScript: {fileID: 0}
       ForceVector: {x: 6, y: 4, z: 0}
       ForceMode: 1
       ForceFromCenter: 1
@@ -58841,15 +58781,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dd9e9cc61c694b4b8d122dc35bb8e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
-  lives: 0
-  healthBar: {fileID: 915709585}
-  life1: {fileID: 1491086833}
-  life2: {fileID: 1477300286}
-  life3: {fileID: 1754938036}
-  life4: {fileID: 1988418227}
-  life5: {fileID: 589443290}
-  life6: {fileID: 1067218361}
+  HealthPanel: {fileID: 3023965}
+  HealthPanelVisible: 1
+  LivesVisible: 0
+  HealthPoints: 100
+  Lives: 0
+  HealthBar: {fileID: 915709585}
+  Life1: {fileID: 1491086833}
+  Life2: {fileID: 1477300286}
+  Life3: {fileID: 1754938036}
+  Life4: {fileID: 1988418227}
+  Life5: {fileID: 589443290}
+  Life6: {fileID: 1067218361}
 --- !u!82 &1786750957
 AudioSource:
   m_ObjectHideFlags: 0

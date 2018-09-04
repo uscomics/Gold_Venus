@@ -24,6 +24,8 @@ namespace USComics_Message_Manager {
     }
 
     public class MessageManager : MonoBehaviour {
+        public static MessageManager INSTANCE;
+        
         public TextMeshProUGUI Message;
         public CanvasGroup MessageCanvasGroup;
         public Image ImageImage;
@@ -41,10 +43,12 @@ namespace USComics_Message_Manager {
 
         // Use this for initialization
         void Start() {
-            GameObject playerCharacter = GameObject.FindWithTag("MainCamera") as GameObject;
-            if (null != playerCharacter) AudioSource = playerCharacter.GetComponent<AudioSource>();
+            GameObject mainCamera = GameObject.FindWithTag("MainCamera") as GameObject;
+            if (null != mainCamera) AudioSource = mainCamera.GetComponent<AudioSource>();
             if (null == AudioSource) { Debug.LogError("MessageManager.Start: audioSource is null."); }
             if (null == AudioSource) { return; }
+
+            MessageManager.INSTANCE = this;
         }
 
         // Update is called once per frame

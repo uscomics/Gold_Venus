@@ -17,17 +17,7 @@ namespace USComics_Pickups {
 		}
 
 		protected bool spawnModel(GameObject model, Vector3 position, float xAngle = 0.0f, float yAngle = 180.0f, float zAngle = 0.0f) {
-			DynamicObjectManager DynamicObjectManagerScript;
-			GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
-			if (null != dynamicObjects) {
-				DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
-				if (null == DynamicObjectManagerScript) {
-					Debug.LogError("DamageDoTEntity.SetupBuff: DynamicObjectManagerScript is null.");
-					return false;
-				} else {
-					DynamicObjectManagerScript.Clone(model, position, xAngle, yAngle, zAngle);
-				}
-			}
+			DynamicObjectManager.INSTANCE.Clone(model, position, xAngle, yAngle, zAngle);
 			return true;
 		}
 	}

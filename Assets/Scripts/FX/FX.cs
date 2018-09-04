@@ -21,7 +21,6 @@ namespace USComics_FX {
         public float SpawnAngleY = 180.0f;
         public float SpawnAngleZ = 0.0f;
         public bool SpawnFirst;             // true = PlayAll spawns objects first and are possible force targets, false = PlayAll spawns objects last
-        public DynamicObjectManager SpawnDynamicObjectManagerScript;
         public Vector3 ForceVector = Vector3.zero;  // Vector3.zero means no force
         public ForceMode ForceMode = ForceMode.Impulse;
         public bool ForceFromCenter;        // Set to true for an explosion-like (radial) force, or false for a linear force.
@@ -70,7 +69,6 @@ namespace USComics_FX {
                 _spawn = Parent.AddComponent<Spawn>();
                 _spawn.Models = Spawn;
                 _spawn.Position = SpawnPosition;
-                _spawn.DynamicObjectManagerScript = SpawnDynamicObjectManagerScript;
                 _spawn.AngleX = SpawnAngleX;
                 _spawn.AngleY = SpawnAngleY;
                 _spawn.AngleZ = SpawnAngleZ;

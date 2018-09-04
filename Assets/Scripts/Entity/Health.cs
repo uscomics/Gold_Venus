@@ -1,52 +1,80 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using USComics_Movement;
 
-namespace USComics_Entity
-{
-    public class Health : MonoBehaviour
-    {
+namespace USComics_Entity {
+    public class Health : MonoBehaviour {
         public static int MAX_LIVES = 6;
 
-        public float health;
-        public int lives;
-        public GameObject healthBar;
-        public GameObject life1;
-        public GameObject life2;
-        public GameObject life3;
-        public GameObject life4;
-        public GameObject life5;
-        public GameObject life6;
+        public GameObject HealthPanel;
+        public bool HealthPanelVisible;
+        public bool LivesVisible;
+        public float HealthPoints;
+        public int Lives;
+        public GameObject HealthBar;
+        public GameObject Life1;
+        public GameObject Life2;
+        public GameObject Life3;
+        public GameObject Life4;
+        public GameObject Life5;
+        public GameObject Life6;
 
-        // private float initialHealthBarScale = 0.25f;
-        private float initialHealthBarScale = 0.5f;
-        private float maxHeath;
+        private float _initialHealthBarScale = 0.5f;
+        private float _maxHeath;
 
-        // Use this for initialization
-        void Start() { maxHeath = health; }
+        void Start() {
+            _maxHeath = HealthPoints;
+            if (HealthPanelVisible) ShowHealth(); else HideHealth();
+        }
 
-        // Update is called once per frame
         void Update() {
-            float healthRemainingPrecentage = health / maxHeath;
-            float healthBarPercentage = healthRemainingPrecentage * initialHealthBarScale;
-            Vector3 healthBarScale = healthBar.transform.localScale;
-            healthBar.transform.localScale = new Vector3(healthBarScale.x, healthBarPercentage, healthBarScale.z);
+            float healthRemainingPrecentage = HealthPoints / _maxHeath;
+            float healthBarPercentage = healthRemainingPrecentage * _initialHealthBarScale;
+            Vector3 healthBarScale = HealthBar.transform.localScale;
+            HealthBar.transform.localScale = new Vector3(healthBarScale.x, healthBarPercentage, healthBarScale.z);
 
-            if (6 > lives) HideGameObject(life6); else ShowGameObject(life6);
-            if (5 > lives) HideGameObject(life5); else ShowGameObject(life5);
-            if (4 > lives) HideGameObject(life4); else ShowGameObject(life4);
-            if (3 > lives) HideGameObject(life3); else ShowGameObject(life3);
-            if (2 > lives) HideGameObject(life2); else ShowGameObject(life2);
-            if (1 > lives) HideGameObject(life1); else ShowGameObject(life1);
+            if (!LivesVisible) {
+                HideGameObject(Life6);
+                HideGameObject(Life5);
+                HideGameObject(Life4);
+                HideGameObject(Life3);
+                HideGameObject(Life2);
+                HideGameObject(Life1);
+            } else {
+                if (6 > Lives) HideGameObject(Life6); else ShowGameObject(Life6);
+                if (5 > Lives) HideGameObject(Life5); else ShowGameObject(Life5);
+                if (4 > Lives) HideGameObject(Life4); else ShowGameObject(Life4);
+                if (3 > Lives) HideGameObject(Life3); else ShowGameObject(Life3);
+                if (2 > Lives) HideGameObject(Life2); else ShowGameObject(Life2);
+                if (1 > Lives) HideGameObject(Life1); else ShowGameObject(Life1);
+            }
+        }
+        public void ShowHealth() {
+            Renderer[] childComponents = HealthPanel.GetComponentsInChildren<Renderer>();
+            for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = true; }
+        }
+        public void HideHealth() {
+            Renderer[] childComponents = HealthPanel.GetComponentsInChildren<Renderer>();
+            for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = false; }
         }
         public void AddHealth(float amount) {
-            health += amount;
-            if (health > maxHeath) health = maxHeath;
+            HealthPoints += amount;
+            if (HealthPoints > _maxHeath) HealthPoints = _maxHeath;
         }
         public void AddLife() {
-            if (lives == Health.MAX_LIVES) return;
-            lives++;
+            if (Lives >= Health.MAX_LIVES) return;
+            Lives++;
         }
+        public void SetHealthPosition(DirectionType inDirection) {
+            HealthPanel.transform.localRotation = Quaternion.identity;
+            if (DirectionType.South == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 180); }
+            else if (DirectionType.East == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 270); }
+            else if (DirectionType.West == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 90); }
+            else if (DirectionType.NW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 45); }
+            else if (DirectionType.NE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 315); }
+            else if (DirectionType.SW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 135); }
+            else if (DirectionType.SE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 225); }
+        }
+
         private void HideGameObject(GameObject gameObject) { gameObject.SetActive(false); }
         private void ShowGameObject(GameObject gameObject) { gameObject.SetActive(true); }
     }

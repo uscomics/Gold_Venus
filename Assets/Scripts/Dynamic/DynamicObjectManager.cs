@@ -4,29 +4,31 @@ using UnityEngine;
 
 namespace USComics_Dynamic {
     public class DynamicObjectManager : MonoBehaviour {
-        private List<GameObject> dynamicallyAllocaredObjects = new List<GameObject>();
+        public static DynamicObjectManager INSTANCE;
+
+        private List<GameObject> _dynamicallyAllocaredObjects = new List<GameObject>();
 
         void OnDestroy() { DestroyDynamicObjects(); }
         public GameObject Clone(GameObject obj, Vector3 position, float angleX, float angleY, float angleZ) {
             GameObject clone = Instantiate(obj, position, Quaternion.Euler(angleX, angleY, angleZ)) as GameObject;
-            dynamicallyAllocaredObjects.Add(clone);
+            _dynamicallyAllocaredObjects.Add(clone);
             return clone;
         }
         public bool DestroyClone(GameObject clone) {
-            for (int loop = dynamicallyAllocaredObjects.Count - 1; loop >= 0; loop--) {
-                if (clone == dynamicallyAllocaredObjects[loop]) {
-                    Destroy(dynamicallyAllocaredObjects[loop]);
-                    dynamicallyAllocaredObjects.RemoveAt(loop);
+            for (int loop = _dynamicallyAllocaredObjects.Count - 1; loop >= 0; loop--) {
+                if (clone == _dynamicallyAllocaredObjects[loop]) {
+                    Destroy(_dynamicallyAllocaredObjects[loop]);
+                    _dynamicallyAllocaredObjects.RemoveAt(loop);
                     return true;
                 }
             }
             return false;
         }
         private void DestroyDynamicObjects()  {
-            for (int loop = dynamicallyAllocaredObjects.Count - 1; loop >= 0; loop--) {
-                if (null != dynamicallyAllocaredObjects[loop]) {
-                    Destroy(dynamicallyAllocaredObjects[loop]);
-                    dynamicallyAllocaredObjects.RemoveAt(loop);
+            for (int loop = _dynamicallyAllocaredObjects.Count - 1; loop >= 0; loop--) {
+                if (null != _dynamicallyAllocaredObjects[loop]) {
+                    Destroy(_dynamicallyAllocaredObjects[loop]);
+                    _dynamicallyAllocaredObjects.RemoveAt(loop);
                 }
             }
         }

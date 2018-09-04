@@ -24,7 +24,6 @@ namespace USComics_Combat
         private GameObject combatPanel;
         private GameObject superBar;
         private ProgressBarBehaviour ProgressBarBehaviourScript;
-        private DebugConsole debugConsoleScript;
         private Keyboard KeyboardScript;
         private PlayerController PlayerControllerScript;
         private CanvasGroup CombatPanelCanvasGroupScript;
@@ -38,8 +37,6 @@ namespace USComics_Combat
             superBar = GameObject.FindWithTag("SuperBar") as GameObject;
             if (null != superBar) ProgressBarBehaviourScript = superBar.GetComponent<ProgressBarBehaviour>();
             if (null != superBar) SuperBarCanvasGroupScript = superBar.GetComponent<CanvasGroup>();
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             GameObject movementPad = GameObject.FindWithTag("MovementPad") as GameObject;
             if (null != movementPad) KeyboardScript = movementPad.GetComponent<Keyboard>();
             GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
@@ -50,7 +47,6 @@ namespace USComics_Combat
             if (null == superBar) { Debug.LogError("CombatPad.Start: superBar is null."); }
             if (null == ProgressBarBehaviourScript) { Debug.LogError("CombatPad.Start: ProgressBarBehaviourScript is null."); }
             if (null == SuperBarCanvasGroupScript) { Debug.LogError("CombatPad.Start: SuperBarCanvasGroupScript is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("CombatPad.Start: debugConsoleScript is null."); }
             if (null == KeyboardScript) { Debug.LogError("CombatPad.Start: KeyboardScript is null."); }
             if (null == PlayerControllerScript) { Debug.LogError("CombatPad.Start: PlayerControllerScript is null."); }
 
@@ -59,7 +55,6 @@ namespace USComics_Combat
             if (null == superBar) { return; }
             if (null == ProgressBarBehaviourScript) { return; }
             if (null == SuperBarCanvasGroupScript) { return; }
-            if (null == debugConsoleScript) { return; }
             if (null == KeyboardScript) { return; }
             if (null == PlayerControllerScript) { return; }
 

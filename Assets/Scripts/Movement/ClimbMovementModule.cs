@@ -20,7 +20,6 @@ namespace USComics_Movement
         private ClimbPad ClimbPadScript;
         private GameObject climbingPanel;
         private Keyboard KeyboardScript;
-        private DebugConsole debugConsoleScript;
         private bool moduleActive;
 
         // Use this for initialization
@@ -34,8 +33,6 @@ namespace USComics_Movement
             if (null != climbPad) ClimbPadScript = climbPad.GetComponent<ClimbPad>();
             if (null != climbPad) KeyboardScript = climbPad.GetComponent<Keyboard>();
             climbingPanel = GameObject.FindWithTag("ClimbingPanel") as GameObject;
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) debugConsoleScript = debugConsole.GetComponent<DebugConsole>();
 
             if (null == Anim) { Debug.LogError("ClimbMovementModule.Start: Anim is null."); }
             if (null == movementTransitionManagerScript) { Debug.LogError("ClimbMovementModule.Start: MovementTransitionManagerScript is null."); }
@@ -43,7 +40,6 @@ namespace USComics_Movement
             if (null == ClimbPadScript) { Debug.LogError("ClimbMovementModule.Start: ClimbPadScript is null."); }
             if (null == climbingPanel) { Debug.LogError("ClimbMovementModule.Start: climbingPanel is null."); }
             if (null == KeyboardScript) { Debug.LogError("ClimbMovementModule.Start: KeyboardScript is null."); }
-            if (null == debugConsoleScript) { Debug.LogError("ClimbMovementModule.Start: debugConsoleScript is null."); }
 
             if (null == Anim) { return; }
             if (null == movementTransitionManagerScript) { return; }
@@ -51,7 +47,6 @@ namespace USComics_Movement
             if (null == ClimbPadScript) { return; }
             if (null == climbingPanel) { return; }
             if (null == KeyboardScript) { return; }
-            if (null == debugConsoleScript) { return; }
 
             CurrentMove = new ClimbMove(DirectionType.None, ClimbType.None);
             CurrentVector = ConvertForClimbing(Direction.ConvertDirectionToVector(DirectionType.None, Vector3.zero));

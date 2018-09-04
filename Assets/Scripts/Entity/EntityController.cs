@@ -13,7 +13,6 @@ namespace USComics_Entity {
     public class EntityController : MonoBehaviour {
         public string Name;
         public GameObject Entity;
-        public GameObject HealthPanel;
         public List<AbstractBuff> Buffs = new List<AbstractBuff>();
         public Health HealthScript;
         public Attack DeathAttack;
@@ -39,9 +38,6 @@ namespace USComics_Entity {
         protected MovementTransitionManager MovementTransitionManagerScript;
         protected SimpleMovementModule SimpleMovementScript;
         protected ClimbMovementModule ClimbMovementScript;
-        protected MessageManager MessageManagerScript;
-        protected DebugConsole DebugConsoleScript;
-        protected DynamicObjectManager DynamicObjectManagerScript;
 
         void Start() { Setup(); }
         void Update() { UpdateBuffs(); }
@@ -55,20 +51,8 @@ namespace USComics_Entity {
             }
         }
         public virtual bool IsPlayer() { return false; }
-        public void ShowHealth() {
-            Renderer[] childComponents = HealthPanel.GetComponentsInChildren<Renderer>();
-            for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = true; }
-        }
-        public void HideHealth() {
-            Renderer[] childComponents = HealthPanel.GetComponentsInChildren<Renderer>();
-            for (int loop = 0; loop < childComponents.Length; loop++) { childComponents[loop].enabled = false; }
-        }
-        public void AddHealth(float amount) {
-            HealthScript.AddHealth(amount);
-        }
-        public void AddLife() {
-            HealthScript.AddLife();
-        }
+        public void AddHealth(float amount) { if (null != HealthScript) HealthScript.AddHealth(amount); }
+        public void AddLife() { if (null != HealthScript) HealthScript.AddLife(); }
         public void AddBuff(AbstractBuff buff) { Buffs.Add(buff); }
         public void RemoveBuff(AbstractBuff buff) { Buffs.Remove(buff); }
         public void RemoveExpiredBuffs() { for (int loop = Buffs.Count - 1; loop >= 0; loop--) { if (Buffs[loop].Expired) RemoveBuff(Buffs[loop]); }}
@@ -99,8 +83,8 @@ namespace USComics_Entity {
         public void Targetted(EntityController targettedBy) { }
         public void Attacked(EntityController attackedBy, Attack attack) {
             if (Dead) return;
-            HealthScript.health -= attack.AttackInfo.Damage.DamagePoints;
-            if (0 >= HealthScript.health) DoDeath(attackedBy);
+            HealthScript.HealthPoints -= attack.AttackInfo.Damage.DamagePoints;
+            if (0 >= HealthScript.HealthPoints) DoDeath(attackedBy);
         }
 
         public void ClearAttackTimers() {
@@ -116,13 +100,13 @@ namespace USComics_Entity {
         }
         public void DoDeath(EntityController whoKilledMe) {
             Dead = true;
-            HealthScript.health = 0;
-            HideHealth();
+            HealthScript.HealthPoints = 0;
+            HealthScript.HideHealth();
             if (null != DeathAttack) {
                 DeathAttack.Attacker = Entity;
                 DeathAttack.DoAttack(whoKilledMe);
             }
-            if (null != DeathSpawn) DynamicObjectManagerScript.Clone(DeathSpawn, DeathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
+            if (null != DeathSpawn) DynamicObjectManager.INSTANCE.Clone(DeathSpawn, DeathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
             if (Entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
         }
 
@@ -148,27 +132,13 @@ namespace USComics_Entity {
         protected virtual bool Setup()
         {            
             if (null != Entity) EntityRigidBody = Entity.GetComponent<Rigidbody>();
-            GameObject messageCanvas = GameObject.FindWithTag("MessageCanvas") as GameObject;
-            if (null != messageCanvas) MessageManagerScript = messageCanvas.GetComponent<MessageManager>();
-            GameObject debugConsole = GameObject.FindWithTag("DebugConsole") as GameObject;
-            if (null != debugConsole) DebugConsoleScript = debugConsole.GetComponent<DebugConsole>();
             if (null != Entity) HealthScript = Entity.GetComponent<Health>();
-            GameObject dynamicObjects = GameObject.FindWithTag("DynamicObjects") as GameObject;
-            if (null != dynamicObjects) DynamicObjectManagerScript = dynamicObjects.GetComponent<DynamicObjectManager>();
 
-            if (null == EntityRigidBody) { Debug.LogError("EntityController.SetupEntity: " + Name + ": entityRigidBody is null."); }
-            if (null == MessageManagerScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": messageManager is null."); }
-            if (null == DebugConsoleScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": debugConsoleScript is null."); }
-            if (null == HealthScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": healthScript is null."); }
-            if (null == DynamicObjectManagerScript) { Debug.LogError("EntityController.SetupEntity: " + Name + ": DynamicObjectManagerScript is null."); }
+            if (null == EntityRigidBody) { Debug.LogError("EntityController.Setup: " + Name + ": EntityRigidBody is null."); }
 
             if (null == EntityRigidBody) { return false; }
-            if (null == MessageManagerScript) { return false; }
-            if (null == DebugConsoleScript) { return false; }
-            if (null == HealthScript) { return false; }
-            if (null == DynamicObjectManagerScript) { return false; }
 
-            InitialHelthPanelRotation = HealthPanel.transform.eulerAngles;
+            if (null != HealthScript) InitialHelthPanelRotation = HealthScript.HealthPanel.transform.eulerAngles;
             CurrentEnemy = null;
             Dead = false;
             return true;
