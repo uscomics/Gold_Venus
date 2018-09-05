@@ -27,6 +27,7 @@ namespace USComics_Entity {
         protected Rigidbody EntityRigidBody;
         protected Vector3 InitialHelthPanelRotation;
         protected bool InitialUpdate = true;
+        protected float LastTimeAttacked;
 
         // State variables
         protected bool ClimbableInRange = false;
@@ -49,6 +50,8 @@ namespace USComics_Entity {
         }
         public virtual bool IsPlayer() { return false; }
         public void AddHealth(float amount) { if (null != HealthScript) HealthScript.AddHealth(amount); }
+        public float GetHealth() { if (null != HealthScript) return HealthScript.HealthPoints; else return 0.0f; }
+        public float GetMaxHealth() { if (null != HealthScript) return HealthScript.GetMaxHealth(); else return 0.0f; }
         public void AddLife() { if (null != HealthScript) HealthScript.AddLife(); }
         public void AddBuff(AbstractBuff buff) { Buffs.Add(buff); }
         public void RemoveBuff(AbstractBuff buff) { Buffs.Remove(buff); }
@@ -70,8 +73,10 @@ namespace USComics_Entity {
         public void Attacked(EntityController attackedBy, Attack attack) {
             if (Dead) return;
             HealthScript.HealthPoints -= attack.AttackInfo.Damage.DamagePoints;
+            LastTimeAttacked = Time.time;
             if (0 >= HealthScript.HealthPoints) DoDeath(attackedBy);
         }
+        public float GetLastTimeAttacked() { return LastTimeAttacked; }
         public void ClearAttackTimers() {
             for (int loop = 0; loop < Attacks.Length; loop++) {
                 Attack attackInfo = Attacks[loop];
@@ -122,6 +127,9 @@ namespace USComics_Entity {
             if (null != HealthScript) InitialHelthPanelRotation = HealthScript.HealthPanel.transform.eulerAngles;
             CurrentEnemy = null;
             Dead = false;
+            OutOfCombatHeal ooch = new OutOfCombatHeal();
+            ooch.Target = this;
+            AddBuff(ooch);
             return true;
         }
     }

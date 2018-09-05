@@ -60,6 +60,7 @@ namespace USComics_Entity {
             HealthPoints += amount;
             if (HealthPoints > _maxHeath) HealthPoints = _maxHeath;
         }
+        public float GetMaxHealth() { return _maxHeath; }
         public void AddLife() {
             if (Lives >= Health.MAX_LIVES) return;
             Lives++;
