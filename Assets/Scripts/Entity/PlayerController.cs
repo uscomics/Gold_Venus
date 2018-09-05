@@ -34,7 +34,6 @@ namespace USComics_Entity {
                 Vector3 currentVector = SimpleMovementScript.CurrentVector;
                 if (Vector3.zero != currentVector) Entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
                 Entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
-                if (DirectionType.Stop != currentMove.Direction) HealthScript.SetHealthPosition(currentMove.Direction);
                 DebugConsole.INSTANCE.SetCurrentMove(currentMove);
                 DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
             }

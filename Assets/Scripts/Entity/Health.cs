@@ -10,6 +10,8 @@ namespace USComics_Entity {
         public bool LivesVisible;
         public float HealthPoints;
         public int Lives;
+        public EntityController Entity;
+        public TextMesh EntityName;
         public GameObject HealthBar;
         public GameObject Life1;
         public GameObject Life2;
@@ -17,6 +19,7 @@ namespace USComics_Entity {
         public GameObject Life4;
         public GameObject Life5;
         public GameObject Life6;
+        public Camera Camera;
 
         private float _initialHealthBarScale = 0.5f;
         private float _maxHeath;
@@ -31,7 +34,9 @@ namespace USComics_Entity {
             float healthBarPercentage = healthRemainingPrecentage * _initialHealthBarScale;
             Vector3 healthBarScale = HealthBar.transform.localScale;
             HealthBar.transform.localScale = new Vector3(healthBarScale.x, healthBarPercentage, healthBarScale.z);
+            SetHealthPosition();
 
+            if (null != EntityName && null != Entity) EntityName.text = Entity.Name;
             if (!LivesVisible) {
                 HideGameObject(Life6);
                 HideGameObject(Life5);
@@ -65,15 +70,17 @@ namespace USComics_Entity {
             if (Lives >= Health.MAX_LIVES) return;
             Lives++;
         }
-        public void SetHealthPosition(DirectionType inDirection) {
-            HealthPanel.transform.localRotation = Quaternion.identity;
-            if (DirectionType.South == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 180); }
-            else if (DirectionType.East == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 270); }
-            else if (DirectionType.West == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 90); }
-            else if (DirectionType.NW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 45); }
-            else if (DirectionType.NE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 315); }
-            else if (DirectionType.SW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 135); }
-            else if (DirectionType.SE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 225); }
+        public void SetHealthPosition() {
+            HealthPanel.transform.LookAt(Camera.transform);
+            HealthPanel.transform.Rotate(0.0f, 180.0f, 0.0f);
+//            HealthPanel.transform.localRotation = Quaternion.identity;
+//            if (DirectionType.South == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 180); }
+//            else if (DirectionType.East == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 270); }
+//            else if (DirectionType.West == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 90); }
+//            else if (DirectionType.NW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 45); }
+//            else if (DirectionType.NE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 315); }
+//            else if (DirectionType.SW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 135); }
+//            else if (DirectionType.SE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 225); }
         }
 
         private void HideGameObject(GameObject gameObject) { gameObject.SetActive(false); }
