@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using USComics_Movement;
-using USComics_Environment;
+﻿using UnityEngine;
 
 namespace USComics_Movement {
     public class Direction {

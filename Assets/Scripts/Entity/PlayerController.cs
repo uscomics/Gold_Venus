@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using USComics;
 using USComics_Debug;
 using USComics_Combat;
 using USComics_Movement;
@@ -55,8 +56,21 @@ namespace USComics_Entity {
             else if (AttackType.Super == attack) return PlayerAttackIndex.Super;
             return PlayerAttackIndex.None;
         }
-
         public Attack GetAttackAt(PlayerAttackIndex index) { return Attacks[(int)index]; }
+        public Collider[] GetEnemiesInSight(bool useHeightDifference = true) {
+            Collider[] enemies = Environment.GetEnemiesInSight(Entity.transform, Vision.DetectionRadius, Vision.DetectionAngle, Vision.HeightOffset, Vision.MaxHeightDifference, useHeightDifference);
+            return enemies;
+        }
+        public Collider[] GetEnemiesInRange(bool useHeightDifference = true) {
+            Collider[] enemies = Environment.GetEnemiesInFront(Entity.transform, GetMaxAttackRange(), Vision.DetectionAngle, Vision.HeightOffset, Vision.MaxHeightDifference, useHeightDifference);
+            return enemies;
+        }
+        public GameObject GetNearestEnemyInRange(bool useHeightDifference = true) {
+            Collider[] enemies = GetEnemiesInRange(useHeightDifference);
+            if (0 == enemies.Length) return null;
+            GameObject[] enemiesGO = GameObjectUtilities.GetGameObjects(enemies);
+            return Environment.GetNearestObject(transform.position, enemiesGO);
+        }
 
         protected override bool Setup() {
             base.Setup();

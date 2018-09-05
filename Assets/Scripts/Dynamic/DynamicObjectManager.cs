@@ -8,6 +8,7 @@ namespace USComics_Dynamic {
 
         private List<GameObject> _dynamicallyAllocaredObjects = new List<GameObject>();
 
+        void Start() { DynamicObjectManager.INSTANCE = this; }
         void OnDestroy() { DestroyDynamicObjects(); }
         public GameObject Clone(GameObject obj, Vector3 position, float angleX, float angleY, float angleZ) {
             GameObject clone = Instantiate(obj, position, Quaternion.Euler(angleX, angleY, angleZ)) as GameObject;

@@ -1,4 +1,4 @@
 ﻿namespace USComics_Combat {
 	[System.Serializable]
-	public enum DamageType { Blunt, Fire, Cold, Acid, Poison };
+	public enum DamageType { Blunt, Fire, Cold, Acid, Poison, Heal };
 }

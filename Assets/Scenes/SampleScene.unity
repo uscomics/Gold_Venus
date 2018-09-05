@@ -15696,7 +15696,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 1
   ParticleSystems:
   - {fileID: 1121265997}
 --- !u!1 &308107373
@@ -17974,6 +17978,7 @@ Transform:
   - {fileID: 1037190689}
   - {fileID: 1277381643}
   - {fileID: 1810766986}
+  - {fileID: 1913500016}
   m_Father: {fileID: 792526494}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17992,7 +17997,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 1
   TimeBetweenFX: 2.5
   Loop: 1
   FX:
@@ -18000,6 +18009,7 @@ MonoBehaviour:
   - {fileID: 1037190690}
   - {fileID: 1277381644}
   - {fileID: 1810766988}
+  - {fileID: 1913500017}
 --- !u!114 &639081315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18076,6 +18086,7 @@ MonoBehaviour:
   CombatEmoteChance: 0
   CombatEmoteSounds: []
   CombatEmoteSource: {fileID: 0}
+  CombatStance: 1
 --- !u!54 &639081316
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -29308,7 +29319,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Parent: {fileID: 916260995}
   AnimationNames: []
   AnimationEntity: {fileID: 0}
@@ -29346,7 +29361,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   BlinkTimeOn: 2
   BlinkTimeOff: 1
   BlinkCount: 3
@@ -34329,7 +34348,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 1
   ParticleSystems:
   - {fileID: 54550621}
 --- !u!1 &1056126985
@@ -44064,7 +44087,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Parent: {fileID: 1686292629}
   AnimationNames:
   - PunchRightUppercut
@@ -44571,7 +44598,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Parent: {fileID: 1686292629}
   AnimationNames:
   - KickRoundhouse
@@ -44789,7 +44820,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Parent: {fileID: 1686292629}
   AnimationNames:
   - LeapingPunch
@@ -44893,7 +44928,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 1
   ParticleSystems:
   - {fileID: 2096035228}
 --- !u!1 &1285874969
@@ -45107,7 +45146,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Parent: {fileID: 1686292629}
   AnimationNames:
   - KickForwardRoundhouse
@@ -53287,7 +53330,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Parent: {fileID: 1686292629}
   AnimationNames:
   - Block
@@ -53502,7 +53549,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   AudioSource: {fileID: 534669906}
   Clip: {fileID: 8300000, guid: bda7f81dfcb8de647944f4714ad47e96, type: 3}
 --- !u!114 &1735126770
@@ -53520,7 +53571,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Light:
   - {fileID: 1469967294}
 --- !u!114 &1735126771
@@ -53538,7 +53593,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Models:
   - {fileID: 1384229001085196, guid: 7f7eab09ffb85a54c879c8e51888a239, type: 2}
   Position: {x: -2.69, y: 1, z: -2.07}
@@ -53560,7 +53619,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   ParticleSystems:
   - {fileID: 863984322}
 --- !u!114 &1735126773
@@ -53578,7 +53641,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Origin: {fileID: 0}
   Vision:
     HeightOffset: 0
@@ -53605,7 +53672,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 1
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Origin: {fileID: 0}
   Vision:
     HeightOffset: 0
@@ -53735,6 +53806,7 @@ MonoBehaviour:
   CombatEmoteChance: 0
   CombatEmoteSounds: []
   CombatEmoteSource: {fileID: 0}
+  CombatStance: 1
 --- !u!54 &1735126776
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -58755,6 +58827,7 @@ MonoBehaviour:
   CombatEmoteChance: 0
   CombatEmoteSounds: []
   CombatEmoteSource: {fileID: 0}
+  CombatStance: 1
 --- !u!54 &1786750954
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -59234,7 +59307,11 @@ MonoBehaviour:
   PlayOnStart: 0
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 1
   Origin: {fileID: 639081312}
   Vision:
     HeightOffset: 1
@@ -60154,6 +60231,108 @@ Transform:
   m_Father: {fileID: 1604322307}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1913500015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1913500016}
+  - component: {fileID: 1913500017}
+  m_Layer: 23
+  m_Name: HoT
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1913500016
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1913500015}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 639081312}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1913500017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1913500015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cec117dfeb1d2ca4aaa29e697fc551a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: HoT
+  PlayOnStart: 0
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  StopOnCollision: 0
+  PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 1
+  Origin: {fileID: 639081312}
+  Vision:
+    HeightOffset: 0
+    DetectionRadius: 10
+    DetectionAngle: 360
+    MaxHeightDifference: 4
+  IsAoE: 1
+  TargetDetectionType: 1
+  Attacker: {fileID: 639081311}
+  Attack:
+    Name: HoT
+    Attacker: {fileID: 639081311}
+    AttackInfo:
+      Damage:
+        DamagePoints: 0
+        PointsObject: {fileID: 0}
+        DamageType: 0
+        IsAoE: 1
+        RadiusAoE: 3
+        IsDoT: 1
+        DamagePointsDoT: -2
+        DamageTypeDoT: 5
+        DurationDoT: 5
+        TickTimeDoT: 2
+        LastTickDoT: 0
+        PointsObjectDoT: {fileID: 1279624537263004, guid: 9921cac87365f9d44bda13803f286acc,
+          type: 2}
+      Range: 10
+      Recharge: 2
+      LastUsed: 0
+      SuperBarValue: 0
+    FXInfo:
+      Parent: {fileID: 0}
+      AnimationNames: []
+      AnimationEntity: {fileID: 0}
+      AudioSource1: {fileID: 0}
+      AudioSource2: {fileID: 0}
+      Sound1: {fileID: 0}
+      Sound2: {fileID: 0}
+      ParticleSystems: []
+      Lights: []
+      Spawn: []
+      SpawnPosition: {x: 0, y: 0, z: 0}
+      SpawnAngleX: 0
+      SpawnAngleY: 180
+      SpawnAngleZ: 0
+      SpawnFirst: 0
+      ForceVector: {x: 0, y: 0, z: 0}
+      ForceMode: 1
+      ForceFromCenter: 0
+      ForceOriginTransform: {fileID: 0}
+      ForceRadius: 0
+    TargetBuffs: []
 --- !u!1 &1919065302
 GameObject:
   m_ObjectHideFlags: 0

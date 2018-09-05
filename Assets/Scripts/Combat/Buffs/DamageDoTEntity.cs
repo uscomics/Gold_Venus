@@ -7,53 +7,52 @@ using USComics_Dynamic;
 namespace USComics_Combat {
 	[System.Serializable]
 	public class DamageDoTEntity : AbstractBuff {
-		public bool isDoT;
-		public float damage;
-		public DamageType damageType;
-		public float duration;
-		public float tickTime;
-		public float lastTick;
-		public GameObject damageModel;
+		public bool IsDoT;
+		public float Damage;
+		public DamageType DamageType;
+		public float Duration;
+		public float TickTime;
+		public float LastTick;
+		public GameObject DamageModel;
 
 		public DamageDoTEntity() { }
 		public DamageDoTEntity(DamageDoTEntity buff) : base(buff) {
-			damage = buff.damage;
-			duration = buff.duration;
-			damageType = buff.damageType;
-			tickTime = buff.tickTime;
-			lastTick = buff.lastTick;
-			damageModel = buff.damageModel;
+			Damage = buff.Damage;
+			Duration = buff.Duration;
+			DamageType = buff.DamageType;
+			TickTime = buff.TickTime;
+			LastTick = buff.LastTick;
+			DamageModel = buff.DamageModel;
 		}
 		public override AbstractBuff Clone() { return new DamageDoTEntity(this); }
 		public void FromAttack(Attack attack, EntityController attacker, EntityController target) {
-			damage = attack.AttackInfo.Damage.DamagePointsDoT;
-			duration = attack.AttackInfo.Damage.DurationDoT;
-			damageType = attack.AttackInfo.Damage.DamageType;
-			tickTime = attack.AttackInfo.Damage.TickTimeDoT;
-			lastTick = attack.AttackInfo.Damage.LastTickDoT;
-			damageModel = attack.AttackInfo.Damage.PointsObjectDoT;
+			Damage = attack.AttackInfo.Damage.DamagePointsDoT;
+			Duration = attack.AttackInfo.Damage.DurationDoT;
+			DamageType = attack.AttackInfo.Damage.DamageType;
+			TickTime = attack.AttackInfo.Damage.TickTimeDoT;
+			LastTick = attack.AttackInfo.Damage.LastTickDoT;
+			DamageModel = attack.AttackInfo.Damage.PointsObjectDoT;
 			Attacker = attacker;
 			Target = target;
 		}
 		public override Attack Buff(Attack attack) { return attack; }
 		public override EntityController Buff(EntityController entity) {
 			if (Expired) return entity;
-			if ((0 != lastTick) && (Time.time - lastTick < tickTime)) return entity;
-			entity.HealthScript.HealthPoints -= damage;
+			if ((0 != LastTick) && (Time.time - LastTick < TickTime)) return entity;
+			entity.HealthScript.HealthPoints -= Damage;
 			SpawnPoints(entity);
 			if (0 >= entity.HealthScript.HealthPoints) {
 				entity.HealthScript.HealthPoints = 0;
 				entity.DoDeath(Attacker);
 			}
 			if (0 == StartTime) StartTime = Time.time;
-			lastTick = Time.time;
-			if (lastTick - StartTime >= duration) Expired = true;
+			LastTick = Time.time;
+			if (LastTick - StartTime >= Duration) Expired = true;
 			return entity;
 		}
-		private void SpawnPoints(EntityController target)
-		{
-			if (null == damageModel) return;
-			DynamicObjectManager.INSTANCE.Clone(damageModel, target.transform.position + (target.transform.up * 2), 0.0f, 180.0f, 0.0f);
+		private void SpawnPoints(EntityController target) {
+			if (null == DamageModel) return;
+			DynamicObjectManager.INSTANCE.Clone(DamageModel, target.transform.position + (target.transform.up * 2), 0.0f, 180.0f, 0.0f);
 		}
 	}
 }

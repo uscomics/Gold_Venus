@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace USComics_FX {
+﻿namespace USComics_Entity {
     [System.Serializable]
     public enum TargetDetectionType {
         Enemy,

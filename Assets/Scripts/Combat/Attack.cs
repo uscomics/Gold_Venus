@@ -76,11 +76,8 @@ namespace USComics_Combat {
                 }
             }
         }
-
-        public void StopAll() {
-            if (null != _fx) _fx.Stop(); 
-            
-        }
+        public void StopAll() { if (null != _fx) _fx.Stop(); }
+        
         private Attack ApplyBuffsToAttack(Attack attack) {
             if (null == _entityControllerScript || null == _entityControllerScript.Buffs) return attack;
             for (int loop = 0; loop < _entityControllerScript.Buffs.Count; loop++) {

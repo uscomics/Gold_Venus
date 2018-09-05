@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using USComics;
-using USComics_Debug;
 using USComics_Combat;
 using USComics_Dynamic;
 using USComics_Movement;
-using USComics_Environment;
-using USComics_Message_Manager;
 using USComics_Pickups;
 
 namespace USComics_Entity {
@@ -41,7 +38,7 @@ namespace USComics_Entity {
 
         void Start() { Setup(); }
         void Update() { UpdateBuffs(); }
-        private void OnTriggerEnter(Collider other) {
+        protected virtual void OnTriggerEnter(Collider other) {
             GameObject go = GameObjectUtilities.GetGameObject(other);
             if (go.CompareTag("Pickup")) {
                 AbstractPickup pickup = go.GetComponent<AbstractPickup>();
@@ -64,36 +61,23 @@ namespace USComics_Entity {
             }
             return rangeRadius;
         }
-        public Collider[] GetEnemiesInSight(bool useHeightDifference = true) {
-            Collider[] enemies = Environment.GetEnemiesInSight(Entity.transform, Vision.DetectionRadius, Vision.DetectionAngle, Vision.HeightOffset, Vision.MaxHeightDifference, useHeightDifference);
-            return enemies;
+        public bool IsInRange(EntityController entity) {
+            float range = GetMaxAttackRange();
+            float distance = Direction.GetDistance(transform, entity.transform);
+            return distance <= range;
         }
-
-        public Collider[] GetEnemiesInRange(bool useHeightDifference = true) {
-            Collider[] enemies = Environment.GetEnemiesInFront(Entity.transform, GetMaxAttackRange(), Vision.DetectionAngle, Vision.HeightOffset, Vision.MaxHeightDifference, useHeightDifference);
-            return enemies;
-        }
-        public GameObject NearestInRange(bool useHeightDifference = true) {
-            Collider[] enemies = GetEnemiesInRange(useHeightDifference);
-            if (0 == enemies.Length) return null;
-            GameObject[] enemiesGO = GameObjectUtilities.GetGameObjects(enemies);
-            return Environment.GetNearestObject(transform.position, enemiesGO);
-        }
-
         public void Targetted(EntityController targettedBy) { }
         public void Attacked(EntityController attackedBy, Attack attack) {
             if (Dead) return;
             HealthScript.HealthPoints -= attack.AttackInfo.Damage.DamagePoints;
             if (0 >= HealthScript.HealthPoints) DoDeath(attackedBy);
         }
-
         public void ClearAttackTimers() {
             for (int loop = 0; loop < Attacks.Length; loop++) {
                 Attack attackInfo = Attacks[loop];
                 attackInfo.AttackInfo.LastUsed = 0;
             }
         }
-
         public void UpdateBuffs() {
             RemoveExpiredBuffs();
             foreach (AbstractBuff buff in Buffs) {  buff.Buff(this); }
@@ -109,11 +93,8 @@ namespace USComics_Entity {
             if (null != DeathSpawn) DynamicObjectManager.INSTANCE.Clone(DeathSpawn, DeathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
             if (Entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
         }
-
 #if UNITY_EDITOR
-
-        public void EditorGizmo(Transform transform)
-        {
+        public void EditorGizmo(Transform transform) {
             Color c = new Color(0, 0, 0.7f, 0.4f);
             Color c2 = new Color(1.0f, 0, 0f, 0.4f);
 
@@ -128,9 +109,9 @@ namespace USComics_Entity {
             Gizmos.color = new Color(1.0f, 1.0f, 0.0f, 1.0f);
             Gizmos.DrawWireSphere(transform.position + Vector3.up * Vision.HeightOffset, 0.2f);
         }
-
-        protected virtual bool Setup()
-        {            
+#endif
+        
+        protected virtual bool Setup() {            
             if (null != Entity) EntityRigidBody = Entity.GetComponent<Rigidbody>();
             if (null != Entity) HealthScript = Entity.GetComponent<Health>();
 
@@ -143,7 +124,6 @@ namespace USComics_Entity {
             Dead = false;
             return true;
         }
-#endif
     }
 }
 

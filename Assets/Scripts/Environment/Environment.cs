@@ -18,25 +18,19 @@ namespace USComics_Environment {
             }
             return results.ToArray();
         }
-
         public static Collider[] GetEnemiesInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             return GetEntitiesInSight(LayerMaskValues.ENEMY, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
         }
-
         public static Collider[] GetEnemiesInFront(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             return GetEntitiesInFront(LayerMaskValues.ENEMY, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
         }
-
         public static Collider[] GetPlayersInSight(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             return GetEntitiesInSight(LayerMaskValues.PLAYER, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
         }
-
         public static Collider[] GetPlayersInFront(Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             return GetEntitiesInFront(LayerMaskValues.PLAYER, transform, radius, degrees, heightOffset, maxHeightDifference,useHeightDifference);
         }
-
-        public static Collider[] GetEntitiesInSight(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true)
-        {
+        public static Collider[] GetEntitiesInSight(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             Collider[] colliders = Environment.GetObjectsInRadius(transform.position, radius, mask);
             List<Collider> results = new List<Collider>();
             float halfDegrees = degrees / 2.0f;
@@ -54,7 +48,6 @@ namespace USComics_Environment {
             }
             return results.ToArray();
         }
-
         public static Collider[] GetEntitiesInFront(int mask, Transform transform, float radius, float degrees, float heightOffset, float maxHeightDifference, bool useHeightDifference = true) {
             Collider[] colliders = Environment.GetEntitiesInSight(mask, transform, radius, degrees, heightOffset, maxHeightDifference, useHeightDifference);
             List<Collider> results = new List<Collider>();
