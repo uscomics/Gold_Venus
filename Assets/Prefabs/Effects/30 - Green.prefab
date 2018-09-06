@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 54457594804835216}
   - component: {fileID: 114635058140759568}
   - component: {fileID: 114538872529485994}
+  - component: {fileID: 114948636673337566}
   m_Layer: 0
   m_Name: 30 - Green
   m_TagString: 30 Points
@@ -128,6 +129,30 @@ MonoBehaviour:
   PlayOnStart: 1
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Speed: 1
   Direction: {x: 0, y: 1, z: 0}
+--- !u!114 &114948636673337566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1792688928077836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109a0f4d8576ce44cb71abadf3028082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 
+  PlayOnStart: 1
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  StopOnCollision: 0
+  PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0

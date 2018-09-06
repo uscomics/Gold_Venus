@@ -73,14 +73,6 @@ namespace USComics_Entity {
         public void SetHealthPosition() {
             HealthPanel.transform.LookAt(Camera.transform);
             HealthPanel.transform.Rotate(0.0f, 180.0f, 0.0f);
-//            HealthPanel.transform.localRotation = Quaternion.identity;
-//            if (DirectionType.South == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 180); }
-//            else if (DirectionType.East == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 270); }
-//            else if (DirectionType.West == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 90); }
-//            else if (DirectionType.NW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 45); }
-//            else if (DirectionType.NE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 315); }
-//            else if (DirectionType.SW == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 135); }
-//            else if (DirectionType.SE == inDirection) { HealthPanel.transform.Rotate(Vector3.up, 225); }
         }
 
         private void HideGameObject(GameObject gameObject) { gameObject.SetActive(false); }

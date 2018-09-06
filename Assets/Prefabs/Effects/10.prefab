@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 54348661200349866}
   - component: {fileID: 114116732295212504}
   - component: {fileID: 114123100363017230}
+  - component: {fileID: 114104105251441710}
   m_Layer: 0
   m_Name: 10
   m_TagString: 10 Points
@@ -101,6 +102,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &114104105251441710
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1270610200852952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109a0f4d8576ce44cb71abadf3028082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 
+  PlayOnStart: 1
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  StopOnCollision: 0
+  PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
 --- !u!114 &114116732295212504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -116,7 +137,11 @@ MonoBehaviour:
   PlayOnStart: 1
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Speed: 1
   Direction: {x: 0, y: 1, z: 0}
 --- !u!114 &114123100363017230

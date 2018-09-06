@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 54368752744165686}
   - component: {fileID: 114222764175688910}
   - component: {fileID: 114009153539843886}
+  - component: {fileID: 114224645547140658}
   m_Layer: 0
   m_Name: 1
   m_TagString: 1 Point
@@ -39,7 +40,7 @@ Transform:
   m_GameObject: {fileID: 1649217636019058}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0.7, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -128,6 +129,30 @@ MonoBehaviour:
   PlayOnStart: 1
   PlayOnUpdate: 0
   PlayOnCollision: 0
+  StopOnCollision: 0
   PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0
   Speed: 1
   Direction: {x: 0, y: 1, z: 0}
+--- !u!114 &114224645547140658
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1649217636019058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 109a0f4d8576ce44cb71abadf3028082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name: 
+  PlayOnStart: 1
+  PlayOnUpdate: 0
+  PlayOnCollision: 0
+  StopOnCollision: 0
+  PlayOnTrigger: 0
+  StopOnTrigger: 0
+  PlayOnTriggerExit: 0
+  StopOnTriggerExit: 0

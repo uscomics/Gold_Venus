@@ -43,6 +43,7 @@ TagManager:
   - SpeedBarPanel
   - CameraController
   - ImageMessageCanvas
+  - Falling Panel
   layers:
   - Default
   - TransparentFX
