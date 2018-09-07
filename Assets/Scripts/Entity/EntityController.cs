@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 using USComics;
 using USComics_Combat;
+using USComics_Pickups;
 using USComics_Dynamic;
 using USComics_Movement;
-using USComics_Pickups;
+using USComics_Environment;
 
 namespace USComics_Entity {
     public class EntityController : MonoBehaviour {
@@ -31,24 +33,18 @@ namespace USComics_Entity {
 
         // State variables
         protected bool ClimbableInRange = false;
+        protected bool TouchingTerrain = false;
 
         // Scripts
         protected MovementTransitionManager MovementTransitionManagerScript;
         protected SimpleMovementModule SimpleMovementScript;
         protected ClimbMovementModule ClimbMovementScript;
+        protected FallMovementModule FallMovementScript;
 
         void Start() { Setup(); }
         void Update() { UpdateBuffs(); }
-        protected virtual void OnTriggerEnter(Collider other) {
-            GameObject go = GameObjectUtilities.GetGameObject(other);
-            if (go.CompareTag("Pickup")) {
-                AbstractPickup pickup = go.GetComponent<AbstractPickup>();
-                if (null == pickup) return;
-                pickup.ExecutePickup(this);
-                Destroy(go);
-            }
-        }
         public virtual bool IsPlayer() { return false; }
+        public virtual bool IsFalling() { return !TouchingTerrain && Direction.IsFalling(Entity.transform); }
         public void AddHealth(float amount) { if (null != HealthScript) HealthScript.AddHealth(amount); }
         public float GetHealth() { if (null != HealthScript) return HealthScript.HealthPoints; else return 0.0f; }
         public float GetMaxHealth() { if (null != HealthScript) return HealthScript.GetMaxHealth(); else return 0.0f; }
@@ -131,6 +127,22 @@ namespace USComics_Entity {
             ooch.Target = this;
             AddBuff(ooch);
             return true;
+        }
+        protected void OnCollisionEnter(Collision collision) { if ((int)LayerValues.TERRAIN == collision.gameObject.layer) TouchingTerrain = true; }
+        protected void OnCollisionStay(Collision collision) {
+        }
+        protected void OnCollisionExit(Collision collision) {
+            if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = false;
+            if ((int)LayerValues.TERRAIN == collision.gameObject.layer) TouchingTerrain = false;
+        }
+        protected virtual void OnTriggerEnter(Collider other) {
+            GameObject go = GameObjectUtilities.GetGameObject(other);
+            if (go.CompareTag("Pickup")) {
+                AbstractPickup pickup = go.GetComponent<AbstractPickup>();
+                if (null == pickup) return;
+                pickup.ExecutePickup(this);
+                Destroy(go);
+            }
         }
     }
 }

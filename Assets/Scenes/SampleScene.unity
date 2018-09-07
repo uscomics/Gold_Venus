@@ -16075,9 +16075,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5cf8723b9701d14baf30ab62a2d44cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ClimbPadStop: {fileID: 0}
-  ClimbPadUp: {fileID: 0}
-  ClimbPadDown: {fileID: 0}
+  ClimbPadStop: {fileID: 114064652475449244, guid: af9d16ac9d784a24a9b862b622bc5e2d,
+    type: 2}
+  ClimbPadUp: {fileID: 114321119865090018, guid: 5c04ffe682c36ef44948bf913d13f54b,
+    type: 2}
+  ClimbPadDown: {fileID: 114071324348128566, guid: 7b90abe44b670a84f9e53d5c97a6f76f,
+    type: 2}
 --- !u!114 &388804748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51686,6 +51689,7 @@ GameObject:
   - component: {fileID: 1686292639}
   - component: {fileID: 1686292637}
   - component: {fileID: 1686292638}
+  - component: {fileID: 1686292630}
   - component: {fileID: 1686292641}
   m_Layer: 9
   m_Name: Gold Venus Classic
@@ -51694,6 +51698,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1686292630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1686292629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f570c4fcfa15b5b4cab6b56c7b131485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1686292631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58400,7 +58415,7 @@ GameObject:
   - component: {fileID: 1832119895}
   m_Layer: 5
   m_Name: Falling Panel
-  m_TagString: Player
+  m_TagString: Falling Panel
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

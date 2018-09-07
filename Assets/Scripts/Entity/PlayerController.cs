@@ -30,12 +30,16 @@ namespace USComics_Entity {
             }
             UpdateBuffs();
             if (SimpleMovementScript.IsRunning()) {
-                Move currentMove = SimpleMovementScript.CurrentMove;
-                Vector3 currentVector = SimpleMovementScript.CurrentVector;
-                if (Vector3.zero != currentVector) Entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
-                Entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
-                DebugConsole.INSTANCE.SetCurrentMove(currentMove);
-                DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
+                if (IsFalling()) {
+                    MovementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Simple, ModuleTypes.Falling);
+                } else {
+                    Move currentMove = SimpleMovementScript.CurrentMove;
+                    Vector3 currentVector = SimpleMovementScript.CurrentVector;
+                    if (Vector3.zero != currentVector) Entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
+                    Entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
+                    DebugConsole.INSTANCE.SetCurrentMove(currentMove);
+                    DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
+                }
             }
             else if (ClimbMovementScript.IsRunning()) {
                 ClimbMove currentMove = ClimbMovementScript.CurrentMove;
@@ -43,6 +47,8 @@ namespace USComics_Entity {
                 Entity.transform.Translate(currentVector * ClimbSpeed.GetSpeed(currentMove.Climb) * Time.deltaTime, Space.World);
                 DebugConsole.INSTANCE.SetCurrentMove(currentMove);
                 DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
+            }
+            else if (FallMovementScript.IsRunning()) {
             }
         }
         public override bool IsPlayer() { return true; }
@@ -77,11 +83,13 @@ namespace USComics_Entity {
             if (null != Entity) MovementTransitionManagerScript = Entity.GetComponent<MovementTransitionManager>();
             if (null != Entity) SimpleMovementScript = Entity.GetComponent<SimpleMovementModule>();
             if (null != Entity) ClimbMovementScript = Entity.GetComponent<ClimbMovementModule>();
+            if (null != Entity) FallMovementScript = Entity.GetComponent<FallMovementModule>();
 
             if (null == Entity) { Debug.LogError("PlayerController.SetupEntity: playerCharacter is null."); }
             if (null == MovementTransitionManagerScript) { Debug.LogError("PlayerController.SetupEntity: MovementTransitionManagerScript is null."); }
-            if (null == SimpleMovementScript) { Debug.LogError("PlayerController.SetupEntity: movementManagerScript is null."); }
-            if (null == ClimbMovementScript) { Debug.LogError("EntityController.SetupEntity: climbManagerScript is null."); }
+            if (null == SimpleMovementScript) { Debug.LogError("PlayerController.SetupEntity: MovementTransitionManagerScript is null."); }
+            if (null == ClimbMovementScript) { Debug.LogError("EntityController.SetupEntity: ClimbMovementScript is null."); }
+            if (null == FallMovementScript) { Debug.LogError("EntityController.SetupEntity: FallMovementScript is null."); }
 
             if (null == Entity) { return false; }
             if (null == MovementTransitionManagerScript) { return false; }
@@ -90,7 +98,8 @@ namespace USComics_Entity {
             return true;
         }
 
-        private void OnCollisionEnter(Collision collision) {
+        protected void OnCollisionEnter(Collision collision) {
+            base.OnCollisionEnter(collision);
             Move currentMove = SimpleMovementScript.CurrentMove;
             if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = true;
             if (ClimbableInRange) {
@@ -108,13 +117,9 @@ namespace USComics_Entity {
                 //Debug.Log("BANG! tag = " + collision.gameObject.tag);
                 if ((int)LayerValues.TERRAIN != collision.gameObject.layer) SimpleMovementScript.ForceStop();
             }
-        }
-        private void OnCollisionStay(Collision collision) {
-            // Debug.Log("STILL BANG! tag = " + collision.gameObject.tag);
-        }
-        private void OnCollisionExit(Collision collision) {
-            if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = false;
-            // Debug.Log("BANG DONE! tag = " + collision.gameObject.tag);
+            if ((int) LayerValues.TERRAIN == collision.gameObject.layer && FallMovementScript.IsRunning()) {
+                MovementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Falling, ModuleTypes.Simple);
+            }                
         }
 
         private bool PlayerCanClimb() {

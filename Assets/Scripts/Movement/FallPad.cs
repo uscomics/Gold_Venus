@@ -7,12 +7,14 @@ namespace USComics_Movement {
 
         // Use this for initialization
         void Start() {
-            GameObject fallPad = GameObject.FindWithTag("Falling Paanel") as GameObject;
+            GameObject fallPad = GameObject.FindWithTag("Falling Panel") as GameObject;
             if (null != fallPad) _fallPadCanvasGroup = fallPad.GetComponent<CanvasGroup>();
 
             if (null == _fallPadCanvasGroup) { Debug.LogError("ClimbPad.Start: _fallPadCanvasGroup is null."); }
 
             if (null == _fallPadCanvasGroup) { return; }
+            
+            HideFallingUI();
         }
 
         // Update is called once per frame

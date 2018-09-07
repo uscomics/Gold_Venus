@@ -63,7 +63,6 @@ namespace USComics_Movement {
             DirectionType direction = GetDirection();
             if (DirectionType.None != direction) {
                 CurrentDirection = direction;
-                // if (DirectionType.Stop == direction) SpeedBarScript.SetSpeed(MovementSpeed.GetSpeed(MovementType.Standing));
                 SetMovementPadImage(direction);
             }
         }

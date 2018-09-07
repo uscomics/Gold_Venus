@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using USComics_Environment;
 
 namespace USComics_Movement {
     public class Direction {
@@ -53,6 +54,9 @@ namespace USComics_Movement {
             if (DirectionType.SE == direction) return new Vector3(0.66f, 0.0f, -0.66f);
             if (DirectionType.None == direction) return previousVector;
             return Vector3.zero;
+        }
+        public static bool IsFalling(Transform transform) {
+            return !Physics.Raycast(transform.position, -transform.up, 1.0f, LayerMaskValues.TERRAIN);
         }
     }
 }
