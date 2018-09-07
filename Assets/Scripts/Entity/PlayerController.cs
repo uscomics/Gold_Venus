@@ -48,8 +48,6 @@ namespace USComics_Entity {
                 DebugConsole.INSTANCE.SetCurrentMove(currentMove);
                 DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
             }
-            else if (FallMovementScript.IsRunning()) {
-            }
         }
         public override bool IsPlayer() { return true; }
 

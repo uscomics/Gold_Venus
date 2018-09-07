@@ -58,6 +58,7 @@ namespace USComics_Combat {
             return result.ToArray();
         }
         public void DoAttack(EntityController target) {
+            if (null == target) return;
             if (!_isSetup) SetupAttack();
             Attack clone = new Attack(this);
             clone = ApplyBuffsToAttack(clone);

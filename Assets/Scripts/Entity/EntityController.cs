@@ -27,7 +27,6 @@ namespace USComics_Entity {
 
         // Player game objects
         protected Rigidbody EntityRigidBody;
-        protected Vector3 InitialHelthPanelRotation;
         protected bool InitialUpdate = true;
         protected float LastTimeAttacked;
 
@@ -84,6 +83,7 @@ namespace USComics_Entity {
             foreach (AbstractBuff buff in Buffs) {  buff.Buff(this); }
         }
         public void DoDeath(EntityController whoKilledMe) {
+            Debug.Log("DEAD");
             Dead = true;
             HealthScript.HealthPoints = 0;
             HealthScript.HideHealth();
@@ -92,7 +92,7 @@ namespace USComics_Entity {
                 DeathAttack.DoAttack(whoKilledMe);
             }
             if (null != DeathSpawn) DynamicObjectManager.INSTANCE.Clone(DeathSpawn, DeathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
-            if (Entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
+            if (null != whoKilledMe && Entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
         }
 #if UNITY_EDITOR
         public void EditorGizmo(Transform transform) {
@@ -120,7 +120,6 @@ namespace USComics_Entity {
 
             if (null == EntityRigidBody) { return false; }
 
-            if (null != HealthScript) InitialHelthPanelRotation = HealthScript.HealthPanel.transform.eulerAngles;
             CurrentEnemy = null;
             Dead = false;
             OutOfCombatHeal ooch = new OutOfCombatHeal();
