@@ -1,10 +1,10 @@
 ﻿namespace USComics_Movement {
     [System.Serializable]
-    class MovementModulesTransition  {
+    class MovementTransition  {
         public AbstractMovementModule From { get; set; }
         public AbstractMovementModule To { get; set; }
 
-        public MovementModulesTransition(AbstractMovementModule from, AbstractMovementModule to) {
+        public MovementTransition(AbstractMovementModule from, AbstractMovementModule to) {
             From = from;
             To = to;
         }

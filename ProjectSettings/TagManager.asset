@@ -44,6 +44,7 @@ TagManager:
   - CameraController
   - ImageMessageCanvas
   - Falling Panel
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -57,7 +58,7 @@ TagManager:
   - Player
   - PostProcessing
   - SetDressing
-  - 
+  - SpawnPoint
   - 
   - Vehicles
   - Navmesh

@@ -18,6 +18,7 @@ namespace USComics_Environment
         PLAYER = 9,
         POSTPROCESSING = 10,
         SET_DRESSING = 11,
+        SPAWN_POINT = 12,
         VEHICLES = 14,
         NAVMESH = 15,
         ENVIRONMENT = 16,

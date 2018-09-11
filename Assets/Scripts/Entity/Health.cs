@@ -74,6 +74,12 @@ namespace USComics_Entity {
             HealthPanel.transform.LookAt(Camera.transform);
             HealthPanel.transform.Rotate(0.0f, 180.0f, 0.0f);
         }
+        public void Spawn() {
+            if (0 == Lives) return;
+            Lives--;
+            HealthPoints = _maxHeath;
+            ShowHealth();
+        }
 
         private void HideGameObject(GameObject gameObject) { gameObject.SetActive(false); }
         private void ShowGameObject(GameObject gameObject) { gameObject.SetActive(true); }

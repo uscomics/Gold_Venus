@@ -37,8 +37,8 @@ namespace USComics_Movement {
 
 		void Update() {
 			if (!IsRunning()) return;
-			_anim.Play("Falling_Loop");
 			if (Time.time -_fallStartTime < MaximumFallTime) return;
+			if (_playerControllerScript.Dead) return;
 			_playerControllerScript.DoDeath(null);
 		}
 
@@ -55,6 +55,8 @@ namespace USComics_Movement {
 		public override void StopModule() {
 			_moduleActive = false;
 			_fallPadScript.HideFallingUI();
+			_fallStartPosition = Vector3.zero;
+			_fallStartTime = 0.0f;
 		}
 		public override bool IsRunning() { return _moduleActive; }
 		public Vector3 GetFallStartPosition() { return _fallStartPosition; }

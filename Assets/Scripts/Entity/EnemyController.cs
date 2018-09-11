@@ -13,8 +13,6 @@ namespace USComics_Entity {
         
         public EnemyCombatStance CombatStance = EnemyCombatStance.Passive;
         
-        void Start() { Setup(); }
-        void Update() { }
         protected IEnumerator CheckForPlayers() {
             while (true) {
                 yield return new WaitForSeconds(HEARTBEAT_CHECK_FOR_PLAYERS);

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 using USComics;
 using USComics_Combat;
@@ -14,9 +13,10 @@ namespace USComics_Entity {
         public GameObject Entity;
         public List<AbstractBuff> Buffs = new List<AbstractBuff>();
         public Health HealthScript;
+        public bool Dead;
+        public string DeathAnimation;
         public Attack DeathAttack;
         public GameObject DeathSpawn;
-        public bool Dead;
         public AttackBonus AttackBonus;
         public Attack[] Attacks;
         public Vision Vision = new Vision();
@@ -31,8 +31,9 @@ namespace USComics_Entity {
         protected float LastTimeAttacked;
 
         // State variables
-        protected bool ClimbableInRange = false;
-        protected bool TouchingTerrain = false;
+        protected bool ClimbableInRange;
+        protected bool TouchingTerrain;
+        protected SpawnPoint RespawningAt;
 
         // Scripts
         protected MovementTransitionManager MovementTransitionManagerScript;
@@ -40,8 +41,6 @@ namespace USComics_Entity {
         protected ClimbMovementModule ClimbMovementScript;
         protected FallMovementModule FallMovementScript;
 
-        void Start() { Setup(); }
-        void Update() { UpdateBuffs(); }
         public virtual bool IsPlayer() { return false; }
         public virtual bool IsFalling() { return !TouchingTerrain && Direction.IsFalling(Entity.transform); }
         public void AddHealth(float amount) { if (null != HealthScript) HealthScript.AddHealth(amount); }
@@ -82,9 +81,25 @@ namespace USComics_Entity {
             RemoveExpiredBuffs();
             foreach (AbstractBuff buff in Buffs) {  buff.Buff(this); }
         }
+        public void DoSpawn() {
+            Debug.Log("Spawn");
+            if (0 == HealthScript.Lives) return;
+            Dead = false;
+            HealthScript.Spawn();
+            GameObject spawnPoint = Environment.GetNearestObject(Entity.transform.position, Environment.GetVisitedSpawnPoints());
+            if (null != spawnPoint) Entity.transform.position = spawnPoint.transform.position; else Entity.transform.position = new Vector3(0.0f, 0.0f, -4.0f);
+            Entity.transform.rotation = Quaternion.identity;
+            TouchingTerrain = true;
+            MovementTransitionManagerScript.Clear();
+            SimpleMovementScript.StartModule();
+            if (null != spawnPoint) RespawningAt = spawnPoint.GetComponent<SpawnPoint>();
+        }
         public void DoDeath(EntityController whoKilledMe) {
             Debug.Log("DEAD");
             Dead = true;
+            SimpleMovementScript.StopModule();
+            ClimbMovementScript.StopModule();
+            FallMovementScript.StopModule();
             HealthScript.HealthPoints = 0;
             HealthScript.HideHealth();
             if (null != DeathAttack) {
@@ -93,6 +108,14 @@ namespace USComics_Entity {
             }
             if (null != DeathSpawn) DynamicObjectManager.INSTANCE.Clone(DeathSpawn, DeathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
             if (null != whoKilledMe && Entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
+            if (null != DeathAnimation) {
+                Animator anim;
+                GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
+                if (null != playerCharacter) {
+                    anim = playerCharacter.GetComponent<Animator>();
+                    if (null != anim) anim.Play(DeathAnimation);
+                }
+            }
         }
 #if UNITY_EDITOR
         public void EditorGizmo(Transform transform) {
@@ -112,6 +135,14 @@ namespace USComics_Entity {
         }
 #endif
         
+        protected virtual void Start() { Setup(); }
+        protected virtual void Update() {
+            UpdateBuffs();
+            if (null != RespawningAt) {
+                RespawningAt.PlaySpawnFX();
+                RespawningAt = null;
+            }
+        }
         protected virtual bool Setup() {            
             if (null != Entity) EntityRigidBody = Entity.GetComponent<Rigidbody>();
             if (null != Entity) HealthScript = Entity.GetComponent<Health>();
@@ -128,8 +159,7 @@ namespace USComics_Entity {
             return true;
         }
         protected void OnCollisionEnter(Collision collision) { if ((int)LayerValues.TERRAIN == collision.gameObject.layer) TouchingTerrain = true; }
-        protected void OnCollisionStay(Collision collision) {
-        }
+        protected void OnCollisionStay(Collision collision) { }
         protected void OnCollisionExit(Collision collision) {
             if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = false;
             if ((int)LayerValues.TERRAIN == collision.gameObject.layer) TouchingTerrain = false;

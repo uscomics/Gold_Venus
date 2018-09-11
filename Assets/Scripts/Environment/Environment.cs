@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using USComics;
 using USComics_Entity;
@@ -15,6 +16,17 @@ namespace USComics_Environment {
                 && (Direction.AreParallel(transform.forward, candidate.transform.forward, 5.0f))) {
                     results.Add(colliders[loop]);
                 }
+            }
+            return results.ToArray();
+        }
+        public static GameObject[] GetVisitedSpawnPoints() {
+            List<GameObject> results = new List<GameObject>();
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            foreach (var spawnPoint in spawnPoints) {
+                if (null == spawnPoint) continue;
+                SpawnPoint spawnPointScript = spawnPoint.GetComponent<SpawnPoint>();
+                if (null == spawnPointScript) continue;
+                if (spawnPointScript.PlayerVisited) results.Add(spawnPoint);
             }
             return results.ToArray();
         }

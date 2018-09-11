@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Runtime.Remoting.Messaging;
+using UnityEngine;
 using USComics;
 using USComics_Debug;
 using USComics_Combat;
@@ -8,49 +9,7 @@ using USComics_Message_Manager;
 
 namespace USComics_Entity {
     public class PlayerController : EntityController {
-        void Start() {
-            Setup();
-            int msg = Random.Range(1, 11);
-            if (1 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_MOVE, 7);
-            else if (2 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_CLIMB, 7);
-            else if (3 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_SNEAK, 7);
-            else if (4 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_RUN, 7);
-            else if (5 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_WALK, 7);
-            else if (6 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_STOP, 7);
-            else if (7 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_CONTROL_CAMERA, 7);
-            else if (8 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_SUPER_BAR, 7);
-            else if (9 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_ATTACK, 7);
-            else if (10 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_ATTACK_CONTROLS, 7);
-        }
-
-        void Update() {
-            if (InitialUpdate) {
-                SimpleMovementScript.StartModule();
-                InitialUpdate = false;
-            }
-            UpdateBuffs();
-            if (SimpleMovementScript.IsRunning()) {
-                if (IsFalling()) {
-                    MovementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Simple, ModuleTypes.Falling);
-                } else {
-                    Move currentMove = SimpleMovementScript.CurrentMove;
-                    Vector3 currentVector = SimpleMovementScript.CurrentVector;
-                    if (Vector3.zero != currentVector) Entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
-                    Entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
-                    DebugConsole.INSTANCE.SetCurrentMove(currentMove);
-                    DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
-                }
-            }
-            else if (ClimbMovementScript.IsRunning()) {
-                ClimbMove currentMove = ClimbMovementScript.CurrentMove;
-                Vector3 currentVector = ClimbMovementScript.CurrentVector;
-                Entity.transform.Translate(currentVector * ClimbSpeed.GetSpeed(currentMove.Climb) * Time.deltaTime, Space.World);
-                DebugConsole.INSTANCE.SetCurrentMove(currentMove);
-                DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
-            }
-        }
         public override bool IsPlayer() { return true; }
-
         public PlayerAttackIndex ConvertAttackTypeToPlayerAttackIndex(AttackType attack) {
             if (AttackType.Punch == attack) return PlayerAttackIndex.Punch;
             else if (AttackType.Kick == attack) return PlayerAttackIndex.Kick;
@@ -76,7 +35,7 @@ namespace USComics_Entity {
         }
 
         protected override bool Setup() {
-            base.Setup();
+            if (!base.Setup()) return false;
             Entity = GameObject.FindWithTag("PlayerCharacter") as GameObject;
             if (null != Entity) MovementTransitionManagerScript = Entity.GetComponent<MovementTransitionManager>();
             if (null != Entity) SimpleMovementScript = Entity.GetComponent<SimpleMovementModule>();
@@ -93,9 +52,50 @@ namespace USComics_Entity {
             if (null == MovementTransitionManagerScript) { return false; }
             if (null == SimpleMovementScript) { return false; }
             if (null == ClimbMovementScript) { return false; }
+
+            int msg = Random.Range(1, 11);
+            if (1 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_MOVE, 7);
+            else if (2 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_CLIMB, 7);
+            else if (3 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_SNEAK, 7);
+            else if (4 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_RUN, 7);
+            else if (5 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_WALK, 7);
+            else if (6 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_STOP, 7);
+            else if (7 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_CONTROL_CAMERA, 7);
+            else if (8 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_SUPER_BAR, 7);
+            else if (9 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_HOW_TO_ATTACK, 7);
+            else if (10 == msg) MessageManager.INSTANCE.ShowImageMessage(Messages.MSG_ATTACK_CONTROLS, 7);
             return true;
         }
-
+        protected override void Start() { if (!Setup()) return; }
+        protected override void Update() {
+            base.Update();
+            if (InitialUpdate) {
+                SimpleMovementScript.StartModule();
+                InitialUpdate = false;
+            }
+            UpdateBuffs();
+            if (SimpleMovementScript.IsRunning()) {
+                if (IsFalling()) {
+                    if (!MovementTransitionManagerScript.IsCurrentTransition(ModuleTypes.Simple, ModuleTypes.Falling)) {
+                        MovementTransitionManagerScript.StartTransitionFrom(ModuleTypes.Simple, ModuleTypes.Falling);
+                    }
+                } else {
+                    Move currentMove = SimpleMovementScript.CurrentMove;
+                    Vector3 currentVector = SimpleMovementScript.CurrentVector;
+                    if (Vector3.zero != currentVector) Entity.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(currentVector), 0.15F);
+                    Entity.transform.Translate(currentVector * currentMove.Speed * Time.deltaTime, Space.World);
+                    DebugConsole.INSTANCE.SetCurrentMove(currentMove);
+                    DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
+                }
+            }
+            else if (ClimbMovementScript.IsRunning()) {
+                ClimbMove currentMove = ClimbMovementScript.CurrentMove;
+                Vector3 currentVector = ClimbMovementScript.CurrentVector;
+                Entity.transform.Translate(currentVector * ClimbSpeed.GetSpeed(currentMove.Climb) * Time.deltaTime, Space.World);
+                DebugConsole.INSTANCE.SetCurrentMove(currentMove);
+                DebugConsole.INSTANCE.SetOther1("currentVector=" + currentVector);
+            }
+        }
         protected void OnCollisionEnter(Collision collision) {
             base.OnCollisionEnter(collision);
             Move currentMove = SimpleMovementScript.CurrentMove;

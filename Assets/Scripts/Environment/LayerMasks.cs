@@ -19,6 +19,7 @@ namespace USComics_Environment
         public static int PLAYER = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.PLAYER));
         public static int POSTPROCESSING = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.POSTPROCESSING));
         public static int SET_DRESSING = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.SET_DRESSING));
+        public static int SPAWN_POINT = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.SPAWN_POINT));
         public static int VEHICLES = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.VEHICLES));
         public static int NAVMESH = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.NAVMESH));
         public static int ENVIRONMENT = LayerMask.GetMask(LayerMask.LayerToName((int)LayerValues.ENVIRONMENT));
