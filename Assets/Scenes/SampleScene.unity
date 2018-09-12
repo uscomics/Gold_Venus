@@ -28532,12 +28532,22 @@ Prefab:
         type: 2}
       propertyPath: Parent
       value: 
-      objectReference: {fileID: 1686292629}
+      objectReference: {fileID: 1680184019}
     - target: {fileID: 114348364493637230, guid: 0b2a333005db04040bec34dff522f097,
         type: 2}
       propertyPath: AudioSource1
       value: 
       objectReference: {fileID: 1686292641}
+    - target: {fileID: 114348364493637230, guid: 0b2a333005db04040bec34dff522f097,
+        type: 2}
+      propertyPath: AnimationEntity
+      value: 
+      objectReference: {fileID: 1686292632}
+    - target: {fileID: 114348364493637230, guid: 0b2a333005db04040bec34dff522f097,
+        type: 2}
+      propertyPath: AnimationNames.Array.data[0]
+      value: Idle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b2a333005db04040bec34dff522f097, type: 2}
   m_IsPrefabAsset: 0
@@ -51539,6 +51549,11 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!1 &1680184019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1401594391956520, guid: 0b2a333005db04040bec34dff522f097,
+    type: 2}
+  m_PrefabInternal: {fileID: 905193881}
 --- !u!1 &1680644592
 GameObject:
   m_ObjectHideFlags: 0
@@ -51912,7 +51927,7 @@ MonoBehaviour:
   Dead: 0
   DeathAnimation: Death
   DeathAttack:
-    Name: 
+    Name: Null Death Attack
     Attacker: {fileID: 0}
     AttackInfo:
       Damage:

@@ -56,7 +56,7 @@ namespace USComics_Movement {
             return Vector3.zero;
         }
         public static bool IsFalling(Transform transform) {
-            return !Physics.Raycast(transform.position, -transform.up, 1.0f, LayerMaskValues.TERRAIN);
+            return !Physics.Raycast(transform.position + new Vector3(0.0f, 0.5f, 0.0f), -transform.up, 1.5f, LayerMaskValues.TERRAIN);
         }
     }
 }

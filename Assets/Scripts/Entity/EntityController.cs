@@ -97,11 +97,13 @@ namespace USComics_Entity {
         public void DoDeath(EntityController whoKilledMe) {
             Debug.Log("DEAD");
             Dead = true;
-            SimpleMovementScript.StopModule();
-            ClimbMovementScript.StopModule();
-            FallMovementScript.StopModule();
-            HealthScript.HealthPoints = 0;
-            HealthScript.HideHealth();
+            if (null != SimpleMovementScript) SimpleMovementScript.StopModule();
+            if (null != ClimbMovementScript) ClimbMovementScript.StopModule();
+            if (null != FallMovementScript) FallMovementScript.StopModule();
+            if (null != HealthScript) {
+                HealthScript.HealthPoints = 0;
+                HealthScript.HideHealth();
+            }
             if (null != DeathAttack) {
                 DeathAttack.Attacker = Entity;
                 DeathAttack.DoAttack(whoKilledMe);
@@ -109,12 +111,8 @@ namespace USComics_Entity {
             if (null != DeathSpawn) DynamicObjectManager.INSTANCE.Clone(DeathSpawn, DeathSpawn.transform.position, 0.0f, 0.0f, 0.0f);
             if (null != whoKilledMe && Entity == whoKilledMe.CurrentEnemy) whoKilledMe.CurrentEnemy = null;
             if (null != DeathAnimation) {
-                Animator anim;
-                GameObject playerCharacter = GameObject.FindWithTag("PlayerCharacter") as GameObject;
-                if (null != playerCharacter) {
-                    anim = playerCharacter.GetComponent<Animator>();
-                    if (null != anim) anim.Play(DeathAnimation);
-                }
+                Animator anim = GetComponent<Animator>();
+                if (null != anim) anim.Play(DeathAnimation);
             }
         }
 #if UNITY_EDITOR
@@ -158,7 +156,16 @@ namespace USComics_Entity {
             AddBuff(ooch);
             return true;
         }
-        protected void OnCollisionEnter(Collision collision) { if ((int)LayerValues.TERRAIN == collision.gameObject.layer) TouchingTerrain = true; }
+
+        protected void OnCollisionEnter(Collision collision) {
+            if ((int) LayerValues.TERRAIN == collision.gameObject.layer) {
+                TouchingTerrain = true;
+                if (null != FallMovementScript && FallMovementScript.IsRunning()) {
+                    FallMovementScript.StopModule();
+                    SimpleMovementScript.StartModule();
+                }
+            }
+        }
         protected void OnCollisionStay(Collision collision) { }
         protected void OnCollisionExit(Collision collision) {
             if (collision.gameObject.CompareTag("Climbable")) ClimbableInRange = false;
